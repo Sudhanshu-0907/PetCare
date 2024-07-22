@@ -1,15 +1,15 @@
 /**
  * plugins
  */
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, SafeAreaView} from 'react-native';
 import React from 'react';
 import {connect} from 'react-redux';
 
 const Dashboard = props => {
   return (
-    <View>
+    <SafeAreaView>
       <Button title="Sign out" onPress={props.signoutFn} />
-    </View>
+    </SafeAreaView>
   );
 };
 

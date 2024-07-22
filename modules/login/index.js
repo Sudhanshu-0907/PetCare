@@ -18,53 +18,56 @@ import {connect} from 'react-redux';
  */
 import login from '../../css/login';
 import Common from '../../css/common';
+import Layout from '../../css/layout';
 
 const LoginScreen = props => {
   const disable = () => {
     return props.obj.email === '' || props.obj.password === '';
   };
   return (
-    <SafeAreaView style={login.container}>
-      <Text style={login.label}>Email</Text>
-      <TextInput
-        style={login.input}
-        value={props.obj.email}
-        onChangeText={text => props.setLoginForm('email', text)}
-      />
-      <Text style={login.label}>Password</Text>
-      <TextInput
-        style={login.input}
-        secureTextEntry
-        value={props.obj.password}
-        onChangeText={text => props.setLoginForm('password', text)}
-      />
+    <SafeAreaView style={[Layout.viewHeight, {backgroundColor: '#fff'}]}>
+      <View style={login.container}>
+        <Text style={login.label}>Email</Text>
+        <TextInput
+          style={login.input}
+          value={props.obj.email}
+          onChangeText={text => props.setLoginForm('email', text)}
+        />
+        <Text style={login.label}>Password</Text>
+        <TextInput
+          style={login.input}
+          secureTextEntry
+          value={props.obj.password}
+          onChangeText={text => props.setLoginForm('password', text)}
+        />
 
-      <TouchableOpacity
-        style={[Common.mb20]}
-        onPress={() => {
-          props.navigation.navigate('ForgotPassword');
-        }}>
-        <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
-          Forgot your Password?
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[Common.mb20]}
-        onPress={() => {
-          props.navigation.navigate('SignUp');
-        }}>
-        <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
-          Don't have an account?
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[Common.mb20]}
-        disabled={disable()}
-        onPress={props.submitLogin}>
-        <View style={[Common.p10, login.submit]}>
-          <Text style={{color: '#fff'}}>Sign In</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[Common.mb20]}
+          onPress={() => {
+            props.navigation.navigate('ForgotPassword');
+          }}>
+          <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
+            Forgot your Password?
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[Common.mb20]}
+          onPress={() => {
+            props.navigation.navigate('SignUp');
+          }}>
+          <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
+            Don't have an account?
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[Common.mb20]}
+          disabled={disable()}
+          onPress={props.submitLogin}>
+          <View style={[Common.p10, login.submit]}>
+            <Text style={{color: '#fff'}}>Sign In</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 
       <Spinner
         visible={props.obj.loader}

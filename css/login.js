@@ -6,7 +6,6 @@ const Login = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
   },
   label: {
     alignSelf: 'flex-start',
