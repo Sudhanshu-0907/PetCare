@@ -25,7 +25,7 @@ const LoginScreen = props => {
     return props.obj.email === '' || props.obj.password === '';
   };
   return (
-    <SafeAreaView style={[Layout.viewHeight, {backgroundColor: '#fff'}]}>
+    <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <View style={login.container}>
         <Text style={login.label}>Email</Text>
         <TextInput
@@ -63,7 +63,7 @@ const LoginScreen = props => {
           style={[Common.mb20]}
           disabled={disable()}
           onPress={props.submitLogin}>
-          <View style={[Common.p10, login.submit]}>
+          <View style={[Common.p10, login.submit, Common.bold500, Common.fs15]}>
             <Text style={{color: '#fff'}}>Sign In</Text>
           </View>
         </TouchableOpacity>

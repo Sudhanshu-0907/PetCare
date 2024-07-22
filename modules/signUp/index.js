@@ -1,7 +1,14 @@
 /**
  * plugin
  */
-import {View, Text, TextInput, Button, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 
@@ -9,6 +16,8 @@ import {connect} from 'react-redux';
  * css
  */
 import signUp from '../../css/signUp';
+import Layout from '../../css/layout';
+import Common from '../../css/common';
 
 const SignUp = props => {
   const disable = () => {
@@ -20,28 +29,35 @@ const SignUp = props => {
   };
 
   return (
-    <SafeAreaView style={signUp.container}>
-      <Text style={signUp.label}>email</Text>
-      <TextInput
-        style={signUp.input}
-        value={props.obj.email}
-        onChangeText={text => props.setFormfn('email', text)}
-      />
-      <Text style={signUp.label}>Password</Text>
-      <TextInput
-        style={signUp.input}
-        // secureTextEntry
-        value={props.obj.password}
-        onChangeText={text => props.setFormfn('password', text)}
-      />
-      <Text style={signUp.label}>Confirm Password</Text>
-      <TextInput
-        style={signUp.input}
-        secureTextEntry
-        value={props.obj.confirmPassword}
-        onChangeText={text => props.setFormfn('confirmPassword', text)}
-      />
-      <Button disabled={disable()} title="Sign Up!" onPress={props.submitFn} />
+    <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
+      <View style={signUp.container}>
+        <Text style={signUp.label}>Email</Text>
+        <TextInput
+          style={signUp.input}
+          value={props.obj.email}
+          onChangeText={text => props.setFormfn('email', text)}
+        />
+        <Text style={signUp.label}>Password</Text>
+        <TextInput
+          style={signUp.input}
+          // secureTextEntry
+          value={props.obj.password}
+          onChangeText={text => props.setFormfn('password', text)}
+        />
+        <Text style={signUp.label}>Confirm Password</Text>
+        <TextInput
+          style={signUp.input}
+          secureTextEntry
+          value={props.obj.confirmPassword}
+          onChangeText={text => props.setFormfn('confirmPassword', text)}
+        />
+        <TouchableOpacity disabled={disable()} onPress={props.submitFn}>
+          <View
+            style={[Common.p10, signUp.submit, Common.bold500, Common.fs15]}>
+            <Text style={{color: '#fff'}}>Sign Up!</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
