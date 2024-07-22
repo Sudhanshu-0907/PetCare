@@ -1,19 +1,25 @@
+/**
+ * plugin
+ */
 import {View, Text, TextInput, Button, SafeAreaView} from 'react-native';
 import React from 'react';
-import auth from '@react-native-firebase/auth';
 import Spinner from 'react-native-loading-spinner-overlay';
-import login from '../../css/login';
 import {connect} from 'react-redux';
+
+/**
+ * css
+ */
+import forgotPassword from '../../css/forgotPassword';
 
 const ForgotPassword = props => {
   const disable = () => {
     return props.obj.email === '';
   };
   return (
-    <SafeAreaView style={login.container}>
-      <Text style={login.label}>Email</Text>
+    <SafeAreaView style={forgotPassword.container}>
+      <Text style={forgotPassword.label}>Email</Text>
       <TextInput
-        style={login.input}
+        style={forgotPassword.input}
         value={props.obj.email}
         onChangeText={text => props.setFormFn('email', text)}
       />

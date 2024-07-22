@@ -1,9 +1,23 @@
-import {View, Text, TextInput, Button, SafeAreaView} from 'react-native';
+/**
+ * plugin
+ */
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import Spinner from 'react-native-loading-spinner-overlay';
-import login from '../../css/login';
 import {connect} from 'react-redux';
+/**
+ * css
+ */
+import login from '../../css/login';
+import Common from '../../css/common';
 
 const LoginScreen = props => {
   const disable = () => {
@@ -11,7 +25,7 @@ const LoginScreen = props => {
   };
   return (
     <SafeAreaView style={login.container}>
-      <Text style={login.label}>email</Text>
+      <Text style={login.label}>Email</Text>
       <TextInput
         style={login.input}
         value={props.obj.email}
@@ -24,19 +38,34 @@ const LoginScreen = props => {
         value={props.obj.password}
         onChangeText={text => props.setLoginForm('password', text)}
       />
-      <Button disabled={disable()} title="Login" onPress={props.submitLogin} />
-      <Button
-        title="Forgot Password ?"
+
+      <TouchableOpacity
+        style={[Common.mb20]}
         onPress={() => {
           props.navigation.navigate('ForgotPassword');
-        }}
-      />
-      <Button
-        title="Don't have an account?"
+        }}>
+        <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
+          Forgot your Password?
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[Common.mb20]}
         onPress={() => {
           props.navigation.navigate('SignUp');
-        }}
-      />
+        }}>
+        <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
+          Don't have an account?
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[Common.mb20]}
+        disabled={disable()}
+        onPress={props.submitLogin}>
+        <View style={[Common.p10, login.submit]}>
+          <Text style={{color: '#fff'}}>Sign In</Text>
+        </View>
+      </TouchableOpacity>
+
       <Spinner
         visible={props.obj.loader}
         textContent={'Loading...'}

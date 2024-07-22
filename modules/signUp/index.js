@@ -1,9 +1,14 @@
+/**
+ * plugin
+ */
 import {View, Text, TextInput, Button, SafeAreaView} from 'react-native';
 import React, {useState} from 'react';
-import auth from '@react-native-firebase/auth';
-import login from '../../css/login';
-import {toastr} from '../../utils/common';
 import {connect} from 'react-redux';
+
+/**
+ * css
+ */
+import signUp from '../../css/signUp';
 
 const SignUp = props => {
   const disable = () => {
@@ -15,23 +20,23 @@ const SignUp = props => {
   };
 
   return (
-    <SafeAreaView style={login.container}>
-      <Text style={login.label}>email</Text>
+    <SafeAreaView style={signUp.container}>
+      <Text style={signUp.label}>email</Text>
       <TextInput
-        style={login.input}
+        style={signUp.input}
         value={props.obj.email}
         onChangeText={text => props.setFormfn('email', text)}
       />
-      <Text style={login.label}>Password</Text>
+      <Text style={signUp.label}>Password</Text>
       <TextInput
-        style={login.input}
+        style={signUp.input}
         // secureTextEntry
         value={props.obj.password}
         onChangeText={text => props.setFormfn('password', text)}
       />
-      <Text style={login.label}>Confirm Password</Text>
+      <Text style={signUp.label}>Confirm Password</Text>
       <TextInput
-        style={login.input}
+        style={signUp.input}
         secureTextEntry
         value={props.obj.confirmPassword}
         onChangeText={text => props.setFormfn('confirmPassword', text)}
