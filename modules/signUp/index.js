@@ -8,8 +8,9 @@ import {
   Button,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 /**
  * modules
@@ -25,6 +26,18 @@ import Common from '../../css/common';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const SignUp = props => {
+  useEffect(() => {
+    // Anything in here is fired on component mount.
+    // const task = InteractionManager.runAfterInteractions(() => {
+    //     load();
+    // });
+    return () => {
+      // Anything in here is fired on component unmount.
+      props.resetFn();
+      // task.cancel();
+    };
+  }, []);
+
   const disable = () => {
     return (
       props.obj.email === '' ||
@@ -37,22 +50,65 @@ const SignUp = props => {
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <Header />
       <View style={signUp.container}>
-        <Text style={signUp.label}>Email</Text>
+        <Text
+          style={[
+            signUp.label,
+            Common.fs15,
+            Common.textColorgray,
+            {fontWeight: 700},
+          ]}>
+          Email
+        </Text>
         <TextInput
           style={signUp.input}
           value={props.obj.email}
           onChangeText={text => props.setFormfn('email', text)}
         />
-        <Text style={signUp.label}>Password</Text>
+        <View style={[Common.mb20]}>
+          <Text
+            style={[
+              Common.fs12,
+              props.obj.isEmailValid !== null
+                ? props.obj.isEmailValid
+                  ? Common.textColorGreen
+                  : Common.textColorRed
+                : Common.textColorgray,
+            ]}>
+            {props.obj.emailCaption}
+          </Text>
+        </View>
+
+        <Text
+          style={[
+            signUp.label,
+            Common.fs15,
+            Common.textColorgray,
+            {fontWeight: 700},
+          ]}>
+          Password
+        </Text>
         <TextInput
           style={signUp.input}
-          // secureTextEntry
           value={props.obj.password}
           onChangeText={text => props.setFormfn('password', text)}
         />
+        <View style={[Common.mb20]}>
+          <Text
+            style={[
+              Common.fs12,
+              props.obj.isPasswordValid !== null
+                ? props.obj.isPasswordValid
+                  ? Common.textColorGreen
+                  : Common.textColorRed
+                : Common.textColorgray,
+            ]}>
+            {props.obj.passwordCaption}
+          </Text>
+        </View>
+
         <Text style={signUp.label}>Confirm Password</Text>
         <TextInput
-          style={signUp.input}
+          style={[signUp.input, Common.mb20]}
           secureTextEntry
           value={props.obj.confirmPassword}
           onChangeText={text => props.setFormfn('confirmPassword', text)}
@@ -62,7 +118,13 @@ const SignUp = props => {
           disabled={disable()}
           onPress={props.submitFn}>
           <View
-            style={[Common.p10, signUp.submit, Common.bold500, Common.fs15]}>
+            style={[
+              Common.p10,
+              signUp.submit,
+              Common.bold500,
+              Common.fs15,
+              Common.alignCenter,
+            ]}>
             <Text style={{color: '#fff'}}>Sign Up!</Text>
           </View>
         </TouchableOpacity>

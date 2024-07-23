@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
 
@@ -25,7 +25,24 @@ import forgotPassword from '../../css/forgotPassword';
 import Layout from '../../css/layout';
 import Common from '../../css/common';
 
+/**
+ * utils
+ */
+import * as RootNavigation from '../../utils/RootNavigation';
+
 const ForgotPassword = props => {
+  useEffect(() => {
+    // Anything in here is fired on component mount.
+    // const task = InteractionManager.runAfterInteractions(() => {
+    //     load();
+    // });
+    return () => {
+      // Anything in here is fired on component unmount.
+      props.resetFn();
+      // task.cancel();
+    };
+  }, []);
+
   const disable = () => {
     return props.obj.email === '';
   };
@@ -44,7 +61,7 @@ const ForgotPassword = props => {
           disabled={disable()}
           onPress={() => {
             props.submitFn(props.obj.email);
-            props.navigation.navigate('Login');
+            RootNavigation.navigate('Login');
           }}>
           <View
             style={[

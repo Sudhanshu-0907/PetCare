@@ -16,15 +16,34 @@ import auth from '@react-native-firebase/auth';
  * Siblings
  */
 import * as selector from './selector';
-import {handleFirebaseAuthError, toastr} from '../../utils/common';
+import {
+  handleFirebaseAuthError,
+  toastr,
+  validateEmail,
+} from '../../utils/common';
 
 export function* setFormfn(params) {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
     if (params[0] === 'email') {
       obj.email = params[1];
+      if (validateEmail(obj.email)) {
+        obj.isEmailValid = true;
+        obj.emailCaption = 'Looks good!';
+      } else {
+        obj.isEmailValid = false;
+        obj.emailCaption = 'Please enter valid email';
+      }
     } else if (params[0] === 'password') {
       obj.password = params[1];
+      if (obj.password.length >= 8) {
+        obj.isPasswordValid = true;
+        obj.passwordCaption = 'Looks good!';
+      } else {
+        obj.isPasswordValid = false;
+        obj.passwordCaption =
+          'Please enter password greater than equal to 8 digits';
+      }
     } else if (params[0] === 'confirmPassword') {
       obj.confirmPassword = params[1];
     }

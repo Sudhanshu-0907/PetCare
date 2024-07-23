@@ -4,7 +4,6 @@ const SignUp = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: 20,
   },
   label: {
@@ -17,7 +16,6 @@ const SignUp = StyleSheet.create({
     height: 40,
     borderColor: '#DFEDF8',
     borderWidth: 1,
-    marginBottom: 20,
     paddingHorizontal: 10,
     borderRadius: 7,
     backgroundColor: '#F1F6FA',

@@ -16,15 +16,39 @@ import auth from '@react-native-firebase/auth';
  * Siblings
  */
 import * as selector from './selector';
-import {handleFirebaseAuthError, toastr} from '../../utils/common';
+import {
+  handleFirebaseAuthError,
+  toastr,
+  validateEmail,
+} from '../../utils/common';
 
 export function* setLoginForm(params) {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
-    const updatedObj = {...obj, [params[0]]: params[1]};
+    if (params[0] === 'email') {
+      obj.email = params[1];
+      if (validateEmail(obj.email)) {
+        obj.isEmailValid = true;
+        obj.emailCaption = 'Looks good!';
+      } else {
+        obj.isEmailValid = false;
+        obj.emailCaption = 'Please enter valid email';
+      }
+    } else if (params[0] === 'password') {
+      obj.password = params[1];
+      if (obj.password.length >= 8) {
+        obj.isPasswordValid = true;
+        obj.passwordCaption = 'Looks good!';
+      } else {
+        obj.isPasswordValid = false;
+        obj.passwordCaption =
+          'Please enter password greater than equal to 8 digits';
+      }
+    }
+
     yield put({
       type: 'LOGIN_OBJ',
-      value: updatedObj,
+      value: obj,
     });
   } catch (e) {
     if (__DEV__) {
@@ -41,7 +65,6 @@ export function* submitLogin() {
     //   type: 'LOGIN_OBJ',
     //   value: obj,
     // });
-    console.log(typeof obj.email);
 
     const userCredential = yield auth()
       .signInWithEmailAndPassword(obj.email, obj.password)

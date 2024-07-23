@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import {connect} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 /**
  * css
@@ -19,29 +20,28 @@ import {useRoute} from '@react-navigation/native';
 import login from '../../css/login';
 import Common from '../../css/common';
 import Layout from '../../css/layout';
+import Header from '../../css/header';
+/**
+ * utils
+ */
+import * as RootNavigation from '../../utils/RootNavigation';
 
 const HeaderScreen = props => {
   const route = useRoute();
-  console.log(route.name);
   return (
-    <SafeAreaView
-      style={[Common.bgWhite, Common.pt10, Common.pb10, Common.pl10]}>
+    <View style={[Common.bgWhite, Common.pt10, Common.pb10, Common.pl10]}>
       <View>
         {props.obj.showBackIcon.indexOf(route.name) > -1 && (
           <TouchableOpacity
-            style={{
-              width: 50,
-              height: 50,
-              backgroundColor: '#3F4DA8',
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
+            style={[Header.backButton]}
+            onPress={() => {
+              RootNavigation.goBack();
             }}>
-            <Text style={[Common.textColorWhite]}>Back</Text>
+            <AntDesign name="arrowleft" size={25} color="#3F4DA8" />
           </TouchableOpacity>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 //getting state from reducer

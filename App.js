@@ -10,6 +10,7 @@ import rootReducer from './store/reducer/rootReducer';
 import navigationDebouncer from 'react-navigation-redux-debouncer';
 import {watch} from './store/action/rootAction';
 import {Provider} from 'react-redux';
+import {navigationRef} from './utils/RootNavigation';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -23,7 +24,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <StatusBar
             hidden={false}
             barStyle="dark-content"

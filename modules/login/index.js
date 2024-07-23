@@ -23,49 +23,105 @@ import Header from '../Header';
 
 const LoginScreen = props => {
   const disable = () => {
-    return props.obj.email === '' || props.obj.password === '';
+    return (
+      props.obj.isEmailValid !== true || props.obj.isPasswordValid !== true
+    );
   };
   return (
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <Header />
       <View style={login.container}>
-        <Text style={login.label}>Email</Text>
+        <Text
+          style={[
+            login.label,
+            Common.fs15,
+            Common.textColorgray,
+            {fontWeight: 700},
+          ]}>
+          Email
+        </Text>
         <TextInput
           style={login.input}
           value={props.obj.email}
           onChangeText={text => props.setLoginForm('email', text)}
         />
-        <Text style={login.label}>Password</Text>
+        <View style={[Common.mb20]}>
+          <Text
+            style={[
+              Common.fs12,
+              props.obj.isEmailValid !== null
+                ? props.obj.isEmailValid
+                  ? Common.textColorGreen
+                  : Common.textColorRed
+                : Common.textColorgray,
+            ]}>
+            {props.obj.emailCaption}
+          </Text>
+        </View>
+
+        <Text
+          style={[
+            login.label,
+            Common.fs15,
+            Common.textColorgray,
+            {fontWeight: 700},
+          ]}>
+          Password
+        </Text>
         <TextInput
           style={login.input}
           secureTextEntry
           value={props.obj.password}
           onChangeText={text => props.setLoginForm('password', text)}
         />
+        <View style={[Common.mb20]}>
+          <Text
+            style={[
+              Common.fs12,
+              props.obj.isPasswordValid !== null
+                ? props.obj.isPasswordValid
+                  ? Common.textColorGreen
+                  : Common.textColorRed
+                : Common.textColorgray,
+            ]}>
+            {props.obj.passwordCaption}
+          </Text>
+        </View>
 
-        <TouchableOpacity
-          style={[Common.mb20]}
-          onPress={() => {
-            props.navigation.navigate('ForgotPassword');
-          }}>
-          <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
-            Forgot your Password?
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[Common.mb20]}
-          onPress={() => {
-            props.navigation.navigate('SignUp');
-          }}>
-          <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
-            Don't have an account?
-          </Text>
-        </TouchableOpacity>
+        <View style={[Common.alignCenter]}>
+          <TouchableOpacity
+            style={[Common.mb20]}
+            onPress={() => {
+              props.navigation.navigate('ForgotPassword');
+            }}>
+            <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
+              Forgot your Password?
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[Common.mb20]}
+            onPress={() => {
+              props.navigation.navigate('SignUp');
+            }}>
+            <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
+              Don't have an account?
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity
           style={[Common.mb20, disable() && {opacity: 0.5}]}
           disabled={disable()}
           onPress={props.submitLogin}>
-          <View style={[Common.p10, login.submit, Common.bold500, Common.fs15]}>
+          <View
+            style={[
+              Common.p10,
+              login.submit,
+              Common.bold500,
+              Common.fs15,
+              Common.alignCenter,
+            ]}>
             <Text style={{color: '#fff'}}>Sign In</Text>
           </View>
         </TouchableOpacity>
