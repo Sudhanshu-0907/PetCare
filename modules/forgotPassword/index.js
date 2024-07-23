@@ -61,7 +61,7 @@ const ForgotPassword = props => {
           disabled={disable()}
           onPress={() => {
             props.submitFn(props.obj.email);
-            RootNavigation.navigate('Login');
+            RootNavigation.goBack();
           }}>
           <View
             style={[

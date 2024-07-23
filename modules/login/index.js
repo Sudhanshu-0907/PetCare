@@ -98,16 +98,6 @@ const LoginScreen = props => {
               Forgot your Password?
             </Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[Common.mb20]}
-            onPress={() => {
-              props.navigation.navigate('SignUp');
-            }}>
-            <Text style={[Common.bold500, Common.fs15, Common.textColorBlack]}>
-              Don't have an account?
-            </Text>
-          </TouchableOpacity>
         </View>
 
         <TouchableOpacity
@@ -122,7 +112,26 @@ const LoginScreen = props => {
               Common.fs15,
               Common.alignCenter,
             ]}>
-            <Text style={{color: '#fff'}}>Sign In</Text>
+            <Text style={[Common.textColorWhite, Common.fs14]}>Sign In</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[Common.mb20]}
+          onPress={() => {
+            props.navigation.navigate('SignUp');
+          }}>
+          <View
+            style={[
+              Common.p10,
+              login.signUp,
+              Common.bold500,
+              Common.fs15,
+              Common.alignCenter,
+            ]}>
+            <Text style={[Common.bold500, Common.fs15, Common.textColorList]}>
+              Don't have an account?
+            </Text>
           </View>
         </TouchableOpacity>
       </View>

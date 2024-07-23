@@ -106,7 +106,15 @@ const SignUp = props => {
           </Text>
         </View>
 
-        <Text style={signUp.label}>Confirm Password</Text>
+        <Text
+          style={[
+            signUp.label,
+            Common.fs15,
+            Common.textColorgray,
+            {fontWeight: 700},
+          ]}>
+          Confirm Password
+        </Text>
         <TextInput
           style={[signUp.input, Common.mb20]}
           secureTextEntry

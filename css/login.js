@@ -26,6 +26,14 @@ const Login = StyleSheet.create({
     backgroundColor: '#6773BA',
     borderRadius: 7,
   },
+  signUp: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#fff',
+    borderColor: '#6773BA',
+    borderWidth: 1,
+    borderRadius: 7,
+  },
 });
 
 export default Login;

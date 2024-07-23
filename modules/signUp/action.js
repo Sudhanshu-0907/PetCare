@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 /**
  * Utils
  */
+import * as RootNavigation from '../../utils/RootNavigation';
 
 /**
  * Common
@@ -82,6 +83,7 @@ export function* submitFn() {
       'danger',
       2000,
     );
+    RootNavigation.goBack();
   } catch (error) {
     obj.loader = false;
     yield put({
