@@ -16,7 +16,7 @@ import auth from '@react-native-firebase/auth';
  * Siblings
  */
 import * as selector from './selector';
-import {toastr} from '../../utils/common';
+import {handleFirebaseAuthError, toastr} from '../../utils/common';
 
 export function* setLoginForm(params) {
   try {
@@ -36,24 +36,26 @@ export function* setLoginForm(params) {
 export function* submitLogin() {
   let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
   try {
-    obj.loader = true;
-    yield put({
-      type: 'LOGIN_OBJ',
-      value: obj,
-    });
+    // obj.loader = true;
+    // yield put({
+    //   type: 'LOGIN_OBJ',
+    //   value: obj,
+    // });
+    console.log(typeof obj.email);
 
     const userCredential = yield auth()
       .signInWithEmailAndPassword(obj.email, obj.password)
       .catch(error => {
-        toastr.showToast(error, 'danger', 2000);
+        handleFirebaseAuthError(error);
+        console.log(error.message);
+
         // console.log(error);
       });
-    const user = userCredential.user;
-    yield verifyEmail(user);
+    const user = userCredential?.user;
+    if (user != null) yield verifyEmail(user);
   } catch (error) {
-    if (__DEV__) {
-      toastr.showToast(error, 'danger', 2000);
-    }
+    handleFirebaseAuthError(error);
+    console.log(error.message);
   }
 }
 
@@ -76,8 +78,7 @@ export function* verifyEmail(user) {
       value: obj,
     });
   } catch (error) {
-    if (__DEV__) {
-      console.log(error);
-    }
+    handleFirebaseAuthError(error);
+    console.log(error.message);
   }
 }

@@ -34,7 +34,7 @@ const ForgotPassword = props => {
           onChangeText={text => props.setFormFn('email', text)}
         />
         <TouchableOpacity
-          style={[Common.mb20]}
+          style={[Common.mb20, disable() && {opacity: 0.5}]}
           disabled={disable()}
           onPress={() => {
             props.submitFn(props.obj.email);

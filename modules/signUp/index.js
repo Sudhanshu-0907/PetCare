@@ -18,6 +18,7 @@ import {connect} from 'react-redux';
 import signUp from '../../css/signUp';
 import Layout from '../../css/layout';
 import Common from '../../css/common';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const SignUp = props => {
   const disable = () => {
@@ -51,12 +52,21 @@ const SignUp = props => {
           value={props.obj.confirmPassword}
           onChangeText={text => props.setFormfn('confirmPassword', text)}
         />
-        <TouchableOpacity disabled={disable()} onPress={props.submitFn}>
+        <TouchableOpacity
+          style={[disable() && {opacity: 0.5}]}
+          disabled={disable()}
+          onPress={props.submitFn}>
           <View
             style={[Common.p10, signUp.submit, Common.bold500, Common.fs15]}>
             <Text style={{color: '#fff'}}>Sign Up!</Text>
           </View>
         </TouchableOpacity>
+
+        <Spinner
+          visible={props.obj.loader}
+          textContent={'Loading...'}
+          textStyle={{color: '#fff'}}
+        />
       </View>
     </SafeAreaView>
   );

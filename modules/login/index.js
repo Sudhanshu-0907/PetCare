@@ -60,7 +60,7 @@ const LoginScreen = props => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[Common.mb20]}
+          style={[Common.mb20, disable() && {opacity: 0.5}]}
           disabled={disable()}
           onPress={props.submitLogin}>
           <View style={[Common.p10, login.submit, Common.bold500, Common.fs15]}>

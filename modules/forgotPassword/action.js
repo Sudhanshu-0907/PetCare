@@ -16,7 +16,7 @@ import auth from '@react-native-firebase/auth';
  * Siblings
  */
 import * as selector from './selector';
-import {toastr} from '../../utils/common';
+import {handleFirebaseAuthError, toastr} from '../../utils/common';
 
 export function* setFormFn(params) {
   try {
@@ -36,17 +36,17 @@ export function* setFormFn(params) {
 export function* submitFn({email}) {
   let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
   try {
-    console.log('called');
     yield auth()
       .sendPasswordResetEmail(email)
       .then(function (user) {
         toastr.showToast('Email sent sucessfully!', 'danger', 2000);
       })
-      .catch(function (e) {
-        console.log(e);
+      .catch(function (error) {
+        handleFirebaseAuthError(error);
+        console.log(error.message);
       });
   } catch (error) {
-    toastr.showToast(error, 'danger', 2000);
-    console.log(error);
+    handleFirebaseAuthError(error);
+    console.log(error.message);
   }
 }

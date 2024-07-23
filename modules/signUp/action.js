@@ -16,7 +16,7 @@ import auth from '@react-native-firebase/auth';
  * Siblings
  */
 import * as selector from './selector';
-import {toastr} from '../../utils/common';
+import {handleFirebaseAuthError, toastr} from '../../utils/common';
 
 export function* setFormfn(params) {
   try {
@@ -40,27 +40,24 @@ export function* setFormfn(params) {
 }
 
 export function* submitFn() {
-  let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
   try {
+    var obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
     if (obj.password !== obj.confirmPassword) {
       toastr.showToast('Password do not matched!', 'danger', 2000);
       return;
     }
-    obj.loader = true;
+    // obj.loader = true;
     yield put({
       type: 'SIGNUP_OBJ',
       value: obj,
     });
     const userCredential = yield auth().createUserWithEmailAndPassword(
-      email,
-      password,
+      obj.email,
+      obj.password,
     );
     const user = userCredential.user;
-    yield user
-      .sendEmailVerification()
-      .then
-      // props.navigation.navigate('Login')
-      ();
+    yield user.sendEmailVerification();
+
     toastr.showToast(
       'Verification email sent. Please check your email',
       'danger',
@@ -72,7 +69,7 @@ export function* submitFn() {
       type: 'SIGNUP_OBJ',
       value: obj,
     });
-    toastr.showToast(error, 'danger', 2000);
-    console.log(error);
+    handleFirebaseAuthError(error);
+    console.log(error.message);
   }
 }

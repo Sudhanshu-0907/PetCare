@@ -551,7 +551,7 @@
     "@babel/helper-create-regexp-features-plugin" "^7.18.6"
     "@babel/helper-plugin-utils" "^7.18.6"
 
-"@babel/plugin-transform-arrow-functions@^7.0.0", "@babel/plugin-transform-arrow-functions@^7.24.7":
+"@babel/plugin-transform-arrow-functions@^7.0.0", "@babel/plugin-transform-arrow-functions@^7.0.0-0", "@babel/plugin-transform-arrow-functions@^7.24.7":
   version "7.24.7"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.24.7.tgz"
   integrity sha512-Dt9LQs6iEY++gXUwY03DNFat5C2NbO48jj+j/bSAz6b3HgPs39qcPiYt77fDObIcFwj3/C2ICX9YMwGflUoSHQ==
@@ -781,7 +781,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.24.7"
 
-"@babel/plugin-transform-nullish-coalescing-operator@^7.24.7":
+"@babel/plugin-transform-nullish-coalescing-operator@^7.0.0-0", "@babel/plugin-transform-nullish-coalescing-operator@^7.24.7":
   version "7.24.7"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-nullish-coalescing-operator/-/plugin-transform-nullish-coalescing-operator-7.24.7.tgz"
   integrity sha512-Ts7xQVk1OEocqzm8rHMXHlxvsfZ0cEF2yomUqpKENHWMF4zKk175Y4q8H5knJes6PgYad50uuRmt3UJuhBw8pQ==
@@ -823,7 +823,7 @@
     "@babel/helper-plugin-utils" "^7.24.7"
     "@babel/plugin-syntax-optional-catch-binding" "^7.8.3"
 
-"@babel/plugin-transform-optional-chaining@^7.24.7", "@babel/plugin-transform-optional-chaining@^7.24.8":
+"@babel/plugin-transform-optional-chaining@^7.0.0-0", "@babel/plugin-transform-optional-chaining@^7.24.7", "@babel/plugin-transform-optional-chaining@^7.24.8":
   version "7.24.8"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-optional-chaining/-/plugin-transform-optional-chaining-7.24.8.tgz"
   integrity sha512-5cTOLSMs9eypEy8JUVvIKOu6NgvbJMnpG62VpIHrTmROdQ+L5mDAaI40g25k5vXti55JWNX5jCkq3HZxXBQANw==
@@ -923,7 +923,7 @@
     babel-plugin-polyfill-regenerator "^0.6.1"
     semver "^6.3.1"
 
-"@babel/plugin-transform-shorthand-properties@^7.0.0", "@babel/plugin-transform-shorthand-properties@^7.24.7":
+"@babel/plugin-transform-shorthand-properties@^7.0.0", "@babel/plugin-transform-shorthand-properties@^7.0.0-0", "@babel/plugin-transform-shorthand-properties@^7.24.7":
   version "7.24.7"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-shorthand-properties/-/plugin-transform-shorthand-properties-7.24.7.tgz"
   integrity sha512-KsDsevZMDsigzbA09+vacnLpmPH4aWjcZjXdyFKGzpplxhbeB4wYtury3vglQkg6KM/xEPKt73eCjPPf1PgXBA==
@@ -945,7 +945,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.24.7"
 
-"@babel/plugin-transform-template-literals@^7.24.7":
+"@babel/plugin-transform-template-literals@^7.0.0-0", "@babel/plugin-transform-template-literals@^7.24.7":
   version "7.24.7"
   resolved "https://registry.npmjs.org/@babel/plugin-transform-template-literals/-/plugin-transform-template-literals-7.24.7.tgz"
   integrity sha512-AfDTQmClklHCOLxtGoP7HkeMw56k1/bTQjwsfhL6pppo/M4TOBSq+jjBUBLmV/4oeFg4GWMavIl44ZeCtmmZTw==
@@ -1105,7 +1105,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-typescript@^7.13.0":
+"@babel/preset-typescript@^7.13.0", "@babel/preset-typescript@^7.16.7":
   version "7.24.7"
   resolved "https://registry.npmjs.org/@babel/preset-typescript/-/preset-typescript-7.24.7.tgz"
   integrity sha512-SyXRe3OdWwIwalxDg5UtJnJQO+YPcTfwiIY2B0Xlddh9o7jpWLvv8X1RthIeDOxQ+O1ML5BLPCONToObyVQVuQ==
@@ -6429,6 +6429,20 @@ react-native-loading-spinner-overlay@^3.0.1:
   resolved "https://registry.npmjs.org/react-native-loading-spinner-overlay/-/react-native-loading-spinner-overlay-3.0.1.tgz"
   integrity sha512-4GdR54HQnKg2HPSSisVizfTLuyhSh4splY9eb8mKiYF1Ihjn/5EmdNo5bN3S7uKPFRC3WLzIZIouX6G6fXfnjw==
 
+react-native-reanimated@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.14.0.tgz"
+  integrity sha512-TAxLtCfRyC/nOLeWoX/8MhdIF+Fi1e1NbLhIgEm5Kv9/gioAwSNaqLUYxjIClU1RaLwSTE8iaiHNVhTU4TS9DA==
+  dependencies:
+    "@babel/plugin-transform-arrow-functions" "^7.0.0-0"
+    "@babel/plugin-transform-nullish-coalescing-operator" "^7.0.0-0"
+    "@babel/plugin-transform-optional-chaining" "^7.0.0-0"
+    "@babel/plugin-transform-shorthand-properties" "^7.0.0-0"
+    "@babel/plugin-transform-template-literals" "^7.0.0-0"
+    "@babel/preset-typescript" "^7.16.7"
+    convert-source-map "^2.0.0"
+    invariant "^2.2.4"
+
 react-native-responsive-fontsize@^0.5.1:
   version "0.5.1"
   resolved "https://registry.npmjs.org/react-native-responsive-fontsize/-/react-native-responsive-fontsize-0.5.1.tgz"
@@ -6449,12 +6463,17 @@ react-native-screens@^3.32.0, "react-native-screens@>= 3.0.0":
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-simple-toast@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.npmjs.org/react-native-simple-toast/-/react-native-simple-toast-3.3.1.tgz"
+  integrity sha512-5SbAvZpzjSHNkMGbO1cr/7kg/oHZEVZbgeqC+6FtYTtvBbkRMbEaUIfiD1rvghbxZrJB783Y/mHRDUab2ogTqA==
+
 react-native-sqlite-storage@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.1.tgz"
   integrity sha512-1tDFjrint6X6qSYKf3gDyz+XB+X79jfiL6xTugKHPRtF0WvqMtVgdLuNqZunIXjNEvNtNVEbXaeZ6MsguFu00A==
 
-react-native@*, react-native@>=0.14.0, react-native@>=0.42.0, react-native@0.74.3:
+react-native@*, react-native@>=0.14.0, react-native@>=0.42.0, react-native@>=0.71.0, react-native@0.74.3:
   version "0.74.3"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.74.3.tgz"
   integrity sha512-UFutCC6WEw6HkxlcpQ2BemKqi0JkwrgDchYB5Svi8Sp4Xwt4HA6LGEjNQgZ+3KM44bjyFRpofQym0uh0jACGng==

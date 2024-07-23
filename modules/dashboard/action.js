@@ -16,7 +16,7 @@ import auth from '@react-native-firebase/auth';
  * Siblings
  */
 import * as selector from './selector';
-import {toastr} from '../../utils/common';
+import {handleFirebaseAuthError, toastr} from '../../utils/common';
 
 export function* signoutFn() {
   try {
@@ -31,6 +31,7 @@ export function* signoutFn() {
 
     yield auth().signOut();
   } catch (error) {
-    console.log(error);
+    handleFirebaseAuthError(error);
+    console.log(error.message);
   }
 }
