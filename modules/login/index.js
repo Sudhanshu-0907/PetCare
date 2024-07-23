@@ -19,6 +19,7 @@ import {connect} from 'react-redux';
 import login from '../../css/login';
 import Common from '../../css/common';
 import Layout from '../../css/layout';
+import Header from '../Header';
 
 const LoginScreen = props => {
   const disable = () => {
@@ -26,6 +27,7 @@ const LoginScreen = props => {
   };
   return (
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
+      <Header />
       <View style={login.container}>
         <Text style={login.label}>Email</Text>
         <TextInput

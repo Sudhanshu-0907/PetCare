@@ -14,6 +14,11 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
 
 /**
+ * modules
+ */
+import Header from '../Header';
+
+/**
  * css
  */
 import forgotPassword from '../../css/forgotPassword';
@@ -26,6 +31,7 @@ const ForgotPassword = props => {
   };
   return (
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
+      <Header />
       <View style={forgotPassword.container}>
         <Text style={forgotPassword.label}>Email</Text>
         <TextInput

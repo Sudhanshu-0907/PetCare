@@ -11,6 +11,10 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
+/**
+ * modules
+ */
+import Header from '../Header';
 
 /**
  * css
@@ -31,6 +35,7 @@ const SignUp = props => {
 
   return (
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
+      <Header />
       <View style={signUp.container}>
         <Text style={signUp.label}>Email</Text>
         <TextInput
