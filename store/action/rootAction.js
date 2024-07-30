@@ -32,6 +32,7 @@ export function* watch() {
     //createPetProfile
     yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);
     yield takeLatest('IS_PETS_EMPTY', createPetProfile.isEmptyFn);
+    yield takeLatest('CREATE_PET_PROFILE_FORM', createPetProfile.setLoginForm);
   } catch (e) {
     console.log(e);
   }

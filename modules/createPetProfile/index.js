@@ -9,15 +9,18 @@ import {
   InteractionManager,
   StyleSheet,
   ScrollView,
+  TouchableW,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {useFocusEffect} from '@react-navigation/native';
-import {RadioButton, TextInput, Button} from 'react-native-paper';
+import {RadioButton, TextInput, Button, Chip} from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import moment from 'moment';
 
 /**
  * utils
@@ -31,19 +34,17 @@ import Header from '../Header';
 import Common from '../../css/common';
 import Layout from '../../css/layout';
 
-const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
-  const [name, setName] = useState('');
-  const [gender, setGender] = useState('male');
-  const [breed, setBreed] = useState('');
-  const [color, setColor] = useState('');
-  const [isIndoor, setIsIndoor] = useState(true);
-  const [dob, setDob] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
+const CreatePetProfile = ({
+  obj,
+  addPetsFn,
+  resetFn,
+  isEmptyFn,
+  setLoginForm,
+}) => {
   const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || dob;
-    setShowDatePicker(false);
-    setDob(currentDate);
+    const currentDate = selectedDate || obj.dob;
+    setLoginForm('showDatePicker', false);
+    setLoginForm('dob', currentDate);
   };
 
   const load = () => {
@@ -64,29 +65,40 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
     }, []),
   );
 
-  const handleSubmit = () => {
-    // Handle form submission logic
-    console.log({
-      name,
-      gender,
-      breed,
-      color,
-      isIndoor,
-      dob,
-    });
-  };
-
   return (
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <ScrollView
+        style={[Layout.viewHeight]}
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="always">
         {!obj.isEmptyPetCollection && <Header />}
 
+        <View
+          style={[
+            Layout.row,
+            Common.mb20,
+            Common.justifyCenter,
+            {flexWrap: 'wrap'},
+          ]}>
+          {obj.petSpecies.map((list, index) => {
+            return (
+              <Chip
+                key={index}
+                mode="outlined"
+                style={{margin: 5}}
+                selected={list.id === obj.selected}
+                showSelectedOverlay
+                onPress={() => setLoginForm('selected', index)}>
+                {list.name}
+              </Chip>
+            );
+          })}
+        </View>
+
         <TextInput
-          // style={styles.input}
-          value={name}
-          onChangeText={setName}
+          style={[Common.mb20]}
+          value={obj.name}
+          onChangeText={text => setLoginForm('name', text)}
           placeholder="Enter pet's name"
           label="Name"
           mode="outlined"
@@ -96,39 +108,20 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
                 <Icon
                   name="dog"
                   size={20}
-                  // color={customIcon}
+                  {...Common.textColorBlack}
                   onPress={() => {
-                    // changeIconColor('customIcon');
+                    // changeIconColor('');
                   }}
                 />
               )}
             />
           }
         />
-        <Text style={styles.label}>Gender</Text>
-        <View style={styles.radioGroup}>
-          <RadioButton
-            value="male"
-            status={gender === 'male' ? 'checked' : 'unchecked'}
-            onPress={() => setGender('male')}
-          />
-          <TouchableOpacity onPress={() => setGender('male')}>
-            <Text style={styles.radioLabel}>Male</Text>
-          </TouchableOpacity>
-          <RadioButton
-            value="female"
-            status={gender === 'female' ? 'checked' : 'unchecked'}
-            onPress={() => setGender('female')}
-          />
-          <TouchableOpacity onPress={() => setGender('female')}>
-            <Text style={styles.radioLabel}>Female</Text>
-          </TouchableOpacity>
-        </View>
 
         <TextInput
           style={[Common.mb20]}
-          value={breed}
-          onChangeText={setBreed}
+          value={obj.breed}
+          onChangeText={text => setLoginForm('breed', text)}
           placeholder="Enter pet's breed"
           label="Breed"
           mode="outlined"
@@ -138,7 +131,7 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
                 <Icon
                   name="paw"
                   size={20}
-                  // color={customIcon}
+                  {...Common.textColorBlack}
                   onPress={() => {
                     // changeIconColor('customIcon');
                   }}
@@ -149,62 +142,101 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
         />
 
         <TextInput
-          value={color}
-          onChangeText={setColor}
+          value={obj.color}
+          onChangeText={text => setLoginForm('color', text)}
           placeholder="Enter pet's color"
           label="Color"
           mode="outlined"
+          left={
+            <TextInput.Icon
+              icon={() => (
+                <Icon
+                  name="paint-brush"
+                  size={20}
+                  {...Common.textColorBlack}
+                  onPress={() => {
+                    // changeIconColor('customIcon');
+                  }}
+                />
+              )}
+            />
+          }
         />
 
         <Text style={styles.label}>Indoor/Outdoor</Text>
         <View style={styles.radioGroup}>
           <RadioButton
             value="indoor"
-            status={isIndoor ? 'checked' : 'unchecked'}
-            onPress={() => setIsIndoor(true)}
+            status={obj.isIndoor ? 'checked' : 'unchecked'}
+            onPress={() => setLoginForm('isIndoor', true)}
           />
-          <TouchableOpacity onPress={() => setIsIndoor(true)}>
+          <TouchableWithoutFeedback
+            onPress={() => setLoginForm('isIndoor', true)}>
             <Text style={styles.radioLabel}>Indoor</Text>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
           <RadioButton
             value="outdoor"
-            status={!isIndoor ? 'checked' : 'unchecked'}
-            onPress={() => setIsIndoor(false)}
+            status={!obj.isIndoor ? 'checked' : 'unchecked'}
+            onPress={() => setLoginForm('isIndoor', false)}
           />
-          <TouchableOpacity onPress={() => setIsIndoor(false)}>
+          <TouchableWithoutFeedback
+            onPress={() => setLoginForm('isIndoor', false)}>
             <Text style={styles.radioLabel}>Outdoor</Text>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
         </View>
 
-        <Text style={styles.label}>Date of Birth</Text>
-        <Button
-          contentStyle={{flexDirection: 'row-reverse'}}
-          onPress={() => setShowDatePicker(true)}
-          mode="contained">
-          {dob.toDateString()}
-        </Button>
-        {showDatePicker && (
+        <Text style={styles.label}>Gender</Text>
+        <View style={styles.radioGroup}>
+          <RadioButton
+            value="male"
+            status={obj.gender === 'male' ? 'checked' : 'unchecked'}
+            onPress={() => setLoginForm('gender', 'male')}
+          />
+          <TouchableWithoutFeedback
+            onPress={() => setLoginForm('gender', 'male')}>
+            <Text style={styles.radioLabel}>Male</Text>
+          </TouchableWithoutFeedback>
+          <RadioButton
+            value="female"
+            status={obj.gender === 'female' ? 'checked' : 'unchecked'}
+            onPress={() => setLoginForm('gender', 'female')}
+          />
+          <TouchableWithoutFeedback
+            onPress={() => setLoginForm('gender', 'female')}>
+            <Text style={styles.radioLabel}>Female</Text>
+          </TouchableWithoutFeedback>
+        </View>
+
+        <View style={[Layout.col10, Layout.row]}>
+          <View style={[Layout.col5]}>
+            <Text style={styles.label}>Date of Birth</Text>
+          </View>
+          <Button
+            style={[Common.mb25, Common.justifyCenter, Layout.col5]}
+            onPress={() => setLoginForm('showDatePicker', true)}
+            mode="outlined">
+            <Icon name="birthday-cake" size={20} />
+            {'   '}
+            {moment(obj.dob).format('DD MMM YYYY')}
+          </Button>
+        </View>
+
+        {obj.showDatePicker && (
           <DateTimePicker
-            value={dob}
+            value={moment(obj.dob).toDate()}
             mode="date"
-            display="default"
+            display="inline"
             onChange={handleDateChange}
           />
         )}
 
-        <View style={styles.dateContainer}>
-          <Text style={styles.dateText}>
-            Selected Date: {dob.toDateString()}
-          </Text>
-        </View>
-
         <Button
           contentStyle={{flexDirection: 'row-reverse'}}
           title="Submit"
-          onPress={handleSubmit}
+          onPress={addPetsFn}
           icon="send"
           mode="contained">
-          Send
+          Create
         </Button>
       </ScrollView>
     </SafeAreaView>
@@ -224,6 +256,9 @@ const mapDispatchToProps = dispatch => {
     resetFn: () => dispatch({type: 'CREATE_PET_PROFILE_RESET'}),
     addPetsFn: () => dispatch({type: 'ADD_PROFILE_PET'}),
     isEmptyFn: () => dispatch({type: 'IS_PETS_EMPTY'}),
+    setLoginForm: (...params) =>
+      dispatch({type: 'CREATE_PET_PROFILE_FORM', ...params}),
+    // submitLogin: () => dispatch({type: 'CREATE_PET_PROFILE_SUBMIT'}),
   };
 };
 
@@ -231,7 +266,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreatePetProfile);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
   },
   label: {

@@ -23,6 +23,7 @@ import {
  * Siblings
  */
 import * as selector from './selector';
+import moment from 'moment';
 
 export function* addPetsFn() {
   try {
@@ -31,13 +32,13 @@ export function* addPetsFn() {
     const userId = auth().currentUser.uid;
     const petDetails = {
       userId,
-      name: 'tota',
-      gender: 'female',
-      breed: 'parrot',
-      colour: 'green',
-      dob: '',
-      isIndoorPet: false,
-      isSterialisedPet: false,
+      species: obj.petSpecies[obj.selected].name,
+      name: obj.name,
+      gender: obj.gender,
+      breed: obj.breed,
+      color: obj.color,
+      dob: moment(obj.dob).format('DD MMM YYYY'),
+      isIndoor: obj.isIndoor,
     };
 
     yield addPetDetails(userId, petDetails);
@@ -61,5 +62,21 @@ export function* isEmptyFn() {
   } catch (error) {
     handleFirebaseAuthError(error);
     console.log(error.message);
+  }
+}
+
+export function* setLoginForm(params) {
+  try {
+    let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
+    const updatedObj = {...obj, [params[0]]: params[1]};
+
+    yield put({
+      type: 'CREATE_PET_PROFILE_OBJ',
+      value: updatedObj,
+    });
+  } catch (e) {
+    if (__DEV__) {
+      console.log(e);
+    }
   }
 }
