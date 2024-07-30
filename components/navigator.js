@@ -13,6 +13,7 @@ import LoginScreen from '../modules/login';
 import Dashboard from '../modules/dashboard';
 import SignUp from '../modules/signUp';
 import ForgotPassword from '../modules/forgotPassword';
+import CreatePetProfile from '../modules/createPetProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ const Navigator = props => {
       {(user && user.emailVerified) || props.loginObj.isEmailVerified ? (
         <>
           <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="CreatePetProfile" component={CreatePetProfile} />
         </>
       ) : (
         <>

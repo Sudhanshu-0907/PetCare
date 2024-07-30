@@ -1,11 +1,40 @@
 /**
  * plugins
  */
-import {View, Text, Button, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  SafeAreaView,
+  InteractionManager,
+} from 'react-native';
 import React from 'react';
 import {connect} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
+
+import * as RootNavigation from '../../utils/RootNavigation';
+import {isCollectionEmpty} from '../../utils/common';
 
 const Dashboard = props => {
+  const load = () => {
+    if (isCollectionEmpty('PetsCollections')) {
+      RootNavigation.resetLevelOfStack('CreatePetProfile', 0); //rest to top level
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Anything in here is fired on component mount.
+      const task = InteractionManager.runAfterInteractions(() => {
+        load();
+      });
+      return () => {
+        // Anything in here is fired on component unmount.
+        task.cancel();
+      };
+    }, []),
+  );
+
   return (
     <SafeAreaView>
       <Button title="Sign out" onPress={props.signoutFn} />

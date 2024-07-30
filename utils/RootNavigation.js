@@ -20,3 +20,12 @@ export function goBack() {
     navigationRef.current?.goBack();
   }
 }
+
+export function resetLevelOfStack(name, index) {
+  if (navigationRef.isReady()) {
+    navigationRef.reset({
+      index: index,
+      routes: [{name: name}],
+    });
+  }
+}
