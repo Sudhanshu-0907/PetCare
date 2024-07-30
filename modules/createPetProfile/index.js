@@ -4,19 +4,20 @@
 import {
   View,
   Text,
-  Button,
   SafeAreaView,
   TouchableOpacity,
   InteractionManager,
   StyleSheet,
   ScrollView,
-  TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {useFocusEffect} from '@react-navigation/native';
+import {RadioButton, TextInput, Button} from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 /**
  * utils
@@ -27,6 +28,8 @@ import {addPetDetails} from '../../utils/common';
  * modules
  */
 import Header from '../Header';
+import Common from '../../css/common';
+import Layout from '../../css/layout';
 
 const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
   const [name, setName] = useState('');
@@ -74,18 +77,34 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.container}>
+    <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="always">
         {!obj.isEmptyPetCollection && <Header />}
 
-        <Text style={styles.label}>Name</Text>
         <TextInput
-          style={styles.input}
+          // style={styles.input}
           value={name}
           onChangeText={setName}
           placeholder="Enter pet's name"
+          label="Name"
+          mode="outlined"
+          left={
+            <TextInput.Icon
+              icon={() => (
+                <Icon
+                  name="dog"
+                  size={20}
+                  // color={customIcon}
+                  onPress={() => {
+                    // changeIconColor('customIcon');
+                  }}
+                />
+              )}
+            />
+          }
         />
-        {/* 
         <Text style={styles.label}>Gender</Text>
         <View style={styles.radioGroup}>
           <RadioButton
@@ -93,29 +112,48 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
             status={gender === 'male' ? 'checked' : 'unchecked'}
             onPress={() => setGender('male')}
           />
-          <Text style={styles.radioLabel}>Male</Text>
+          <TouchableOpacity onPress={() => setGender('male')}>
+            <Text style={styles.radioLabel}>Male</Text>
+          </TouchableOpacity>
           <RadioButton
             value="female"
             status={gender === 'female' ? 'checked' : 'unchecked'}
             onPress={() => setGender('female')}
           />
-          <Text style={styles.radioLabel}>Female</Text>
+          <TouchableOpacity onPress={() => setGender('female')}>
+            <Text style={styles.radioLabel}>Female</Text>
+          </TouchableOpacity>
         </View>
 
-        <Text style={styles.label}>Breed</Text>
         <TextInput
-          style={styles.input}
+          style={[Common.mb20]}
           value={breed}
           onChangeText={setBreed}
           placeholder="Enter pet's breed"
+          label="Breed"
+          mode="outlined"
+          left={
+            <TextInput.Icon
+              icon={() => (
+                <Icon
+                  name="paw"
+                  size={20}
+                  // color={customIcon}
+                  onPress={() => {
+                    // changeIconColor('customIcon');
+                  }}
+                />
+              )}
+            />
+          }
         />
 
-        <Text style={styles.label}>Color</Text>
         <TextInput
-          style={styles.input}
           value={color}
           onChangeText={setColor}
           placeholder="Enter pet's color"
+          label="Color"
+          mode="outlined"
         />
 
         <Text style={styles.label}>Indoor/Outdoor</Text>
@@ -125,17 +163,26 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
             status={isIndoor ? 'checked' : 'unchecked'}
             onPress={() => setIsIndoor(true)}
           />
-          <Text style={styles.radioLabel}>Indoor</Text>
+          <TouchableOpacity onPress={() => setIsIndoor(true)}>
+            <Text style={styles.radioLabel}>Indoor</Text>
+          </TouchableOpacity>
           <RadioButton
             value="outdoor"
             status={!isIndoor ? 'checked' : 'unchecked'}
             onPress={() => setIsIndoor(false)}
           />
-          <Text style={styles.radioLabel}>Outdoor</Text>
+          <TouchableOpacity onPress={() => setIsIndoor(false)}>
+            <Text style={styles.radioLabel}>Outdoor</Text>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.label}>Date of Birth</Text>
-        <Button title="Select Date" onPress={() => setShowDatePicker(true)} />
+        <Button
+          contentStyle={{flexDirection: 'row-reverse'}}
+          onPress={() => setShowDatePicker(true)}
+          mode="contained">
+          {dob.toDateString()}
+        </Button>
         {showDatePicker && (
           <DateTimePicker
             value={dob}
@@ -149,9 +196,16 @@ const CreatePetProfile = ({obj, addPetsFn, resetFn, isEmptyFn}) => {
           <Text style={styles.dateText}>
             Selected Date: {dob.toDateString()}
           </Text>
-        </View> */}
+        </View>
 
-        <Button title="Submit" onPress={handleSubmit} />
+        <Button
+          contentStyle={{flexDirection: 'row-reverse'}}
+          title="Submit"
+          onPress={handleSubmit}
+          icon="send"
+          mode="contained">
+          Send
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );
@@ -177,6 +231,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreatePetProfile);
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 20,
   },
   label: {
