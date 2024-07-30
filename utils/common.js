@@ -1,6 +1,7 @@
 import {Platform, ToastAndroid} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import firestore from '@react-native-firebase/firestore';
+import * as RootNavigation from './RootNavigation';
 
 export const toastr = {
   showToast: (message, _type, duration = 500) => {
@@ -54,7 +55,7 @@ export const addPetDetails = async (userId, petDetails) => {
         createdAt: firestore.FieldValue.serverTimestamp(),
       })
       .then(() => {
-        console.log('User added!');
+        toastr.showToast('Added successfully !', 2000);
       });
   } catch (error) {
     console.error('Error adding pet details: ', error);

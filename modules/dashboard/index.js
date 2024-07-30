@@ -16,8 +16,8 @@ import * as RootNavigation from '../../utils/RootNavigation';
 import {isCollectionEmpty} from '../../utils/common';
 
 const Dashboard = props => {
-  const load = () => {
-    if (isCollectionEmpty('PetsCollections')) {
+  const load = async () => {
+    if (await isCollectionEmpty('PetsCollection')) {
       RootNavigation.resetLevelOfStack('CreatePetProfile', 0); //rest to top level
     }
   };

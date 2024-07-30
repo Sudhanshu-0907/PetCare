@@ -1,5 +1,7 @@
 const initialState = {
-  obj: {},
+  obj: {
+    isEmptyPetCollection: false,
+  },
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {

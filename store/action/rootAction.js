@@ -10,6 +10,7 @@ import * as login from '../../modules/login/action';
 import * as dashboard from '../../modules/dashboard/action';
 import * as signUp from '../../modules/signUp/action';
 import * as forgotPassword from '../../modules/forgotPassword/action';
+import * as createPetProfile from '../../modules/createPetProfile/action';
 
 export function* watch() {
   try {
@@ -27,6 +28,10 @@ export function* watch() {
 
     //dashboard
     yield takeLatest('SIGNOUT', dashboard.signoutFn);
+
+    //createPetProfile
+    yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);
+    yield takeLatest('IS_PETS_EMPTY', createPetProfile.isEmptyFn);
   } catch (e) {
     console.log(e);
   }
