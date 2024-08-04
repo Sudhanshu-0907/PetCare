@@ -20,9 +20,9 @@ import Header from '../Header';
 /**
  * css
  */
-import signUp from '../../css/signUp';
-import Layout from '../../css/layout';
-import Common from '../../css/common';
+import signUp from '../../src/css/signUp';
+import Layout from '../../src/css/layout';
+import Common from '../../src/css/common';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const SignUp = props => {

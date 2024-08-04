@@ -14,8 +14,8 @@ import {useFocusEffect} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
 
 import Header from '../Header';
-import Layout from '../../css/layout';
-import Common from '../../css/common';
+import Layout from '../../src/css/layout';
+import Common from '../../src/css/common';
 
 import List from './components/list';
 
@@ -43,22 +43,23 @@ const Dashboard = props => {
   }, []);
 
   return (
-    <SafeAreaView
-      style={[Layout.viewHeight, Common.bgWhite, {paddingHorizontal: 10}]}>
-      <Header />
-      <FlashList
-        data={props.obj.list}
-        estimatedItemSize={300}
-        windowSize={7}
-        initialListSize={36}
-        initialNumToRender={36}
-        maxToRenderPerBatch={72}
-        removeClippedSubviews={true}
-        renderItem={renderItem}
-        scrollEventThrottle={16}
-        keyExtractor={item => item._data.createdAt}
-      />
-      {/* <Button title="Sign out" onPress={props.signoutFn} /> */}
+    <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
+      <View style={[Layout.viewHeight, {paddingHorizontal: 10}]}>
+        <Header />
+        <FlashList
+          data={props.obj.list}
+          estimatedItemSize={300}
+          windowSize={7}
+          initialListSize={36}
+          initialNumToRender={36}
+          maxToRenderPerBatch={72}
+          removeClippedSubviews={true}
+          renderItem={renderItem}
+          scrollEventThrottle={16}
+          keyExtractor={item => item._data.createdAt}
+        />
+        {/* <Button title="Sign out" onPress={props.signoutFn} /> */}
+      </View>
     </SafeAreaView>
   );
 };

@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+
+const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 const Dashboard = StyleSheet.create({
   container: {
@@ -20,15 +22,13 @@ const Dashboard = StyleSheet.create({
     paddingHorizontal: 10,
   },
   petProfile: {
-    width: '85%',
-    height: 300,
+    width: SCREEN_WIDTH * 0.85,
     borderWidth: 1,
-    borderColor: '#1F78CF',
+    borderColor: '#32409E',
     backgroundColor: '#E9F1FA',
     alignSelf: 'center',
     margin: 20,
     borderRadius: 30,
-    overflow: 'hidden',
   },
 });
 

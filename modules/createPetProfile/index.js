@@ -31,8 +31,8 @@ import {addPetDetails} from '../../utils/common';
  * modules
  */
 import Header from '../Header';
-import Common from '../../css/common';
-import Layout from '../../css/layout';
+import Common from '../../src/css/common';
+import Layout from '../../src/css/layout';
 
 const CreatePetProfile = ({
   obj,

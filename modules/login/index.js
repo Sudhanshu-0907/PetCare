@@ -16,9 +16,9 @@ import {connect} from 'react-redux';
 /**
  * css
  */
-import login from '../../css/login';
-import Common from '../../css/common';
-import Layout from '../../css/layout';
+import login from '../../src/css/login';
+import Common from '../../src/css/common';
+import Layout from '../../src/css/layout';
 import Header from '../Header';
 
 const LoginScreen = props => {

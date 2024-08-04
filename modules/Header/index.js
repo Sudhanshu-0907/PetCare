@@ -17,10 +17,10 @@ import Icon from 'react-native-vector-icons/AntDesign';
 /**
  * css
  */
-import login from '../../css/login';
-import Common from '../../css/common';
-import Layout from '../../css/layout';
-import Header from '../../css/header';
+import login from '../../src/css/login';
+import Common from '../../src/css/common';
+import Layout from '../../src/css/layout';
+import Header from '../../src/css/header';
 /**
  * utils
  */
@@ -29,7 +29,7 @@ import * as RootNavigation from '../../utils/RootNavigation';
 const HeaderScreen = props => {
   const route = useRoute();
   return (
-    <View style={[Common.bgWhite, Common.pt10, Common.pb10, Layout.row]}>
+    <View style={[Common.bgWhite, Common.pb10, Layout.row]}>
       <View style={[Layout.col10, Layout.row]}>
         {props.obj.showBackIcon.indexOf(route.name) > -1 && (
           <View style={[Layout.col5]}>

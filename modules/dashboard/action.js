@@ -50,8 +50,8 @@ export function* fetchPetsData() {
       RootNavigation.resetLevelOfStack('CreatePetProfile', 0); //rest to top level
     } else {
       const petsSnapshot = yield firestore().collection('PetsCollection').get();
-      const pets = petsSnapshot.docs.map(doc => {
-        return doc;
+      const pets = petsSnapshot.docs.filter(doc => {
+        return doc._data.userId === auth().currentUser.uid;
       });
       obj.list = pets;
       yield put({

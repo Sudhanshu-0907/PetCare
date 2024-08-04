@@ -21,9 +21,9 @@ import Header from '../Header';
 /**
  * css
  */
-import forgotPassword from '../../css/forgotPassword';
-import Layout from '../../css/layout';
-import Common from '../../css/common';
+import forgotPassword from '../../src/css/forgotPassword';
+import Layout from '../../src/css/layout';
+import Common from '../../src/css/common';
 
 /**
  * utils
