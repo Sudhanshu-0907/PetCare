@@ -19,6 +19,17 @@ const Dashboard = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
   },
+  petProfile: {
+    width: '85%',
+    height: 300,
+    borderWidth: 1,
+    borderColor: '#1F78CF',
+    backgroundColor: '#E9F1FA',
+    alignSelf: 'center',
+    margin: 20,
+    borderRadius: 30,
+    overflow: 'hidden',
+  },
 });
 
 export default Dashboard;

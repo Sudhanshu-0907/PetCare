@@ -39,6 +39,8 @@ export function* addPetsFn() {
       color: obj.color,
       dob: moment(obj.dob).format('DD MMM YYYY'),
       isIndoor: obj.isIndoor,
+      weights: [],
+      vaccines: [],
     };
 
     yield addPetDetails(userId, petDetails);

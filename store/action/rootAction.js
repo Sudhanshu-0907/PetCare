@@ -28,6 +28,7 @@ export function* watch() {
 
     //dashboard
     yield takeLatest('SIGNOUT', dashboard.signoutFn);
+    yield takeLatest('FETCH_DATA', dashboard.fetchPetsData);
 
     //createPetProfile
     yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);

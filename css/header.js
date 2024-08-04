@@ -12,8 +12,8 @@ const Header = StyleSheet.create({
     borderWidth: 1,
   },
   plusIcon: {
-    position: 'absolute',
-    right: 0,
+    // position: 'absolute',
+    // right: 0,
   },
 });
 

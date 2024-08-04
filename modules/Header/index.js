@@ -29,25 +29,29 @@ import * as RootNavigation from '../../utils/RootNavigation';
 const HeaderScreen = props => {
   const route = useRoute();
   return (
-    <View style={[Common.bgWhite, Common.pt10, Common.pb10]}>
-      <View style={[Layout.row]}>
+    <View style={[Common.bgWhite, Common.pt10, Common.pb10, Layout.row]}>
+      <View style={[Layout.col10, Layout.row]}>
         {props.obj.showBackIcon.indexOf(route.name) > -1 && (
-          <TouchableOpacity
-            style={[Header.backButton]}
-            onPress={() => {
-              RootNavigation.goBack();
-            }}>
-            <Icon name="arrowleft" size={20} color="#3F4DA8" />
-          </TouchableOpacity>
+          <View style={[Layout.col5]}>
+            <TouchableOpacity
+              style={[Header.backButton]}
+              onPress={() => {
+                RootNavigation.goBack();
+              }}>
+              <Icon name="arrowleft" size={20} color="#3F4DA8" />
+            </TouchableOpacity>
+          </View>
         )}
         {props.obj.showPlusIcon.indexOf(route.name) > -1 && (
-          <TouchableOpacity
-            style={[Header.backButton, Header.plusIcon]}
-            onPress={() => {
-              RootNavigation.navigate('CreatePetProfile');
-            }}>
-            <Icon name="plus" size={20} color="#3F4DA8" />
-          </TouchableOpacity>
+          <View style={[Layout.col5, Layout.rrow]}>
+            <TouchableOpacity
+              style={[Header.backButton, Header.plusIcon]}
+              onPress={() => {
+                RootNavigation.navigate('CreatePetProfile');
+              }}>
+              <Icon name="plus" size={20} color="#3F4DA8" />
+            </TouchableOpacity>
+          </View>
         )}
       </View>
     </View>

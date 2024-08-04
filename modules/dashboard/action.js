@@ -3,6 +3,8 @@
  */
 import {put, select, call, race, delay} from 'redux-saga/effects';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import * as RootNavigation from '../../utils/RootNavigation';
 
 /**
  * Utils
@@ -16,7 +18,11 @@ import auth from '@react-native-firebase/auth';
  * Siblings
  */
 import * as selector from './selector';
-import {handleFirebaseAuthError, toastr} from '../../utils/common';
+import {
+  handleFirebaseAuthError,
+  isCollectionEmpty,
+  toastr,
+} from '../../utils/common';
 
 export function* signoutFn() {
   try {
@@ -32,6 +38,29 @@ export function* signoutFn() {
     yield auth().signOut();
   } catch (error) {
     handleFirebaseAuthError(error);
-    console.log(error.message);
+    if (__DEV__) console.log(error.message);
+  }
+}
+
+export function* fetchPetsData() {
+  try {
+    let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
+
+    if (yield isCollectionEmpty('PetsCollection')) {
+      RootNavigation.resetLevelOfStack('CreatePetProfile', 0); //rest to top level
+    } else {
+      const petsSnapshot = yield firestore().collection('PetsCollection').get();
+      const pets = petsSnapshot.docs.map(doc => {
+        return doc;
+      });
+      obj.list = pets;
+      yield put({
+        type: 'DASHBOARD_OBJ',
+        value: obj,
+      });
+    }
+  } catch (error) {
+    handleFirebaseAuthError(error);
+    if (__DEV__) console.log(error.message);
   }
 }

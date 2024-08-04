@@ -11,23 +11,17 @@ import {
 import React from 'react';
 import {connect} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
-import firestore from '@react-native-firebase/firestore';
-import * as RootNavigation from '../../utils/RootNavigation';
-import {isCollectionEmpty} from '../../utils/common';
+import {FlashList} from '@shopify/flash-list';
+
 import Header from '../Header';
 import Layout from '../../css/layout';
 import Common from '../../css/common';
 
+import List from './components/list';
+
 const Dashboard = props => {
   const load = async () => {
-    if (await isCollectionEmpty('PetsCollection')) {
-      RootNavigation.resetLevelOfStack('CreatePetProfile', 0); //rest to top level
-    } else {
-      const petsSnapshot = await firestore().collection('PetsCollection').get();
-      const pets = petsSnapshot.docs.map(doc => console.log(doc));
-      console.log(pets);
-      // return pets;
-    }
+    props.fetchPetsDataFn();
   };
 
   useFocusEffect(
@@ -44,15 +38,26 @@ const Dashboard = props => {
     }, []),
   );
 
+  const renderItem = React.useCallback(({item, index}) => {
+    return <List item={item._data} key={item._data.createdAt} index={index} />;
+  }, []);
+
   return (
     <SafeAreaView
-      style={[
-        Layout.col10,
-        Layout.viewHeight,
-        Common.bgWhite,
-        {paddingHorizontal: 10},
-      ]}>
+      style={[Layout.viewHeight, Common.bgWhite, {paddingHorizontal: 10}]}>
       <Header />
+      <FlashList
+        data={props.obj.list}
+        estimatedItemSize={300}
+        windowSize={7}
+        initialListSize={36}
+        initialNumToRender={36}
+        maxToRenderPerBatch={72}
+        removeClippedSubviews={true}
+        renderItem={renderItem}
+        scrollEventThrottle={16}
+        keyExtractor={item => item._data.createdAt}
+      />
       {/* <Button title="Sign out" onPress={props.signoutFn} /> */}
     </SafeAreaView>
   );
@@ -61,9 +66,7 @@ const Dashboard = props => {
 //getting state from reducer
 const mapStateToProps = state => {
   return {
-    obj: state.login.obj,
-    signUpObj: state.signUp.obj,
-    dashboardObj: state.dashboard.obj,
+    obj: state.dashboard.obj,
   };
 };
 
@@ -72,6 +75,7 @@ const mapDispatchToProps = dispatch => {
   return {
     resetFn: () => dispatch({type: 'DASHBOARD_RESET'}),
     signoutFn: () => dispatch({type: 'SIGNOUT'}),
+    fetchPetsDataFn: () => dispatch({type: 'FETCH_DATA'}),
   };
 };
 
