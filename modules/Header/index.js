@@ -12,7 +12,7 @@ import {
 import React from 'react';
 import {connect} from 'react-redux';
 import {useRoute} from '@react-navigation/native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 /**
  * css
@@ -29,15 +29,24 @@ import * as RootNavigation from '../../utils/RootNavigation';
 const HeaderScreen = props => {
   const route = useRoute();
   return (
-    <View style={[Common.bgWhite, Common.pt10, Common.pb10, Common.pl10]}>
-      <View>
+    <View style={[Common.bgWhite, Common.pt10, Common.pb10]}>
+      <View style={[Layout.row]}>
         {props.obj.showBackIcon.indexOf(route.name) > -1 && (
           <TouchableOpacity
             style={[Header.backButton]}
             onPress={() => {
               RootNavigation.goBack();
             }}>
-            <AntDesign name="arrowleft" size={25} color="#3F4DA8" />
+            <Icon name="arrowleft" size={20} color="#3F4DA8" />
+          </TouchableOpacity>
+        )}
+        {props.obj.showPlusIcon.indexOf(route.name) > -1 && (
+          <TouchableOpacity
+            style={[Header.backButton, Header.plusIcon]}
+            onPress={() => {
+              RootNavigation.navigate('CreatePetProfile');
+            }}>
+            <Icon name="plus" size={20} color="#3F4DA8" />
           </TouchableOpacity>
         )}
       </View>

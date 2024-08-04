@@ -266,7 +266,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(CreatePetProfile);
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    paddingHorizontal: 15,
   },
   label: {
     fontSize: 16,

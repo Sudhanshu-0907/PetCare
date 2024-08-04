@@ -32,11 +32,11 @@ export const isCollectionEmpty = async collectionName => {
       .get();
 
     if (collectionSnapshot.empty) {
-      console.log(`${collectionName} collection is empty.`);
+      // console.log(`${collectionName} collection is empty.`);
 
       return true;
     } else {
-      console.log(`${collectionName} collection is not empty.`);
+      // console.log(`${collectionName} collection is not empty.`);
       return false;
     }
   } catch (error) {

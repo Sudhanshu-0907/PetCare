@@ -42,9 +42,10 @@ export function* addPetsFn() {
     };
 
     yield addPetDetails(userId, petDetails);
+
     if (obj.isEmptyPetCollection) {
       RootNavigation.resetLevelOfStack('Dashboard', 0); //reset to top level
-    }
+    } else RootNavigation.navigate('Dashboard');
   } catch (error) {
     handleFirebaseAuthError(error);
     console.log(error.message);

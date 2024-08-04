@@ -1,6 +1,7 @@
 const initialState = {
   obj: {
     showBackIcon: ['ForgotPassword', 'SignUp', 'CreatePetProfile'],
+    showPlusIcon: ['Dashboard'],
   },
 };
 const reducer = (state = initialState, action) => {
