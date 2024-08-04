@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, Image} from 'react-native';
 import React from 'react';
 import Dashboard from '../../../src/css/dashboard';
 import Layout from '../../../src/css/layout';
@@ -7,6 +7,7 @@ import moment from 'moment';
 import {Surface} from 'react-native-paper';
 import {DashboardIcons} from '../../../src/icons/svgIcons';
 import Chip from './Chip';
+// import DogGif from '../../../src/assets/DogGif';
 
 const List = ({item}) => {
   return (
@@ -18,7 +19,6 @@ const List = ({item}) => {
         <View
           style={[
             Layout.col3,
-            Common.alignCenter,
             Common.p10,
             {
               backgroundColor: '#32409E',
@@ -26,20 +26,49 @@ const List = ({item}) => {
               borderTopLeftRadius: 30,
             },
           ]}>
-          <View style={[Layout.row, Common.alignCenter]}>
-            <Text
-              style={[Common.textColorWhite, Common.fs16, {fontWeight: 700}]}>
-              {item.name}
-            </Text>
-            {DashboardIcons('item.gender')}
-          </View>
+          <View style={[Layout.row]}>
+            <View
+              style={{
+                borderRadius: 200,
+                backgroundColor: 'yellow',
+                overflow: 'hidden',
+              }}>
+              <Image
+                style={{
+                  alignSelf: 'center',
+                  width: 70,
+                  height: 70,
+                }}
+                source={require('../../../src/assets/Dog.png')}
+              />
+            </View>
+            <View style={Common.ml15}>
+              <View style={[Layout.row, Common.alignCenter]}>
+                <Text
+                  style={[
+                    Common.textColorWhite,
+                    Common.fs16,
+                    {fontWeight: 600},
+                  ]}>
+                  {item.name}
+                </Text>
+                {DashboardIcons(item.gender)}
+              </View>
 
-          <Text style={[Common.textColorWhite, Common.fs15, {fontWeight: 700}]}>
-            {`${item.dob} (${moment().diff(
-              moment(item.dob, 'DD MMM YYYY'),
-              'years',
-            )} years old)`}
-          </Text>
+              <Text
+                style={[Common.textColorWhite, Common.fs15, {fontWeight: 700}]}>
+                {`${item.dob} (${moment().diff(
+                  moment(item.dob, 'DD MMM YYYY'),
+                  'years',
+                )} years old)`}
+              </Text>
+
+              <Text
+                style={[Common.textColorWhite, Common.fs15, {fontWeight: 500}]}>
+                {`${item.breed}`}
+              </Text>
+            </View>
+          </View>
         </View>
         <View style={[Layout.col7, Common.p10, Layout.row, {flexWrap: 'wrap'}]}>
           <Chip
@@ -47,10 +76,7 @@ const List = ({item}) => {
             value={`${item.weights.length ? item.weight[0] : 0} Kg`}
           />
 
-          <Chip
-            icon={'vaccine'}
-            value={`${item.vaccines.length ? item.vaccines[0] : 0}`}
-          />
+          <Chip icon={'vaccine'} value={`${item.vaccines.length}`} />
 
           <Chip icon={'camera'} value={` 0`} />
 

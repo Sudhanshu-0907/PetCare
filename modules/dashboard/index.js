@@ -1,13 +1,7 @@
 /**
  * plugins
  */
-import {
-  View,
-  Text,
-  Button,
-  SafeAreaView,
-  InteractionManager,
-} from 'react-native';
+import {View, Text, SafeAreaView, InteractionManager} from 'react-native';
 import React from 'react';
 import {connect} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
@@ -18,6 +12,7 @@ import Layout from '../../src/css/layout';
 import Common from '../../src/css/common';
 
 import List from './components/list';
+import {Button} from 'react-native-paper';
 
 const Dashboard = props => {
   const load = async () => {
@@ -58,7 +53,13 @@ const Dashboard = props => {
           scrollEventThrottle={16}
           keyExtractor={item => item._data.createdAt}
         />
-        {/* <Button title="Sign out" onPress={props.signoutFn} /> */}
+        <Button
+          contentStyle={{flexDirection: 'row-reverse'}}
+          onPress={props.signoutFn}
+          icon="lock"
+          mode="contained">
+          Sign Out
+        </Button>
       </View>
     </SafeAreaView>
   );

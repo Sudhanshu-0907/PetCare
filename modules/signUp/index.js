@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
@@ -50,6 +51,12 @@ const SignUp = props => {
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <Header />
       <View style={signUp.container}>
+        <Image
+          style={{alignSelf: 'center'}}
+          source={require('../../src/assets/CreateUser.gif')}
+          width={100}
+          height={100}
+        />
         <Text
           style={[
             signUp.label,

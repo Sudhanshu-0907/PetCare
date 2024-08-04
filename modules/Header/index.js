@@ -32,7 +32,7 @@ const HeaderScreen = props => {
     <View style={[Common.bgWhite, Common.pb10, Layout.row]}>
       <View style={[Layout.col10, Layout.row]}>
         {props.obj.showBackIcon.indexOf(route.name) > -1 && (
-          <View style={[Layout.col5]}>
+          <View style={[Layout.col5, Common.pl10]}>
             <TouchableOpacity
               style={[Header.backButton]}
               onPress={() => {

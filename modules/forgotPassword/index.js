@@ -8,6 +8,7 @@ import {
   Button,
   SafeAreaView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -50,6 +51,12 @@ const ForgotPassword = props => {
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <Header />
       <View style={forgotPassword.container}>
+        <Image
+          style={{alignSelf: 'center', marginBottom: 20}}
+          source={require('../../src/assets/Thinking.gif')}
+          width={100}
+          height={100}
+        />
         <Text style={forgotPassword.label}>Email</Text>
         <TextInput
           style={forgotPassword.input}
