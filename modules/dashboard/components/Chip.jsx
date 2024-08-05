@@ -1,12 +1,13 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {DashboardIcons} from '../../../src/icons/svgIcons';
 import Common from '../../../src/css/common';
 import Layout from '../../../src/css/layout';
 
-const Chip = ({icon, value}) => {
+const Chip = ({icon, value, onPress}) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={[
         Layout.row,
         Common.alignCenter,
@@ -30,7 +31,7 @@ const Chip = ({icon, value}) => {
         {DashboardIcons(icon)}
       </View>
       <Text style={[Common.textColorWhite]}>{value}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

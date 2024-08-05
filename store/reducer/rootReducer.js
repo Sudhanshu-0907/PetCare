@@ -12,6 +12,7 @@ import dashboard from '../../modules/dashboard/reducer';
 import forgotPassword from '../../modules/forgotPassword/reducer';
 import header from '../../modules/Header/reducer';
 import createPetProfile from '../../modules/createPetProfile/reducer';
+import petPhotos from '../../modules/petPhotos/reducer';
 
 const appReducer = combineReducers({
   login,
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   forgotPassword,
   header,
   createPetProfile,
+  petPhotos,
 });
 
 const mainReducer = (state, action) => {

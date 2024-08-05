@@ -7,7 +7,7 @@ import moment from 'moment';
 import {Surface} from 'react-native-paper';
 import {DashboardIcons} from '../../../src/icons/svgIcons';
 import Chip from './Chip';
-// import DogGif from '../../../src/assets/DogGif';
+import * as RootNavigation from '../../../utils/RootNavigation';
 
 const List = ({item}) => {
   const images = {
@@ -18,6 +18,13 @@ const List = ({item}) => {
     Rabbit: require('../../../src/assets/defaultImg/Rabbit.png'),
     Fish: require('../../../src/assets/defaultImg/Fish.png'),
     // Add more images as needed
+  };
+  const onPressCamera = () => {
+    try {
+      RootNavigation.navigate('PetPhotos');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <SafeAreaView>
@@ -87,7 +94,7 @@ const List = ({item}) => {
 
           <Chip icon={'vaccine'} value={`${item.vaccines.length}`} />
 
-          <Chip icon={'camera'} value={` 0`} />
+          <Chip icon={'camera'} value={` 0`} onPress={onPressCamera} />
 
           <Chip icon={'bellIcon'} value={` 0`} />
 

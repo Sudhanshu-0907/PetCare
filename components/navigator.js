@@ -14,6 +14,7 @@ import Dashboard from '../modules/dashboard';
 import SignUp from '../modules/signUp';
 import ForgotPassword from '../modules/forgotPassword';
 import CreatePetProfile from '../modules/createPetProfile';
+import petPhotos from '../modules/petPhotos';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,7 @@ const Navigator = props => {
         <>
           <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="CreatePetProfile" component={CreatePetProfile} />
+          <Stack.Screen name="PetPhotos" component={petPhotos} />
         </>
       ) : (
         <>

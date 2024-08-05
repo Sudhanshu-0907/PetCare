@@ -1,14 +1,11 @@
 const initialState = {
-  obj: {
-    showBackIcon: ['ForgotPassword', 'SignUp', 'CreatePetProfile', 'PetPhotos'],
-    showPlusIcon: ['Dashboard'],
-  },
+  obj: {},
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'HEADER_RESET':
+    case 'PET_PHOTOS_RESET':
       return initialState;
-    case 'HEADER_OBJ':
+    case 'PET_PHOTOS_OBJ':
       return {
         ...state,
         obj: action.value,
