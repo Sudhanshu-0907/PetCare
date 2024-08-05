@@ -6,6 +6,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
+import storage from '@react-native-firebase/storage';
 
 import Header from '../Header';
 import Layout from '../../src/css/layout';
@@ -17,6 +18,8 @@ import {Button} from 'react-native-paper';
 const Dashboard = props => {
   const load = async () => {
     props.fetchPetsDataFn();
+    // const url = await storage().ref('DefaultImage/Doggy.png').getDownloadURL();
+    // console.log(url);
   };
 
   useFocusEffect(
@@ -34,7 +37,7 @@ const Dashboard = props => {
   );
 
   const renderItem = React.useCallback(({item, index}) => {
-    return <List item={item._data} key={item._data.createdAt} index={index} />;
+    return <List item={item._data} key={item.id} id={item.id} index={index} />;
   }, []);
 
   return (
@@ -51,7 +54,7 @@ const Dashboard = props => {
           removeClippedSubviews={true}
           renderItem={renderItem}
           scrollEventThrottle={16}
-          keyExtractor={item => item._data.createdAt}
+          keyExtractor={item => item.id}
         />
         <Button
           contentStyle={{flexDirection: 'row-reverse'}}

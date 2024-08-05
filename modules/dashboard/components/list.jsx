@@ -10,6 +10,15 @@ import Chip from './Chip';
 // import DogGif from '../../../src/assets/DogGif';
 
 const List = ({item}) => {
+  const images = {
+    Cat: require('../../../src/assets/defaultImg/Cat.png'),
+    Dog: require('../../../src/assets/defaultImg/Dog.png'),
+    Cow: require('../../../src/assets/defaultImg/Cow.png'),
+    Rat: require('../../../src/assets/defaultImg/Rat.png'),
+    Rabbit: require('../../../src/assets/defaultImg/Rabbit.png'),
+    Fish: require('../../../src/assets/defaultImg/Fish.png'),
+    // Add more images as needed
+  };
   return (
     <SafeAreaView>
       <Surface
@@ -22,15 +31,15 @@ const List = ({item}) => {
             Common.p10,
             {
               backgroundColor: '#32409E',
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
+              borderTopRightRadius: 18,
+              borderTopLeftRadius: 18,
             },
           ]}>
           <View style={[Layout.row]}>
             <View
               style={{
                 borderRadius: 200,
-                backgroundColor: 'yellow',
+                backgroundColor: '#94DAFA',
                 overflow: 'hidden',
               }}>
               <Image
@@ -39,7 +48,7 @@ const List = ({item}) => {
                   width: 70,
                   height: 70,
                 }}
-                source={require('../../../src/assets/Dog.png')}
+                source={images[item.species]}
               />
             </View>
             <View style={Common.ml15}>

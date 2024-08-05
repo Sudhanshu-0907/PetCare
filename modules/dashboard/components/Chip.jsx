@@ -24,7 +24,7 @@ const Chip = ({icon, value}) => {
       <View
         style={{
           padding: 5,
-          backgroundColor: '#FFFA4A',
+          backgroundColor: '#94DAFA',
           borderRadius: 50,
         }}>
         {DashboardIcons(icon)}

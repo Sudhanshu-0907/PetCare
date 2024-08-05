@@ -22,31 +22,21 @@ const initialState = {
       },
       {
         id: 2,
-        name: 'Horse',
+        name: 'Cow',
       },
       {
         id: 3,
         name: 'Rat',
       },
+
       {
         id: 4,
-        name: 'Hamster',
-      },
-      {
-        id: 5,
         name: 'Rabbit',
       },
+
       {
-        id: 6,
-        name: 'Dragon',
-      },
-      {
-        id: 7,
+        id: 5,
         name: 'Fish',
-      },
-      {
-        id: 8,
-        name: 'Pig',
       },
     ],
   },

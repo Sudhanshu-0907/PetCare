@@ -28,7 +28,7 @@ const Dashboard = StyleSheet.create({
     backgroundColor: '#E9F1FA',
     alignSelf: 'center',
     margin: 20,
-    borderRadius: 30,
+    borderRadius: 20,
   },
 });
 
