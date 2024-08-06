@@ -21,6 +21,7 @@ import PetPhotos from '../../../src/css/petPhotos';
 
 const List = ({index, petId, uploadPhotoFn}) => {
   const [response, setResponse] = useState('');
+  const [uploading, setUploading] = useState(null);
   const [imageHeight, setImageHeight] = useState(0);
   const SCREENWIDTH = Dimensions.get('screen').width;
 
@@ -31,7 +32,7 @@ const List = ({index, petId, uploadPhotoFn}) => {
 
   const onClick = async () => {
     try {
-      await uploadPhotoFn(index, petId, setResponse);
+      await uploadPhotoFn(index, petId, setResponse, setUploading);
     } catch (error) {
       console.log(error);
     }
@@ -116,6 +117,8 @@ const List = ({index, petId, uploadPhotoFn}) => {
             source={{uri: response}}
             onLoad={handleImageLoad}
           />
+        ) : uploading ? (
+          <Text>Uploading...</Text>
         ) : (
           <MaterialCommunityIcons
             name="file-image-plus"

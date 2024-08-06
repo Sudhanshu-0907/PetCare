@@ -22,8 +22,10 @@ import * as selector from './selector';
 import moment from 'moment';
 
 export function* photoUpload(params) {
+  console.log(params);
   try {
-    let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
+    const {0: index, 1: petId, 2: setResponse, 3: setUploading} = params;
+
     const OPTIONS = {
       selectionLimit: 1,
       mediaType: 'photo',
@@ -37,12 +39,13 @@ export function* photoUpload(params) {
     } else if (result.error) {
       console.log('ImagePicker Error: ', result.error);
     } else {
+      setUploading(true);
       const imageUri = result.assets[0].uri;
       const user = auth().currentUser;
 
       if (user) {
         const storageRef = storage().ref(
-          `/users/${user.uid}/${params[1]}/${moment(params[0] + 1, 'MM').format(
+          `/users/${user.uid}/${petId}/${moment(index + 1, 'MM').format(
             'MMM',
           )}_photo.jpg`,
         );
@@ -57,8 +60,8 @@ export function* photoUpload(params) {
 
         task.then(async () => {
           const downloadURL = await storageRef.getDownloadURL();
-          // return downloadURL;
-          params[2](downloadURL);
+          setUploading(false);
+          setResponse(downloadURL);
         });
       } else {
         console.log('User not authenticated');
