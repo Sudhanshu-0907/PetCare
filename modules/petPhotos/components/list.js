@@ -1,7 +1,16 @@
-import {View, Text, TouchableOpacity, Image, Dimensions} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  InteractionManager,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 
 import moment from 'moment';
 import Common from '../../../src/css/common';
@@ -10,33 +19,79 @@ import Layout from '../../../src/css/layout';
 import * as RootNavigation from '../../../utils/RootNavigation';
 import PetPhotos from '../../../src/css/petPhotos';
 
-const List = ({index}) => {
-  const [response, setResponse] = useState(null);
+const List = ({index, petId, uploadPhotoFn}) => {
+  const [response, setResponse] = useState('');
   const [imageHeight, setImageHeight] = useState(0);
+  const SCREENWIDTH = Dimensions.get('screen').width;
 
   const handleImageLoad = event => {
     const {width, height} = event.nativeEvent.source;
-    setImageHeight(width > 0 ? (height / width) * (SCREENWIDTH * 0.4) : 0); // Calculate height based on aspect ratio and fixed width
+    setImageHeight(width > 0 ? (height / width) * (SCREENWIDTH * 0.38) : 0); // Calculate height based on aspect ratio and fixed width
   };
 
-  const SCREENWIDTH = Dimensions.get('screen').width;
-
-  const OPTIONS = {
-    selectionLimit: 1,
-    mediaType: 'photo',
-    includeBase64: false,
-    includeExtra: true,
+  const onClick = async () => {
+    try {
+      await uploadPhotoFn(index, petId, setResponse);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const onClickDelete = async () => {
+    try {
+      const user = auth().currentUser;
+      const storageRef = storage().ref(
+        `/users/${user.uid}/${petId}/${moment(index + 1, 'MM').format(
+          'MMM',
+        )}_photo.jpg`,
+      );
+      storageRef
+        .delete()
+        .then(() => {
+          setResponse('');
+          setImageHeight(0);
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    try {
+      (async () => {
+        const user = auth().currentUser;
+        const storageRef = storage().ref(
+          `/users/${user.uid}/${petId}/${moment(index + 1, 'MM').format(
+            'MMM',
+          )}_photo.jpg`,
+        );
+        storageRef
+          .getDownloadURL()
+          .then(downloadURL => {
+            setResponse(downloadURL);
+          })
+          .catch(error => {
+            // console.log(error);
+          });
+      })();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <TouchableOpacity
-      onPress={async () => {
-        await launchImageLibrary(OPTIONS, setResponse);
-      }}
+      onPress={onClick}
       key={index}
-      style={[
-        PetPhotos.petProfile,
-        {width: SCREENWIDTH * 0.4, height: imageHeight},
-      ]}>
+      style={[PetPhotos.petProfile, {height: imageHeight}]}>
+      {response && (
+        <TouchableOpacity style={[PetPhotos.delete]} onPress={onClickDelete}>
+          <MaterialCommunityIcons name="delete" size={30} color="#B71C1C" />
+        </TouchableOpacity>
+      )}
       <View style={[Common.p5, Common.bgBlue, PetPhotos.monthTag]}>
         <Text style={[Common.textColorWhite]}>
           {moment(index + 1, 'MM').format('MMM')}
@@ -47,18 +102,18 @@ const List = ({index}) => {
           Common.alignCenter,
           Common.justifyCenter,
 
-          {width: SCREENWIDTH * 0.4},
+          {width: SCREENWIDTH * 0.38},
         ]}>
-        {response?.assets ? (
+        {response ? (
           <Image
             resizeMode="contain"
             // resizeMethod="scale"
             style={{
               width: '100%',
               height: '100%',
-              borderRadius: 16,
+              borderRadius: 14,
             }}
-            source={{uri: response?.assets[0].uri}}
+            source={{uri: response}}
             onLoad={handleImageLoad}
           />
         ) : (

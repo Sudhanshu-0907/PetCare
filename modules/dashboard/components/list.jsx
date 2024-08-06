@@ -1,4 +1,10 @@
-import {View, Text, SafeAreaView, Image} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  InteractionManager,
+} from 'react-native';
 import React from 'react';
 import Dashboard from '../../../src/css/dashboard';
 import Layout from '../../../src/css/layout';
@@ -8,8 +14,12 @@ import {Surface} from 'react-native-paper';
 import {DashboardIcons} from '../../../src/icons/svgIcons';
 import Chip from './Chip';
 import * as RootNavigation from '../../../utils/RootNavigation';
+import {useFocusEffect} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 
-const List = ({item}) => {
+const List = ({item, petId}) => {
+  const [cameraCount, setCameraCount] = React.useState(0);
   const images = {
     Cat: require('../../../src/assets/defaultImg/Cat.png'),
     Dog: require('../../../src/assets/defaultImg/Dog.png'),
@@ -21,11 +31,34 @@ const List = ({item}) => {
   };
   const onPressCamera = () => {
     try {
-      RootNavigation.navigate('PetPhotos');
+      RootNavigation.navigate('PetPhotos', {
+        petId,
+      });
     } catch (error) {
       console.log(error);
     }
   };
+
+  const load = async () => {
+    const user = auth().currentUser;
+    const storageRef = storage().ref(`/users/${user.uid}/${petId}/`);
+    const result = await storageRef.listAll();
+    setCameraCount(result.items.length);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Anything in here is fired on component mount.
+      const task = InteractionManager.runAfterInteractions(() => {
+        load();
+      });
+      return () => {
+        // Anything in here is fired on component unmount.
+        task.cancel();
+      };
+    }, []),
+  );
+
   return (
     <SafeAreaView>
       <Surface
@@ -94,7 +127,7 @@ const List = ({item}) => {
 
           <Chip icon={'vaccine'} value={`${item.vaccines.length}`} />
 
-          <Chip icon={'camera'} value={` 0`} onPress={onPressCamera} />
+          <Chip icon={'camera'} value={cameraCount} onPress={onPressCamera} />
 
           <Chip icon={'bellIcon'} value={` 0`} />
 

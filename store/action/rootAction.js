@@ -11,6 +11,7 @@ import * as dashboard from '../../modules/dashboard/action';
 import * as signUp from '../../modules/signUp/action';
 import * as forgotPassword from '../../modules/forgotPassword/action';
 import * as createPetProfile from '../../modules/createPetProfile/action';
+import * as petPhotos from '../../modules/petPhotos/action';
 
 export function* watch() {
   try {
@@ -34,6 +35,10 @@ export function* watch() {
     yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);
     yield takeLatest('IS_PETS_EMPTY', createPetProfile.isEmptyFn);
     yield takeLatest('CREATE_PET_PROFILE_FORM', createPetProfile.setLoginForm);
+
+    //petPhoto
+
+    yield takeLatest('UPLOAD_PHOTO', petPhotos.photoUpload);
   } catch (e) {
     console.log(e);
   }

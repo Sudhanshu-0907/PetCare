@@ -6,7 +6,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
-import storage from '@react-native-firebase/storage';
 
 import Header from '../Header';
 import Layout from '../../src/css/layout';
@@ -37,7 +36,9 @@ const Dashboard = props => {
   );
 
   const renderItem = React.useCallback(({item, index}) => {
-    return <List item={item._data} key={item.id} id={item.id} index={index} />;
+    return (
+      <List item={item._data} key={item.id} petId={item.id} index={index} />
+    );
   }, []);
 
   return (

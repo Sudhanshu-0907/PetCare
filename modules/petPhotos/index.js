@@ -11,6 +11,7 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  InteractionManager,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -34,15 +35,17 @@ import PetPhotos from '../../src/css/petPhotos';
  * utils
  */
 import * as RootNavigation from '../../utils/RootNavigation';
+import {useRoute} from '@react-navigation/native';
 
 const PetProfile = props => {
+  const route = useRoute();
   const NUMBEROFMONTHS = moment().diff(moment('01-01', 'DD-MM'), 'months') + 1;
 
   useEffect(() => {
     // Anything in here is fired on component mount.
-    // const task = InteractionManager.runAfterInteractions(() => {
-    //     load();
-    // });
+    const task = InteractionManager.runAfterInteractions(() => {
+      // load();
+    });
     return () => {
       // Anything in here is fired on component unmount.
       props.resetFn();
@@ -68,7 +71,12 @@ const PetProfile = props => {
             {Array(NUMBEROFMONTHS)
               .fill(1)
               .map((_, index) => (
-                <List key={index} index={index} />
+                <List
+                  key={index}
+                  index={index}
+                  petId={route.params.petId}
+                  uploadPhotoFn={props.uploadPhotoFn}
+                />
               ))}
           </View>
         </ScrollView>
@@ -87,6 +95,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     resetFn: () => dispatch({type: 'PET_PHOTOS_RESET'}),
+    uploadPhotoFn: (...params) => dispatch({type: 'UPLOAD_PHOTO', ...params}),
   };
 };
 
