@@ -22,7 +22,6 @@ import * as selector from './selector';
 import moment from 'moment';
 
 export function* photoUpload(params) {
-  console.log(params);
   try {
     const {0: index, 1: petId, 2: setResponse, 3: setUploading} = params;
 

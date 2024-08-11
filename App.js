@@ -12,6 +12,7 @@ import {watch} from './store/action/rootAction';
 import {Provider} from 'react-redux';
 import {navigationRef} from './utils/RootNavigation';
 import {PaperProvider} from 'react-native-paper';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -27,12 +28,14 @@ const App = () => {
       <PaperProvider>
         <SafeAreaProvider>
           <NavigationContainer ref={navigationRef}>
-            <StatusBar
-              hidden={false}
-              barStyle="dark-content"
-              backgroundColor={'#fff'}
-            />
-            <StackNavigator />
+            <GestureHandlerRootView style={{flex: 1}}>
+              <StatusBar
+                hidden={false}
+                barStyle="dark-content"
+                backgroundColor={'#fff'}
+              />
+              <StackNavigator />
+            </GestureHandlerRootView>
           </NavigationContainer>
         </SafeAreaProvider>
       </PaperProvider>

@@ -13,16 +13,18 @@ import {
   ScrollView,
   InteractionManager,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {connect} from 'react-redux';
 import moment from 'moment';
+import {useRoute} from '@react-navigation/native';
 
 /**
  * modules
  */
 import Header from '../Header';
 import List from './components/list';
+import BottomSheet from '../../components/BottomSheetModal';
 
 /**
  * css
@@ -35,11 +37,17 @@ import PetPhotos from '../../src/css/petPhotos';
  * utils
  */
 import * as RootNavigation from '../../utils/RootNavigation';
-import {useRoute} from '@react-navigation/native';
 
+const NUMBEROFMONTHS = moment().diff(moment('01-01', 'DD-MM'), 'months') + 1;
 const PetProfile = props => {
   const route = useRoute();
-  const NUMBEROFMONTHS = moment().diff(moment('01-01', 'DD-MM'), 'months') + 1;
+
+  //BottomSheet eg.
+  // const sheetRef = useRef(null);
+  // const snapPoint = ['75%'];
+  // const handleSnapPress = useCallback(index => {
+  //   sheetRef.current?.snapToIndex(index);
+  // }, []);
 
   useEffect(() => {
     // Anything in here is fired on component mount.
@@ -81,6 +89,7 @@ const PetProfile = props => {
           </View>
         </ScrollView>
       </View>
+      {/* <BottomSheet sheetRef={sheetRef} snapPoint={snapPoint} /> */}
     </SafeAreaView>
   );
 };
