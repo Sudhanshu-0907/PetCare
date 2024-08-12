@@ -1,14 +1,11 @@
 const initialState = {
-  obj: {
-    notShowBackIcon: ['Dashboard', 'Login'],
-    showPlusIcon: {Dashboard: 'CreatePetProfile', Weights: 'AddWeight'},
-  },
+  obj: {},
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'HEADER_RESET':
+    case 'WEIGHTS_RESET':
       return initialState;
-    case 'HEADER_OBJ':
+    case 'WEIGHTS_OBJ':
       return {
         ...state,
         obj: action.value,

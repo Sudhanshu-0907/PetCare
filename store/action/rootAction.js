@@ -12,6 +12,7 @@ import * as signUp from '../../modules/signUp/action';
 import * as forgotPassword from '../../modules/forgotPassword/action';
 import * as createPetProfile from '../../modules/createPetProfile/action';
 import * as petPhotos from '../../modules/petPhotos/action';
+import * as addWeight from '../../modules/addWeight/action';
 
 export function* watch() {
   try {
@@ -37,8 +38,11 @@ export function* watch() {
     yield takeLatest('CREATE_PET_PROFILE_FORM', createPetProfile.setLoginForm);
 
     //petPhoto
-
     yield takeLatest('UPLOAD_PHOTO', petPhotos.photoUpload);
+
+    //addPet
+    yield takeLatest('ADD_WEIGHT_FORM', addWeight.addWeightForm);
+    yield takeLatest('ADD_WEIGHT_SUBMIT', addWeight.handleWeightSubmit);
   } catch (e) {
     console.log(e);
   }

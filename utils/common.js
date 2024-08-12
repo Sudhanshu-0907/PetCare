@@ -47,16 +47,14 @@ export const isCollectionEmpty = async collectionName => {
 
 export const addPetDetails = async (userId, petDetails) => {
   try {
-    await firestore()
+    const docRef = await firestore()
       .collection('PetsCollection')
       .add({
         userId,
         ...petDetails,
         createdAt: firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        toastr.showToast('Added successfully !', 2000);
       });
+    return docRef.id;
   } catch (error) {
     console.error('Error adding pet details: ', error);
   }

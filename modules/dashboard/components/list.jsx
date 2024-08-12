@@ -29,9 +29,9 @@ const List = ({item, petId}) => {
     Fish: require('../../../src/assets/defaultImg/Fish.png'),
     // Add more images as needed
   };
-  const onPressCamera = () => {
+  const onPress = screenName => {
     try {
-      RootNavigation.navigate('PetPhotos', {
+      RootNavigation.navigate(screenName, {
         petId,
       });
     } catch (error) {
@@ -122,12 +122,25 @@ const List = ({item, petId}) => {
         <View style={[Layout.col7, Common.p10, Layout.row, {flexWrap: 'wrap'}]}>
           <Chip
             icon={'weight'}
-            value={`${item.weights.length ? item.weight[0] : 0} Kg`}
+            value={`${
+              item.weights.length > 0
+                ? item.weights[item.weights.length - 1].weightKg
+                : 0
+            } Kg`}
+            onPress={() => {
+              onPress('Weights');
+            }}
           />
 
           <Chip icon={'vaccine'} value={`${item.vaccines.length}`} />
 
-          <Chip icon={'camera'} value={cameraCount} onPress={onPressCamera} />
+          <Chip
+            icon={'camera'}
+            value={cameraCount}
+            onPress={() => {
+              onPress('PetPhotos');
+            }}
+          />
 
           <Chip icon={'bellIcon'} value={` 0`} />
 

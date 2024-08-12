@@ -13,6 +13,8 @@ import forgotPassword from '../../modules/forgotPassword/reducer';
 import header from '../../modules/Header/reducer';
 import createPetProfile from '../../modules/createPetProfile/reducer';
 import petPhotos from '../../modules/petPhotos/reducer';
+import weights from '../../modules/weights/reducer';
+import addWeight from '../../modules/addWeight/reducer';
 
 const appReducer = combineReducers({
   login,
@@ -22,6 +24,8 @@ const appReducer = combineReducers({
   header,
   createPetProfile,
   petPhotos,
+  weights,
+  addWeight,
 });
 
 const mainReducer = (state, action) => {

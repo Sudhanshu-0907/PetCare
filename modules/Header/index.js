@@ -28,10 +28,11 @@ import * as RootNavigation from '../../utils/RootNavigation';
 
 const HeaderScreen = props => {
   const route = useRoute();
+
   return (
     <View style={[Common.bgWhite, Common.pb10, Layout.row]}>
       <View style={[Layout.col10, Layout.row]}>
-        {props.obj.showBackIcon.indexOf(route.name) > -1 && (
+        {props.obj.notShowBackIcon.indexOf(route.name) === -1 && (
           <View style={[Layout.col5, Common.pl10]}>
             <TouchableOpacity
               style={[Header.backButton]}
@@ -42,12 +43,14 @@ const HeaderScreen = props => {
             </TouchableOpacity>
           </View>
         )}
-        {props.obj.showPlusIcon.indexOf(route.name) > -1 && (
+        {props.obj.showPlusIcon.hasOwnProperty(route.name) && (
           <View style={[Layout.col5, Layout.rrow]}>
             <TouchableOpacity
               style={[Header.backButton, Header.plusIcon]}
               onPress={() => {
-                RootNavigation.navigate('CreatePetProfile');
+                RootNavigation.navigate(props.obj.showPlusIcon[route.name], {
+                  petId: route.params?.petId,
+                });
               }}>
               <Icon name="plus" size={20} color="#3F4DA8" />
             </TouchableOpacity>

@@ -1,14 +1,20 @@
+import moment from 'moment';
+
 const initialState = {
   obj: {
-    notShowBackIcon: ['Dashboard', 'Login'],
-    showPlusIcon: {Dashboard: 'CreatePetProfile', Weights: 'AddWeight'},
+    dateOfWeight: moment(),
+    showDatePicker: false,
+    weightKg: 0,
+    weightGrams: 0,
+    notes: '',
+    errors: {},
   },
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'HEADER_RESET':
+    case 'ADD_WEIGHT_RESET':
       return initialState;
-    case 'HEADER_OBJ':
+    case 'ADD_WEIGHT_OBJ':
       return {
         ...state,
         obj: action.value,
