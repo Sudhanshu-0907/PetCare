@@ -13,6 +13,7 @@ import * as forgotPassword from '../../modules/forgotPassword/action';
 import * as createPetProfile from '../../modules/createPetProfile/action';
 import * as petPhotos from '../../modules/petPhotos/action';
 import * as addWeight from '../../modules/addWeight/action';
+import * as weights from '../../modules/weights/action';
 
 export function* watch() {
   try {
@@ -43,6 +44,9 @@ export function* watch() {
     //addPet
     yield takeLatest('ADD_WEIGHT_FORM', addWeight.addWeightForm);
     yield takeLatest('ADD_WEIGHT_SUBMIT', addWeight.handleWeightSubmit);
+
+    //weights
+    yield takeLatest('WEIGHTS_LIST_FN', weights.fetchWeightsData);
   } catch (e) {
     console.log(e);
   }
