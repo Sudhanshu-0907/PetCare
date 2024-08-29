@@ -6,7 +6,7 @@ const initialState = {
     password: '',
     isPasswordValid: null,
     passwordCaption: 'Password must be greater than or equal to 8 digits',
-    loader: '',
+    loader: false,
     isEmailVerified: false,
   },
 };

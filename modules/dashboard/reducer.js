@@ -1,5 +1,7 @@
 const initialState = {
-  obj: {},
+  obj: {
+    list: [],
+  },
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {

@@ -11,6 +11,8 @@ import navigationDebouncer from 'react-navigation-redux-debouncer';
 import {watch} from './store/action/rootAction';
 import {Provider} from 'react-redux';
 import {navigationRef} from './utils/RootNavigation';
+import {PaperProvider} from 'react-native-paper';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -23,16 +25,20 @@ sagaMiddleware.run(watch);
 const App = () => {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <NavigationContainer ref={navigationRef}>
-          <StatusBar
-            hidden={false}
-            barStyle="dark-content"
-            backgroundColor={'#fff'}
-          />
-          <StackNavigator />
-        </NavigationContainer>
-      </SafeAreaProvider>
+      <PaperProvider>
+        <SafeAreaProvider>
+          <NavigationContainer ref={navigationRef}>
+            <GestureHandlerRootView style={{flex: 1}}>
+              <StatusBar
+                hidden={false}
+                barStyle="dark-content"
+                backgroundColor={'#fff'}
+              />
+              <StackNavigator />
+            </GestureHandlerRootView>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </PaperProvider>
     </Provider>
   );
 };

@@ -8,6 +8,7 @@ import {
   Button,
   SafeAreaView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
@@ -16,9 +17,9 @@ import {connect} from 'react-redux';
 /**
  * css
  */
-import login from '../../css/login';
-import Common from '../../css/common';
-import Layout from '../../css/layout';
+import login from '../../src/css/login';
+import Common from '../../src/css/common';
+import Layout from '../../src/css/layout';
 import Header from '../Header';
 
 const LoginScreen = props => {
@@ -31,6 +32,12 @@ const LoginScreen = props => {
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <Header />
       <View style={login.container}>
+        <Image
+          style={{alignSelf: 'center'}}
+          source={require('../../src/assets/Dog.gif')}
+          width={100}
+          height={100}
+        />
         <Text
           style={[
             login.label,

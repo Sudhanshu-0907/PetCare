@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
@@ -20,9 +21,9 @@ import Header from '../Header';
 /**
  * css
  */
-import signUp from '../../css/signUp';
-import Layout from '../../css/layout';
-import Common from '../../css/common';
+import signUp from '../../src/css/signUp';
+import Layout from '../../src/css/layout';
+import Common from '../../src/css/common';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const SignUp = props => {
@@ -50,6 +51,12 @@ const SignUp = props => {
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <Header />
       <View style={signUp.container}>
+        <Image
+          style={{alignSelf: 'center'}}
+          source={require('../../src/assets/CreateUser.gif')}
+          width={100}
+          height={100}
+        />
         <Text
           style={[
             signUp.label,
