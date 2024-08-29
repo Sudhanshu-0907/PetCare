@@ -56,6 +56,7 @@ const List = ({item, petId}) => {
               Common.spaceAround,
               Common.alignCenter,
               Common.mb10,
+              {borderBottomColor: '#9498C1', borderBottomWidth: 2},
             ]}>
             <Text
               style={[Common.fs16, Common.textColorList, {fontWeight: 700}]}>
@@ -63,42 +64,54 @@ const List = ({item, petId}) => {
             </Text>
           </View>
 
-          <View
-            style={[
-              Layout.row,
-              // Common.spaceAround,
-              Common.alignCenter,
-              Common.mb10,
-            ]}>
-            <Text style={[Common.fs16, Common.textColorList]}>
-              From:{' '}
-              {moment(item.vaccineApplicationDate).format('DD MMM YYYY h:mm A')}
-            </Text>
-          </View>
-
-          {item.vaccineExpirationDate !== '' && (
+          <View style={[Common.dFlex, Layout.col10, Layout.row]}>
             <View
-              style={[
-                Layout.row,
-                // Common.spaceAround,
-                Common.alignCenter,
-                Common.mb10,
-              ]}>
-              <Text style={[Common.fs16, Common.textColorList]}>
-                Until:{' '}
-                {moment(item.vaccineExpirationDate).format(
-                  'DD MMM YYYY h:mm A',
-                )}
-              </Text>
+              style={[Layout.col2, Common.alignCenter, Common.justifyCenter]}>
+              <Image
+                style={{
+                  width: 40,
+                  height: 40,
+                }}
+                resizeMode="contain"
+                source={require('../../../src/assets/syringeImg.png')}
+              />
             </View>
-          )}
-          {item.notes && (
-            <View>
-              <Text style={[Common.textColorgray, Common.pl20, Common.pr20]}>
-                Notes:- {item.notes}
-              </Text>
+
+            <View style={[Layout.col8, Common.spaceAround]}>
+              <View style={[Layout.row, Common.alignCenter]}>
+                <Text style={[Common.fs16, Common.textColorList]}>
+                  From:{' '}
+                  {moment(item.vaccineApplicationDate).format(
+                    'DD MMM YYYY h:mm A',
+                  )}
+                </Text>
+              </View>
+
+              {item.vaccineExpirationDate !== '' && (
+                <View
+                  style={[
+                    Layout.row,
+                    // Common.spaceAround,
+                    Common.alignCenter,
+                    Common.mb10,
+                  ]}>
+                  <Text style={[Common.fs16, Common.textColorList]}>
+                    Until:{' '}
+                    {moment(item.vaccineExpirationDate).format(
+                      'DD MMM YYYY h:mm A',
+                    )}
+                  </Text>
+                </View>
+              )}
+              {item.notes && (
+                <View>
+                  <Text style={[Common.textColorgray, Common.pr20]}>
+                    Notes:- {item.notes}
+                  </Text>
+                </View>
+              )}
             </View>
-          )}
+          </View>
         </View>
       </Surface>
     </SafeAreaView>
