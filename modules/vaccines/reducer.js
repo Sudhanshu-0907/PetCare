@@ -1,18 +1,13 @@
 const initialState = {
   obj: {
-    notShowBackIcon: ['Dashboard', 'Login'],
-    showPlusIcon: {
-      Dashboard: 'CreatePetProfile',
-      Weights: 'AddWeight',
-      Vaccines: 'AddVaccine',
-    },
+    list: [],
   },
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'HEADER_RESET':
+    case 'VACCINES_RESET':
       return initialState;
-    case 'HEADER_OBJ':
+    case 'VACCINES_OBJ':
       return {
         ...state,
         obj: action.value,

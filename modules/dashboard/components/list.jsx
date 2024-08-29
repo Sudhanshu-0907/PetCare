@@ -132,7 +132,13 @@ const List = ({item, petId}) => {
             }}
           />
 
-          <Chip icon={'vaccine'} value={`${item.vaccines.length}`} />
+          <Chip
+            icon={'vaccine'}
+            value={`${item.vaccines.length}`}
+            onPress={() => {
+              onPress('Vaccines');
+            }}
+          />
 
           <Chip
             icon={'camera'}
