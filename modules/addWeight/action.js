@@ -18,6 +18,7 @@ import firestore from '@react-native-firebase/firestore';
  */
 import * as selector from './selector';
 import {handleFirebaseAuthError, toastr} from '../../utils/common';
+import * as RootNavigate from '../../utils/RootNavigation';
 
 export function* addWeightForm(params) {
   try {
@@ -60,6 +61,7 @@ export function* handleWeightSubmit({petId}) {
           notes: obj.notes,
         }),
       });
+      RootNavigate.goBack();
     }
   } catch (e) {
     if (__DEV__) {
