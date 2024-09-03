@@ -44,8 +44,7 @@ export function* addPetsFn() {
       vaccines: [],
     };
 
-    const docId = yield addPetDetails(userId, petDetails);
-    yield addSubcollectionToDocument(docId); // add collection inside a collection
+    yield addPetDetails(userId, petDetails);
 
     if (obj.isEmptyPetCollection) {
       RootNavigation.resetLevelOfStack('Dashboard', 0); //reset to top level
@@ -58,7 +57,7 @@ export function* addPetsFn() {
 export function* isEmptyFn() {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
-    const isEmpty = yield isCollectionEmpty('PetsCollection');
+    const isEmpty = yield isCollectionEmpty('PetsCollections');
     obj.isEmptyPetCollection = isEmpty;
     yield put({
       type: 'CREATE_PET_PROFILE_OBJ',

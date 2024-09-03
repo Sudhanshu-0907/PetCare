@@ -23,7 +23,11 @@ export function* fetchVaccinesDataFn({petId}) {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
 
-    const docRef = firestore().collection('PetsCollection').doc(petId);
+    const docRef = yield firestore()
+      .collection('Users')
+      .doc(auth().currentUser.uid)
+      .collection('PetsCollections')
+      .doc(petId);
     const docSnapshot = yield docRef.get();
     let vaccines;
     if (docSnapshot.exists) {

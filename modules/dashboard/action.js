@@ -45,12 +45,13 @@ export function* fetchPetsData() {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
 
-    if (yield isCollectionEmpty('PetsCollection')) {
+    if (yield isCollectionEmpty('PetsCollections')) {
       RootNavigation.resetLevelOfStack('CreatePetProfile', 0); //rest to top level
     } else {
       const petsSnapshot = yield firestore()
-        .collection('PetsCollection')
-        .where('userId', '==', auth().currentUser.uid)
+        .collection('Users')
+        .doc(auth().currentUser.uid)
+        .collection('PetsCollections')
         .get();
       const pets = petsSnapshot.docs.filter(doc => doc);
       obj.list = pets;

@@ -2,6 +2,7 @@ import {Platform, ToastAndroid} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import firestore from '@react-native-firebase/firestore';
 import * as RootNavigation from './RootNavigation';
+import auth from '@react-native-firebase/auth';
 
 export const toastr = {
   showToast: (message, _type, duration = 500) => {
@@ -27,6 +28,8 @@ export function validateEmail(email) {
 export const isCollectionEmpty = async collectionName => {
   try {
     const collectionSnapshot = await firestore()
+      .collection('Users')
+      .doc(auth().currentUser.uid)
       .collection(collectionName)
       .limit(1) // Limit to 1 document to check if there is at least one document
       .get();
@@ -47,27 +50,20 @@ export const isCollectionEmpty = async collectionName => {
 
 export const addPetDetails = async (userId, petDetails) => {
   try {
-    const docRef = await firestore()
-      .collection('PetsCollection')
+    const petCollectionRef = await firestore()
+      .collection('Users')
+      .doc(userId)
+      .collection('PetsCollections')
       .add({
-        userId,
         ...petDetails,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
-    return docRef.id;
+
+    petCollectionRef.collection('Notifications').add({
+      title: 'Subcollection Document',
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
   } catch (error) {
     console.error('Error adding pet details: ', error);
   }
-};
-
-export const addSubcollectionToDocument = async docId => {
-  const subcollection = firestore()
-    .collection('PetsCollection')
-    .doc(docId)
-    .collection('Notifications');
-
-  await subcollection.add({
-    title: 'Subcollection Document',
-    createdAt: firestore.FieldValue.serverTimestamp(),
-  });
 };
