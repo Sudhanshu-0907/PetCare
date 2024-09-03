@@ -6,7 +6,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import StackNavigator from './components/navigator';
@@ -21,7 +21,7 @@ import {navigationRef} from './utils/RootNavigation';
 import {PaperProvider} from 'react-native-paper';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import messaging from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
+import notifee, {EventType} from '@notifee/react-native';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -32,7 +32,9 @@ const store = createStore(
 sagaMiddleware.run(watch);
 
 const App = () => {
-  async function onDisplayNotification() {
+  // Display local notification - notifee --working_fine
+  async function onDisplayNotification(message) {
+    console.log('foreground message data', message);
     // Request permissions (required for iOS)
     await notifee.requestPermission();
 
@@ -44,28 +46,75 @@ const App = () => {
 
     // Display a notification
     await notifee.displayNotification({
-      title: 'Notification Title',
-      body: 'Main body content of the notification',
+      title: message.notification.title,
+      body: message.notification.body,
       android: {
         channelId,
-        // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+        // smallIcon: 'name-of-a-small-icon',
+        // optional, defaults to 'ic_launcher'.
+
         // pressAction is needed if you want the notification to open the app when pressed
         pressAction: {
           id: 'default',
+          launchActivity: message?.data?.screen || '',
         },
       },
     });
   }
+
+  // Subscribe to events --working_fine
+  useEffect(() => {
+    return notifee.onForegroundEvent(({type, detail}) => {
+      switch (type) {
+        case EventType.DISMISSED:
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS:
+          console.log('User pressed notification', detail.notification);
+          break;
+      }
+    });
+  }, []);
+
+  // --working_fine
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      onDisplayNotification();
+      onDisplayNotification(remoteMessage);
     });
 
     return unsubscribe;
   }, []);
 
-  // Permisions for notification
+  useEffect(() => {
+    // Handle background  states when a notification is opened
+    const unsubscribe = messaging().onNotificationOpenedApp(remoteMessage => {
+      if (remoteMessage) {
+        // Navigate or handle the notification data here
+        console.log(
+          'Notification caused app to open from background state:',
+          remoteMessage.notification,
+        );
+      }
+    });
+
+    // Handle quit state when a notification is opened
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          // Navigate or handle the notification data here
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+        }
+      });
+
+    return unsubscribe;
+  }, []);
+
+  // Permisions for notification --working_fine
   useEffect(() => {
     const requestPermissions = async () => {
       try {
@@ -97,6 +146,19 @@ const App = () => {
     };
 
     requestPermissions();
+  }, []);
+
+  // Get FCM token and store it in database --working_fine
+  useEffect(() => {
+    const getFCMToken = async () => {
+      try {
+        // await messaging().registerDeviceForRemoteMessages();
+        const token = await messaging().getToken();
+      } catch (error) {
+        console.error('Error getting token:', error);
+      }
+    };
+    getFCMToken();
   }, []);
 
   return (

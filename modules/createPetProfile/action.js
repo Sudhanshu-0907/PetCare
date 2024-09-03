@@ -17,6 +17,7 @@ import {
   handleFirebaseAuthError,
   isCollectionEmpty,
   toastr,
+  addSubcollectionToDocument,
 } from '../../utils/common';
 
 /**
@@ -43,7 +44,8 @@ export function* addPetsFn() {
       vaccines: [],
     };
 
-    yield addPetDetails(userId, petDetails);
+    const docId = yield addPetDetails(userId, petDetails);
+    yield addSubcollectionToDocument(docId); // add collection inside a collection
 
     if (obj.isEmptyPetCollection) {
       RootNavigation.resetLevelOfStack('Dashboard', 0); //reset to top level

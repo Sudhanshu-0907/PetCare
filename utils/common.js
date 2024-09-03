@@ -59,3 +59,15 @@ export const addPetDetails = async (userId, petDetails) => {
     console.error('Error adding pet details: ', error);
   }
 };
+
+export const addSubcollectionToDocument = async docId => {
+  const subcollection = firestore()
+    .collection('PetsCollection')
+    .doc(docId)
+    .collection('Notifications');
+
+  await subcollection.add({
+    title: 'Subcollection Document',
+    createdAt: firestore.FieldValue.serverTimestamp(),
+  });
+};
