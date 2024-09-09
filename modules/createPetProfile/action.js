@@ -44,7 +44,7 @@ export function* addPetsFn() {
       vaccines: [],
     };
 
-    yield addPetDetails(userId, petDetails);
+    yield addPetDetails(userId, petDetails, obj.dob);
 
     if (obj.isEmptyPetCollection) {
       RootNavigation.resetLevelOfStack('Dashboard', 0); //reset to top level

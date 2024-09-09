@@ -148,19 +148,6 @@ const App = () => {
     requestPermissions();
   }, []);
 
-  // Get FCM token and store it in database --working_fine
-  useEffect(() => {
-    const getFCMToken = async () => {
-      try {
-        // await messaging().registerDeviceForRemoteMessages();
-        const token = await messaging().getToken();
-      } catch (error) {
-        console.error('Error getting token:', error);
-      }
-    };
-    getFCMToken();
-  }, []);
-
   return (
     <Provider store={store}>
       <PaperProvider>

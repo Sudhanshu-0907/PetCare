@@ -1,8 +1,10 @@
 import {Platform, ToastAndroid} from 'react-native';
 import Toast from 'react-native-simple-toast';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {startAt} from '@react-native-firebase/firestore';
 import * as RootNavigation from './RootNavigation';
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+import moment from 'moment';
 
 export const toastr = {
   showToast: (message, _type, duration = 500) => {
@@ -47,8 +49,19 @@ export const isCollectionEmpty = async collectionName => {
     return false;
   }
 };
+const getStartOfDay = dateParam => {
+  return moment(dateParam)
+    .add(1, 'months')
+    .startOf('month') // Get the start of the day (midnight)
+    .set('hour', 10) // Set the hour to 10 AM
+    .set('minute', 0) // Set minutes to 0
+    .set('second', 0) // Set seconds to 0
+    .set('millisecond', 0) // Set milliseconds to 0
+    .toDate()
+    .getTime();
+};
 
-export const addPetDetails = async (userId, petDetails) => {
+export const addPetDetails = async (userId, petDetails, dob) => {
   try {
     const petCollectionRef = await firestore()
       .collection('Users')
@@ -60,7 +73,45 @@ export const addPetDetails = async (userId, petDetails) => {
       });
 
     petCollectionRef.collection('Notifications').add({
-      title: 'Subcollection Document',
+      fcmToken: await messaging().getToken(),
+      title: 'BirthDay Reminder',
+      body: 'BirthDay Comming soon!.',
+      // imageUrl: 'https://example.com/image.png',
+      scheduledTime: moment(dob)
+        .add(1, 'years')
+        .set('hour', 10) // Set the hour to 10 AM
+        .set('minute', 0) // Set minutes to 0
+        .set('second', 0) // Set seconds to 0
+        .set('millisecond', 0)
+        .toDate()
+        .getTime(), // The next scheduled time
+      sent: false,
+      recurring: true, // Indicates whether this notification repeats
+      repeatInterval: 'yearly', // Can be 'daily', 'weekly', 'monthly', etc.
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
+
+    petCollectionRef.collection('Notifications').add({
+      fcmToken: await messaging().getToken(),
+      title: 'Weight',
+      body: 'Weight Reminder!',
+      // imageUrl: 'https://example.com/image.png',
+      scheduledTime: getStartOfDay(), // The next scheduled time
+      sent: false,
+      recurring: true, // Indicates whether this notification repeats
+      repeatInterval: 'monthly', // Can be 'daily', 'weekly', 'monthly', etc.
+      createdAt: firestore.FieldValue.serverTimestamp(),
+    });
+
+    petCollectionRef.collection('Notifications').add({
+      fcmToken: await messaging().getToken(),
+      title: 'Add Pictures ',
+      body: 'Add photo of a month',
+      // imageUrl: 'https://example.com/image.png',
+      scheduledTime: getStartOfDay(), // The next scheduled time
+      sent: false,
+      recurring: true, // Indicates whether this notification repeats
+      repeatInterval: 'monthly', // Can be 'daily', 'weekly', 'monthly', etc.
       createdAt: firestore.FieldValue.serverTimestamp(),
     });
   } catch (error) {
