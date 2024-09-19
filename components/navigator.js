@@ -19,6 +19,7 @@ import Weights from '../modules/weights';
 import AddWeight from '../modules/addWeight';
 import Vaccines from '../modules/vaccines';
 import AddVaccine from '../modules/addVaccine';
+import Notifications from '../modules/notifications';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +50,7 @@ const Navigator = props => {
           <Stack.Screen name="CreatePetProfile" component={CreatePetProfile} />
           <Stack.Screen name="PetPhotos" component={PetPhotos} />
           <Stack.Screen name="Weights" component={Weights} />
+          <Stack.Screen name="Notifications" component={Notifications} />
           <Stack.Screen name="AddWeight" component={AddWeight} />
           <Stack.Screen name="Vaccines" component={Vaccines} />
           <Stack.Screen name="AddVaccine" component={AddVaccine} />

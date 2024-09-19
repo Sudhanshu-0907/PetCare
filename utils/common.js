@@ -74,7 +74,7 @@ export const addPetDetails = async (userId, petDetails, dob) => {
 
     petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
-      title: 'BirthDay Reminder',
+      title: 'BirthDay',
       body: 'BirthDay Comming soon!.',
       // imageUrl: 'https://example.com/image.png',
       scheduledTime: moment(dob)
@@ -88,6 +88,7 @@ export const addPetDetails = async (userId, petDetails, dob) => {
       sent: false,
       recurring: true, // Indicates whether this notification repeats
       repeatInterval: 'yearly', // Can be 'daily', 'weekly', 'monthly', etc.
+      enable: true,
       createdAt: firestore.FieldValue.serverTimestamp(),
     });
 
@@ -100,18 +101,20 @@ export const addPetDetails = async (userId, petDetails, dob) => {
       sent: false,
       recurring: true, // Indicates whether this notification repeats
       repeatInterval: 'monthly', // Can be 'daily', 'weekly', 'monthly', etc.
+      enable: true,
       createdAt: firestore.FieldValue.serverTimestamp(),
     });
 
     petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
-      title: 'Add Pictures ',
+      title: 'Pictures ',
       body: 'Add photo of a month',
       // imageUrl: 'https://example.com/image.png',
       scheduledTime: getStartOfDay(), // The next scheduled time
       sent: false,
       recurring: true, // Indicates whether this notification repeats
       repeatInterval: 'monthly', // Can be 'daily', 'weekly', 'monthly', etc.
+      enable: true,
       createdAt: firestore.FieldValue.serverTimestamp(),
     });
   } catch (error) {
