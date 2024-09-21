@@ -16,6 +16,7 @@ import * as addWeight from '../../modules/addWeight/action';
 import * as weights from '../../modules/weights/action';
 import * as vaccines from '../../modules/vaccines/action';
 import * as addVaccine from '../../modules/addVaccine/action';
+import * as notifications from '../../modules/notifications/action';
 
 export function* watch() {
   try {
@@ -49,6 +50,13 @@ export function* watch() {
 
     //weights
     yield takeLatest('WEIGHTS_LIST_FN', weights.fetchWeightsData);
+
+    // notifications
+    yield takeLatest(
+      'NOTIFICATIONS_LIST_FN',
+      notifications.fetchNotificationsData,
+    );
+    yield takeLatest('NOTIFICATIONS_UPDATE', notifications.updateNotification);
 
     //vaccines
     yield takeLatest('VACCINES_LIST_FN', vaccines.fetchVaccinesDataFn);

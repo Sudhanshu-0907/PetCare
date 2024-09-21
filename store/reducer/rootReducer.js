@@ -17,6 +17,7 @@ import weights from '../../modules/weights/reducer';
 import addWeight from '../../modules/addWeight/reducer';
 import vaccines from '../../modules/vaccines/reducer';
 import addVaccine from '../../modules/addVaccine/reducer';
+import notifications from '../../modules/notifications/reducer';
 
 const appReducer = combineReducers({
   login,
@@ -30,6 +31,7 @@ const appReducer = combineReducers({
   addWeight,
   vaccines,
   addVaccine,
+  notifications,
 });
 
 const mainReducer = (state, action) => {

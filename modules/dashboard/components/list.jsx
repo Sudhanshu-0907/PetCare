@@ -17,9 +17,12 @@ import * as RootNavigation from '../../../utils/RootNavigation';
 import {useFocusEffect} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 
 const List = ({item, petId}) => {
   const [cameraCount, setCameraCount] = React.useState(0);
+  const [notificationsCount, setNotificationsCount] = React.useState(0);
+
   const images = {
     Cat: require('../../../src/assets/defaultImg/Cat.png'),
     Dog: require('../../../src/assets/defaultImg/Dog.png'),
@@ -44,6 +47,16 @@ const List = ({item, petId}) => {
     const storageRef = storage().ref(`/users/${user.uid}/${petId}/`);
     const result = await storageRef.listAll();
     setCameraCount(result.items.length);
+
+    const notificationsSnapshot = await firestore()
+      .collection('Users')
+      .doc(auth().currentUser.uid)
+      .collection('PetsCollections')
+      .doc(petId)
+      .collection('Notifications')
+      .get();
+
+    setNotificationsCount(notificationsSnapshot.size);
   };
 
   useFocusEffect(
@@ -119,7 +132,7 @@ const List = ({item, petId}) => {
             </View>
           </View>
         </View>
-        <View style={[Layout.col7, Common.p10, Layout.row, {flexWrap: 'wrap'}]}>
+        <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
           <Chip
             icon={'weight'}
             value={`${
@@ -140,6 +153,9 @@ const List = ({item, petId}) => {
             }}
           />
 
+          {/* <Chip icon={'todo'} value={` 0`} /> */}
+        </View>
+        <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
           <Chip
             icon={'camera'}
             value={cameraCount}
@@ -148,9 +164,13 @@ const List = ({item, petId}) => {
             }}
           />
 
-          <Chip icon={'bellIcon'} value={` 0`} />
-
-          <Chip icon={'todo'} value={` 0`} />
+          <Chip
+            icon={'bellIcon'}
+            value={notificationsCount}
+            onPress={() => {
+              onPress('Notifications');
+            }}
+          />
         </View>
       </Surface>
     </SafeAreaView>

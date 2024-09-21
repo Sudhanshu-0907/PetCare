@@ -51,7 +51,11 @@ export function* handleVaccineSubmit({petId}) {
     });
 
     if (Object.keys(obj.errors).length === 0) {
-      const docRef = firestore().collection('PetsCollection').doc(petId);
+      const docRef = yield firestore()
+        .collection('Users')
+        .doc(auth().currentUser.uid)
+        .collection('PetsCollections')
+        .doc(petId);
 
       yield docRef.update({
         vaccines: firestore.FieldValue.arrayUnion({

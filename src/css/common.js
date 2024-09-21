@@ -352,6 +352,9 @@ const Common = StyleSheet.create({
   spaceAround: {
     justifyContent: 'space-around',
   },
+  spaceEvenly: {
+    justifyContent: 'space-evenly',
+  },
   bgWhite: {
     backgroundColor: '#fff',
   },

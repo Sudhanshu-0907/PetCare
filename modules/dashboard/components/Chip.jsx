@@ -13,7 +13,7 @@ const Chip = ({icon, value, onPress}) => {
         Common.alignCenter,
         Common.spaceBetween,
         {
-          width: 80,
+          width: 100,
           borderWidth: 3,
           borderColor: '#32409E',
           backgroundColor: '#303F9B',
@@ -30,7 +30,7 @@ const Chip = ({icon, value, onPress}) => {
         }}>
         {DashboardIcons(icon)}
       </View>
-      <Text style={[Common.textColorWhite]}>{value}</Text>
+      <Text style={[Common.textColorWhite, Common.pr10]}>{value}</Text>
     </TouchableOpacity>
   );
 };

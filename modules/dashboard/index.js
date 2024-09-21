@@ -2,10 +2,13 @@
  * plugins
  */
 import {View, Text, SafeAreaView, InteractionManager} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
 
 import Header from '../Header';
 import Layout from '../../src/css/layout';
@@ -34,6 +37,53 @@ const Dashboard = props => {
       };
     }, []),
   );
+
+  useEffect(() => {
+    const getFCMToken = async () => {
+      try {
+        // Get the reference to the user's pet collection
+        const petCollectionRef = firestore()
+          .collection('Users')
+          .doc(auth().currentUser.uid)
+          .collection('PetsCollections');
+
+        // Fetch the pets collection snapshot
+        const petsSnapshot = await petCollectionRef.get();
+
+        // Iterate over each pet document
+        for (const petDoc of petsSnapshot.docs) {
+          // Get notifications from each pet document
+          const notificationsSnapshot = await petDoc.ref
+            .collection('Notifications')
+            .get();
+
+          // Process each notification
+          await Promise.all(
+            notificationsSnapshot.docs.map(async doc => {
+              try {
+                const fcmToken = await messaging().getToken(); // Get FCM token
+                await doc.ref.update({
+                  fcmToken: fcmToken, // Update notification with FCM token
+                });
+              } catch (error) {
+                console.error(
+                  'Error updating notification with FCM token:',
+                  error,
+                );
+              }
+            }),
+          );
+        }
+      } catch (error) {
+        console.error(
+          'Error getting FCM token or processing notifications:',
+          error,
+        );
+      }
+    };
+
+    getFCMToken();
+  }, []);
 
   const renderItem = React.useCallback(({item, index}) => {
     return (
