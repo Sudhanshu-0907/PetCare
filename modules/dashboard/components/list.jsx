@@ -132,7 +132,7 @@ const List = ({item, petId}) => {
             </View>
           </View>
         </View>
-        <View style={[Layout.col7, Common.p10, Layout.row, {flexWrap: 'wrap'}]}>
+        <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
           <Chip
             icon={'weight'}
             value={`${
@@ -153,6 +153,9 @@ const List = ({item, petId}) => {
             }}
           />
 
+          {/* <Chip icon={'todo'} value={` 0`} /> */}
+        </View>
+        <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
           <Chip
             icon={'camera'}
             value={cameraCount}
@@ -168,8 +171,6 @@ const List = ({item, petId}) => {
               onPress('Notifications');
             }}
           />
-
-          <Chip icon={'todo'} value={` 0`} />
         </View>
       </Surface>
     </SafeAreaView>

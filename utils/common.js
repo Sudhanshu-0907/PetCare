@@ -71,6 +71,9 @@ export const addPetDetails = async (userId, petDetails, dob) => {
         ...petDetails,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
+    await firestore().collection('Users').doc(userId).update({
+      newField: 'newValue', // Adds or updates the specific field
+    });
 
     petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
