@@ -14,6 +14,8 @@ import * as createPetProfile from '../../modules/createPetProfile/action';
 import * as petPhotos from '../../modules/petPhotos/action';
 import * as addWeight from '../../modules/addWeight/action';
 import * as weights from '../../modules/weights/action';
+import * as vaccines from '../../modules/vaccines/action';
+import * as addVaccine from '../../modules/addVaccine/action';
 
 export function* watch() {
   try {
@@ -47,6 +49,13 @@ export function* watch() {
 
     //weights
     yield takeLatest('WEIGHTS_LIST_FN', weights.fetchWeightsData);
+
+    //vaccines
+    yield takeLatest('VACCINES_LIST_FN', vaccines.fetchVaccinesDataFn);
+
+    //addVaccine
+    yield takeLatest('ADD_VACCINE_FORM', addVaccine.addVaccineForm);
+    yield takeLatest('ADD_VACCINE_SUBMIT', addVaccine.handleVaccineSubmit);
   } catch (e) {
     console.log(e);
   }

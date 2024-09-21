@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
   InteractionManager,
-  addWeightheet,
   KeyboardAvoidingView,
   TextInput,
 } from 'react-native';

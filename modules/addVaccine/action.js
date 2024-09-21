@@ -8,6 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 /**
  * Utils
  */
+import * as RootNavigation from '../../utils/RootNavigation';
 
 /**
  * Common
@@ -18,15 +19,14 @@ import firestore from '@react-native-firebase/firestore';
  */
 import * as selector from './selector';
 import {handleFirebaseAuthError, toastr} from '../../utils/common';
-import * as RootNavigate from '../../utils/RootNavigation';
 
-export function* addWeightForm(params) {
+export function* addVaccineForm(params) {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
     const updatedObj = {...obj, [params[0]]: params[1]};
 
     yield put({
-      type: 'ADD_WEIGHT_OBJ',
+      type: 'ADD_VACCINE_OBJ',
       value: updatedObj,
     });
   } catch (e) {
@@ -36,17 +36,17 @@ export function* addWeightForm(params) {
   }
 }
 
-export function* handleWeightSubmit({petId}) {
+export function* handleVaccineSubmit({petId}) {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
 
     const errors = {};
-    if (!obj.weightKg) errors.weightKg = 'Required*';
-    if (!obj.weightGrams) errors.weightGrams = 'Required*';
+    if (!obj.vaccineName) errors.vaccineName = 'Required*';
+    // if (!obj.weightGrams) errors.weightGrams = 'Required*';
     obj.errors = errors;
 
     yield put({
-      type: 'ADD_WEIGHT_OBJ',
+      type: 'ADD_VACCINE_OBJ',
       value: obj,
     });
 
@@ -54,14 +54,14 @@ export function* handleWeightSubmit({petId}) {
       const docRef = firestore().collection('PetsCollection').doc(petId);
 
       yield docRef.update({
-        weights: firestore.FieldValue.arrayUnion({
-          dateOfWeight: obj.dateOfWeight,
-          weightKg: obj.weightKg,
-          weightGrams: obj.weightGrams,
+        vaccines: firestore.FieldValue.arrayUnion({
+          vaccineName: obj.vaccineName,
+          vaccineApplicationDate: obj.vaccineApplicationDate,
+          vaccineExpirationDate: obj.vaccineExpirationDate,
           notes: obj.notes,
         }),
       });
-      RootNavigate.goBack();
+      RootNavigation.goBack();
     }
   } catch (e) {
     if (__DEV__) {
