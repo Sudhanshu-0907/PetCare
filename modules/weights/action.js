@@ -29,8 +29,6 @@ export function* fetchWeightsData({petId}) {
     if (docSnapshot.exists) {
       const data = docSnapshot.data();
       weights = data.weights || []; // Access the weights array, default to empty array if not found
-
-      console.log('All weights:', weights);
     } else {
       console.log('Document does not exist!');
     }

@@ -8,7 +8,7 @@ import BottomSheet, {
 
 const BottomSheetModal = ({sheetRef, snapPoint, children}) => {
   // variables
-  const snapPoints = useMemo(() => snapPoint, []);
+  const snapPoints = useMemo(() => snapPoint, ['50%']);
 
   // callbacks
   const handleSheetChange = useCallback(index => {
@@ -22,28 +22,28 @@ const BottomSheetModal = ({sheetRef, snapPoint, children}) => {
         disappearsOnIndex={-1}
         appearsOnIndex={0}
         opacity={0.7}
-        pressBehavior={'close'}
       />
     ),
     [],
   );
 
-  const animationConfigs = useBottomSheetSpringConfigs({
-    damping: 80,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.1,
-    restSpeedThreshold: 0.1,
-    stiffness: 500,
-  });
+  const animationConfigs = useCallback(
+    useBottomSheetSpringConfigs({
+      damping: 80,
+      overshootClamping: true,
+      restDisplacementThreshold: 0.1,
+      restSpeedThreshold: 0.1,
+      stiffness: 500,
+    }),
+    [],
+  );
 
   return (
     <View style={[styles.container]}>
       <BottomSheet
         ref={sheetRef}
-        index={-1}
-        enablePanDownToClose={true}
+        index={0}
         snapPoints={snapPoints}
-        animateOnMount={true}
         animationConfigs={animationConfigs}
         backdropComponent={renderBackdrop}
         onChange={handleSheetChange}>
