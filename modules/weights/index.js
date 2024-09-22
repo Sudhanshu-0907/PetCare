@@ -62,8 +62,9 @@ const Weights = props => {
       <List
         item={item}
         key={item.dateOfWeight}
-        petId={route.params?.id}
+        petId={route.params?.petId}
         index={index}
+        updateWeightDataFn={props.updateWeightDataFn}
       />
     );
   }, []);
@@ -103,6 +104,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     resetFn: () => dispatch({type: 'WEIGHTS_RESET'}),
+    updateWeightDataFn: (index, petId) =>
+      dispatch({type: 'UPDATE_WEIGHT_DATA', index, petId}),
     fetchWeightsDataFn: petId => dispatch({type: 'WEIGHTS_LIST_FN', petId}),
   };
 };

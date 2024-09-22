@@ -52,6 +52,7 @@ export function* watch() {
 
     //weights
     yield takeLatest('WEIGHTS_LIST_FN', weights.fetchWeightsData);
+    yield takeLatest('UPDATE_WEIGHT_DATA', weights.updatePetsData);
 
     // notifications
     yield takeLatest(
