@@ -33,6 +33,7 @@ import Common from '../../src/css/common';
 import * as RootNavigation from '../../utils/RootNavigation';
 import {useFocusEffect, useRoute} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
+import NoDataListView from '../../components/NoDataListView';
 
 const Weights = props => {
   const route = useRoute();
@@ -71,18 +72,22 @@ const Weights = props => {
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <View style={[Layout.viewHeight, {paddingHorizontal: 10}]}>
         <Header />
-        <FlashList
-          data={props.obj.list}
-          estimatedItemSize={300}
-          windowSize={7}
-          initialListSize={36}
-          initialNumToRender={36}
-          maxToRenderPerBatch={72}
-          removeClippedSubviews={true}
-          renderItem={renderItem}
-          scrollEventThrottle={16}
-          keyExtractor={item => item.dateOfWeight}
-        />
+        {props.obj.list.length !== 0 ? (
+          <FlashList
+            data={props.obj.list}
+            estimatedItemSize={300}
+            windowSize={7}
+            initialListSize={36}
+            initialNumToRender={36}
+            maxToRenderPerBatch={72}
+            removeClippedSubviews={true}
+            renderItem={renderItem}
+            scrollEventThrottle={16}
+            keyExtractor={item => item.dateOfWeight}
+          />
+        ) : (
+          <NoDataListView />
+        )}
       </View>
     </SafeAreaView>
   );
