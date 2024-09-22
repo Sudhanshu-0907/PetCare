@@ -3,6 +3,7 @@
  */
 import {put, select, call, race, delay} from 'redux-saga/effects';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 /**
  * Utils
@@ -16,8 +17,9 @@ import {
   addPetDetails,
   handleFirebaseAuthError,
   isCollectionEmpty,
-  toastr,
-  addSubcollectionToDocument,
+  updatePetDetails,
+  deleteCollection,
+  deletePetStorage,
 } from '../../utils/common';
 
 /**
@@ -26,9 +28,12 @@ import {
 import * as selector from './selector';
 import moment from 'moment';
 
-export function* addPetsFn() {
+export function* addPetsFn({isUpdate, petid}) {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
+    dashboardObj = JSON.parse(
+      JSON.stringify(yield select(selector.dashboardObj)),
+    );
 
     const userId = auth().currentUser.uid;
     const petDetails = {
@@ -44,7 +49,8 @@ export function* addPetsFn() {
       vaccines: [],
     };
 
-    yield addPetDetails(userId, petDetails, obj.dob);
+    if (isUpdate) yield updatePetDetails(userId, petDetails, obj.dob, petid);
+    else yield addPetDetails(userId, petDetails, obj.dob);
 
     if (obj.isEmptyPetCollection) {
       RootNavigation.resetLevelOfStack('Dashboard', 0); //reset to top level
@@ -54,6 +60,34 @@ export function* addPetsFn() {
     console.log(error.message);
   }
 }
+
+export function* deletePetFn({petid}) {
+  try {
+    let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
+    dashboardObj = JSON.parse(
+      JSON.stringify(yield select(selector.dashboardObj)),
+    );
+    const userId = auth().currentUser.uid;
+    const petCollectionRef = firestore()
+      .collection('Users')
+      .doc(userId)
+      .collection('PetsCollections')
+      .doc(petid);
+    // Delete the document
+
+    yield deleteCollection(petCollectionRef, 'Notifications');
+    yield petCollectionRef.delete();
+    yield deletePetStorage(userId, petid);
+
+    if (obj.isEmptyPetCollection) {
+      RootNavigation.resetLevelOfStack('Dashboard', 0); //reset to top level
+    } else RootNavigation.navigate('Dashboard');
+  } catch (error) {
+    handleFirebaseAuthError(error);
+    console.log(error.message);
+  }
+}
+
 export function* isEmptyFn() {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));

@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   Image,
   InteractionManager,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import Dashboard from '../../../src/css/dashboard';
@@ -18,8 +19,9 @@ import {useFocusEffect} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
-const List = ({item, petId}) => {
+const List = ({item, petId, index, updatePetsDataFn}) => {
   const [cameraCount, setCameraCount] = React.useState(0);
   const [notificationsCount, setNotificationsCount] = React.useState(0);
 
@@ -74,105 +76,119 @@ const List = ({item, petId}) => {
 
   return (
     <SafeAreaView>
-      <Surface
-        mode="elevated"
-        elevation={2}
-        style={[Dashboard.petProfile, Layout.col10, Layout.viewHeight]}>
-        <View
-          style={[
-            Layout.col3,
-            Common.p10,
-            {
-              backgroundColor: '#32409E',
-              borderTopRightRadius: 18,
-              borderTopLeftRadius: 18,
-            },
-          ]}>
-          <View style={[Layout.row]}>
-            <View
-              style={{
-                borderRadius: 200,
-                backgroundColor: '#94DAFA',
-                overflow: 'hidden',
-              }}>
-              <Image
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => {
+          updatePetsDataFn(index);
+        }}>
+        <Surface
+          mode="elevated"
+          elevation={2}
+          style={[Dashboard.petProfile, Layout.col10, Layout.viewHeight]}>
+          <View
+            style={[
+              Layout.col3,
+              Common.p10,
+              {
+                backgroundColor: '#32409E',
+                borderTopRightRadius: 18,
+                borderTopLeftRadius: 18,
+              },
+            ]}>
+            <View style={[Layout.row]}>
+              <View
                 style={{
-                  alignSelf: 'center',
-                  width: 70,
-                  height: 70,
-                }}
-                source={images[item.species]}
-              />
-            </View>
-            <View style={Common.ml15}>
-              <View style={[Layout.row, Common.alignCenter]}>
+                  borderRadius: 200,
+                  backgroundColor: '#94DAFA',
+                  overflow: 'hidden',
+                }}>
+                <Image
+                  style={{
+                    alignSelf: 'center',
+                    width: 70,
+                    height: 70,
+                  }}
+                  source={images[item.species]}
+                />
+              </View>
+              <View style={Common.ml15}>
+                <View style={[Layout.row, Common.alignCenter]}>
+                  <Text
+                    style={[
+                      Common.textColorWhite,
+                      Common.fs16,
+                      {fontWeight: 600},
+                    ]}>
+                    {item.name}
+                  </Text>
+                  {DashboardIcons(item.gender)}
+                </View>
+
                 <Text
                   style={[
                     Common.textColorWhite,
-                    Common.fs16,
-                    {fontWeight: 600},
+                    Common.fs15,
+                    {fontWeight: 700},
                   ]}>
-                  {item.name}
+                  {`${item.dob} (${moment().diff(
+                    moment(item.dob, 'DD MMM YYYY'),
+                    'years',
+                  )} years old)`}
                 </Text>
-                {DashboardIcons(item.gender)}
+
+                <Text
+                  style={[
+                    Common.textColorWhite,
+                    Common.fs15,
+                    {fontWeight: 500},
+                  ]}>
+                  {`${item.breed}`}
+                </Text>
               </View>
-
-              <Text
-                style={[Common.textColorWhite, Common.fs15, {fontWeight: 700}]}>
-                {`${item.dob} (${moment().diff(
-                  moment(item.dob, 'DD MMM YYYY'),
-                  'years',
-                )} years old)`}
-              </Text>
-
-              <Text
-                style={[Common.textColorWhite, Common.fs15, {fontWeight: 500}]}>
-                {`${item.breed}`}
-              </Text>
             </View>
           </View>
-        </View>
-        <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
-          <Chip
-            icon={'weight'}
-            value={`${
-              item.weights.length > 0
-                ? item.weights[item.weights.length - 1].weightKg
-                : 0
-            } Kg`}
-            onPress={() => {
-              onPress('Weights');
-            }}
-          />
+          <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
+            <Chip
+              icon={'weight'}
+              value={`${
+                item.weights.length > 0
+                  ? item.weights[item.weights.length - 1].weightKg
+                  : 0
+              } Kg`}
+              onPress={() => {
+                onPress('Weights');
+              }}
+            />
 
-          <Chip
-            icon={'vaccine'}
-            value={`${item.vaccines.length}`}
-            onPress={() => {
-              onPress('Vaccines');
-            }}
-          />
+            <Chip
+              icon={'vaccine'}
+              value={`${item.vaccines.length}`}
+              onPress={() => {
+                onPress('Vaccines');
+              }}
+            />
 
-          {/* <Chip icon={'todo'} value={` 0`} /> */}
-        </View>
-        <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
-          <Chip
-            icon={'camera'}
-            value={cameraCount}
-            onPress={() => {
-              onPress('PetPhotos');
-            }}
-          />
+            {/* <Chip icon={'todo'} value={` 0`} /> */}
+          </View>
+          <View style={[Common.p5, Layout.row, Common.spaceEvenly]}>
+            <Chip
+              icon={'camera'}
+              value={cameraCount}
+              onPress={() => {
+                onPress('PetPhotos');
+              }}
+            />
 
-          <Chip
-            icon={'bellIcon'}
-            value={notificationsCount}
-            onPress={() => {
-              onPress('Notifications');
-            }}
-          />
-        </View>
-      </Surface>
+            <Chip
+              icon={'bellIcon'}
+              value={notificationsCount}
+              onPress={() => {
+                onPress('Notifications');
+              }}
+            />
+          </View>
+        </Surface>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

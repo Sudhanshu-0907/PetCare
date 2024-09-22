@@ -35,11 +35,13 @@ export function* watch() {
     //dashboard
     yield takeLatest('SIGNOUT', dashboard.signoutFn);
     yield takeLatest('FETCH_DATA', dashboard.fetchPetsData);
+    yield takeLatest('UPDATE_DATA', dashboard.updatePetsData);
 
     //createPetProfile
     yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);
     yield takeLatest('IS_PETS_EMPTY', createPetProfile.isEmptyFn);
     yield takeLatest('CREATE_PET_PROFILE_FORM', createPetProfile.setLoginForm);
+    yield takeLatest('DELETE_PET', createPetProfile.deletePetFn);
 
     //petPhoto
     yield takeLatest('UPLOAD_PHOTO', petPhotos.photoUpload);

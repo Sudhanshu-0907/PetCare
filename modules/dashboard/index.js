@@ -87,7 +87,13 @@ const Dashboard = props => {
 
   const renderItem = React.useCallback(({item, index}) => {
     return (
-      <List item={item._data} key={item.id} petId={item.id} index={index} />
+      <List
+        item={item}
+        key={item.id}
+        petId={item.id}
+        index={index}
+        updatePetsDataFn={props.updatePetsDataFn}
+      />
     );
   }, []);
 
@@ -132,6 +138,7 @@ const mapDispatchToProps = dispatch => {
     resetFn: () => dispatch({type: 'DASHBOARD_RESET'}),
     signoutFn: () => dispatch({type: 'SIGNOUT'}),
     fetchPetsDataFn: () => dispatch({type: 'FETCH_DATA'}),
+    updatePetsDataFn: index => dispatch({type: 'UPDATE_DATA', index}),
   };
 };
 
