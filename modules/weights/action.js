@@ -73,36 +73,6 @@ export function* updatePetsData({index, petId}) {
       petId,
       weightIndex: index,
     });
-
-    // const selectedIndex = createPetProfileObj.petSpecies.findIndex(
-    //   pet => pet.name === obj.list[index].species,
-    // );
-
-    // createPetProfileObj = {
-    //   ...createPetProfileObj,
-    //   ...obj.list[index],
-    //   dob: moment(obj.list[index].dob, 'DD MMM YYYY'),
-    //   selected: selectedIndex,
-    // };
-    // yield put({
-    //   type: 'CREATE_PET_PROFILE_OBJ',
-    //   value: createPetProfileObj,
-    // });
-    // RootNavigation.navigate('CreatePetProfile', {
-    //   isUpdate: true,
-    //   petid: obj.list[index].id,
-    // });
-
-    // yield firestore()
-    //   .collection('Users')
-    //   .doc(auth().currentUser.uid)
-    //   .collection('PetsCollections')
-    //   .doc(obj.list[index].id) // Use the provided petId
-    //   .update({
-    //     name: 'Updated Dog', // Update the fields as needed
-    //     age: 5, // Add or modify other fields as required
-    //   });
-    //
   } catch (error) {
     handleFirebaseAuthError(error);
     if (__DEV__) console.log(error.message);

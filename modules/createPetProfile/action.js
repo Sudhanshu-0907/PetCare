@@ -50,7 +50,7 @@ export function* addPetsFn({isUpdate, petid}) {
     };
 
     if (isUpdate) yield updatePetDetails(userId, petDetails, obj.dob, petid);
-    else yield addPetDetails(userId, petDetails, obj.dob);
+    else yield addPetDetails(userId, petDetails, obj.dob, obj.name);
 
     if (obj.isEmptyPetCollection) {
       RootNavigation.resetLevelOfStack('Dashboard', 0); //reset to top level

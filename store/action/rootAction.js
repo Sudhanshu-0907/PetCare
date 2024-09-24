@@ -63,6 +63,7 @@ export function* watch() {
 
     //vaccines
     yield takeLatest('VACCINES_LIST_FN', vaccines.fetchVaccinesDataFn);
+    yield takeLatest('UPDATE_VACCINE_DATA', vaccines.updateVaccineDataFn);
 
     //addVaccine
     yield takeLatest('ADD_VACCINE_FORM', addVaccine.addVaccineForm);

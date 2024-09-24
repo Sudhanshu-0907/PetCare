@@ -8,6 +8,8 @@ import firestore from '@react-native-firebase/firestore';
 /**
  * Utils
  */
+import * as RootNavigate from '../../utils/RootNavigation';
+import {handleFirebaseAuthError, toastr} from '../../utils/common';
 
 /**
  * Common
@@ -17,8 +19,6 @@ import firestore from '@react-native-firebase/firestore';
  * Siblings
  */
 import * as selector from './selector';
-import {handleFirebaseAuthError, toastr} from '../../utils/common';
-import * as RootNavigate from '../../utils/RootNavigation';
 
 export function* addWeightForm(params) {
   try {
@@ -93,7 +93,6 @@ export function* handleWeightSubmit({petId, isUpdated, weightIndex, isDelete}) {
             weightKg: obj.weightKg,
             weightGrams: obj.weightGrams,
             notes: obj.notes,
-            updatedAt: firestore.FieldValue.serverTimestamp(),
           }),
         });
       }

@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -25,6 +24,7 @@ import Header from '../../src/css/header';
  * utils
  */
 import * as RootNavigation from '../../utils/RootNavigation';
+import {Button} from 'react-native-paper';
 
 const HeaderScreen = props => {
   const route = useRoute();
@@ -32,6 +32,12 @@ const HeaderScreen = props => {
   return (
     <View style={[Common.bgWhite, Common.pb10, Layout.row]}>
       <View style={[Layout.col10, Layout.row]}>
+        {props.obj.showLogoutButton.indexOf(route.name) !== -1 && (
+          <Button onPress={props.signoutFn} icon="lock" mode="contained">
+            Sign Out
+          </Button>
+        )}
+
         {props.obj.notShowBackIcon.indexOf(route.name) === -1 && (
           <View style={[Layout.col5, Common.pl10]}>
             <TouchableOpacity

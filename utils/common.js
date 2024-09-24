@@ -62,7 +62,7 @@ const getStartOfDay = dateParam => {
     .getTime();
 };
 
-export const addPetDetails = async (userId, petDetails, dob) => {
+export const addPetDetails = async (userId, petDetails, dob, petName) => {
   try {
     const petCollectionRef = await firestore()
       .collection('Users')
@@ -81,8 +81,8 @@ export const addPetDetails = async (userId, petDetails, dob) => {
       .doc('defaultBirthDayNotification')
       .set({
         fcmToken: await messaging().getToken(),
-        title: 'BirthDay',
-        body: 'BirthDay Comming soon!.',
+        title: 'BirthDay Reminder',
+        body: `Its ${petName}'s BirthDay today.`,
         // imageUrl: 'https://example.com/image.png',
         scheduledTime: moment(dob)
           .add(1, 'years')
@@ -102,7 +102,7 @@ export const addPetDetails = async (userId, petDetails, dob) => {
     petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
       title: 'Weight',
-      body: 'Weight Reminder!',
+      body: `Weight Reminder of ${petName}!`,
       // imageUrl: 'https://example.com/image.png',
       scheduledTime: getStartOfDay(), // The next scheduled time
       sent: false,
@@ -115,7 +115,7 @@ export const addPetDetails = async (userId, petDetails, dob) => {
     petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
       title: 'Pictures ',
-      body: 'Add photo of a month',
+      body: `Add ${petName}'s photo of a month`,
       // imageUrl: 'https://example.com/image.png',
       scheduledTime: getStartOfDay(), // The next scheduled time
       sent: false,

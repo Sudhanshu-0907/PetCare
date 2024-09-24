@@ -100,7 +100,7 @@ const Dashboard = props => {
   return (
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <View style={[Layout.viewHeight, {paddingHorizontal: 10}]}>
-        <Header />
+        <Header signoutFn={props.signoutFn} />
         <FlashList
           data={props.obj.list}
           estimatedItemSize={300}
@@ -113,13 +113,6 @@ const Dashboard = props => {
           scrollEventThrottle={16}
           keyExtractor={item => item.id}
         />
-        <Button
-          contentStyle={{flexDirection: 'row-reverse'}}
-          onPress={props.signoutFn}
-          icon="lock"
-          mode="contained">
-          Sign Out
-        </Button>
       </View>
     </SafeAreaView>
   );

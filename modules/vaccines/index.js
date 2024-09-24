@@ -62,8 +62,9 @@ const Vaccines = props => {
       <List
         item={item}
         key={item.vaccineApplicationDate}
-        petId={route.params?.id}
+        petId={route.params?.petId}
         index={index}
+        updateVaccineDataFn={props.updateVaccineDataFn}
       />
     );
   }, []);
@@ -103,6 +104,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     resetFn: () => dispatch({type: 'VACCINES_RESET'}),
+    updateVaccineDataFn: (index, petId) =>
+      dispatch({type: 'UPDATE_VACCINE_DATA', index, petId}),
     fetchVaccinesDataFn: petId => dispatch({type: 'VACCINES_LIST_FN', petId}),
   };
 };
