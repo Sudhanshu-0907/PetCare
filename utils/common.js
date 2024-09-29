@@ -71,31 +71,42 @@ export const addPetDetails = async (userId, petDetails, dob) => {
         ...petDetails,
         createdAt: firestore.FieldValue.serverTimestamp(),
       });
-    await firestore().collection('Users').doc(userId).update({
-      newField: 'newValue', // Adds or updates the specific field
-    });
+    await firestore().collection('Users').doc(userId).set(
+      {
+        newField: 'newValue', // Adds or updates the specific field
+      },
+      {merge: true},
+    );
 
-    petCollectionRef.collection('Notifications').add({
-      fcmToken: await messaging().getToken(),
-      title: 'BirthDay',
-      body: 'BirthDay Comming soon!.',
-      // imageUrl: 'https://example.com/image.png',
-      scheduledTime: moment(dob)
-        .add(1, 'years')
-        .set('hour', 10) // Set the hour to 10 AM
-        .set('minute', 0) // Set minutes to 0
-        .set('second', 0) // Set seconds to 0
-        .set('millisecond', 0)
-        .toDate()
-        .getTime(), // The next scheduled time
-      sent: false,
-      recurring: true, // Indicates whether this notification repeats
-      repeatInterval: 'yearly', // Can be 'daily', 'weekly', 'monthly', etc.
-      enable: true,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
+    let scheduledTimeBirth = moment(dob)
+      .year(moment().year()) // Set the year to the current year
+      .set('hour', 10) // Set the hour to 10 AM
+      .set('minute', 0) // Set minutes to 0
+      .set('second', 0) // Set seconds to 0
+      .set('millisecond', 0);
 
-    petCollectionRef.collection('Notifications').add({
+    // If the calculated date has already passed in the current year, use the next year
+    if (scheduledTimeBirth.isBefore(moment())) {
+      scheduledTimeBirth.add(1, 'years');
+    }
+
+    await petCollectionRef
+      .collection('Notifications')
+      .doc('defaultBirthDayNotification')
+      .set({
+        fcmToken: await messaging().getToken(),
+        title: 'BirthDay Reminder',
+        body: `Its ${petName}'s BirthDay today.`,
+        // imageUrl: 'https://example.com/image.png',
+        scheduledTime: scheduledTimeBirth.toDate().getTime(),
+        sent: false,
+        recurring: true, // Indicates whether this notification repeats
+        repeatInterval: 'yearly', // Can be 'daily', 'weekly', 'monthly', etc.
+        enable: true,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      });
+
+    await petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
       title: 'Weight',
       body: 'Weight Reminder!',
@@ -108,7 +119,7 @@ export const addPetDetails = async (userId, petDetails, dob) => {
       createdAt: firestore.FieldValue.serverTimestamp(),
     });
 
-    petCollectionRef.collection('Notifications').add({
+    await petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
       title: 'Pictures ',
       body: 'Add photo of a month',
