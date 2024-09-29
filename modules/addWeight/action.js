@@ -8,6 +8,8 @@ import firestore from '@react-native-firebase/firestore';
 /**
  * Utils
  */
+import * as RootNavigate from '../../utils/RootNavigation';
+import {handleFirebaseAuthError, toastr} from '../../utils/common';
 
 /**
  * Common
@@ -17,8 +19,6 @@ import firestore from '@react-native-firebase/firestore';
  * Siblings
  */
 import * as selector from './selector';
-import {handleFirebaseAuthError, toastr} from '../../utils/common';
-import * as RootNavigate from '../../utils/RootNavigation';
 
 export function* addWeightForm(params) {
   try {
@@ -36,7 +36,7 @@ export function* addWeightForm(params) {
   }
 }
 
-export function* handleWeightSubmit({petId}) {
+export function* handleWeightSubmit({petId, isUpdated, weightIndex, isDelete}) {
   try {
     let obj = JSON.parse(JSON.stringify(yield select(selector.obj)));
 
@@ -56,15 +56,46 @@ export function* handleWeightSubmit({petId}) {
         .doc(auth().currentUser.uid)
         .collection('PetsCollections')
         .doc(petId);
+      const docSnapshot = yield docRef.get();
+      const data = docSnapshot.data();
+      const weightsArray = data.weights || [];
 
-      yield docRef.update({
-        weights: firestore.FieldValue.arrayUnion({
-          dateOfWeight: obj.dateOfWeight,
-          weightKg: obj.weightKg,
-          weightGrams: obj.weightGrams,
-          notes: obj.notes,
-        }),
-      });
+      if (isDelete) {
+        if (weightIndex >= 0 && weightIndex < weightsArray.length) {
+          // Remove the entry at the given index
+          weightsArray.splice(weightIndex, 1);
+
+          // Update Firestore with the modified array
+          yield docRef.update({
+            weights: weightsArray,
+          });
+        }
+      } else if (isUpdated) {
+        // Ensure the index exists within the array
+        if (weightIndex >= 0 && weightIndex < weightsArray.length) {
+          // Update the specific element at the index
+          weightsArray[weightIndex] = {
+            dateOfWeight: obj.dateOfWeight, // New or updated dateOfWeight
+            weightKg: obj.weightKg,
+            weightGrams: obj.weightGrams,
+            notes: obj.notes,
+          };
+
+          // Update the entire array in Firestore
+          yield docRef.update({
+            weights: weightsArray,
+          });
+        }
+      } else {
+        yield docRef.update({
+          weights: firestore.FieldValue.arrayUnion({
+            dateOfWeight: obj.dateOfWeight,
+            weightKg: obj.weightKg,
+            weightGrams: obj.weightGrams,
+            notes: obj.notes,
+          }),
+        });
+      }
       RootNavigate.goBack();
     }
   } catch (e) {

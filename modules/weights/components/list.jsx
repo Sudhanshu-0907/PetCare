@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   Image,
   InteractionManager,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import Dashboard from '../../../src/css/dashboard';
@@ -17,7 +18,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 
-const List = ({item, petId}) => {
+const List = ({item, petId, index, updateWeightDataFn}) => {
   const [cameraCount, setCameraCount] = React.useState(0);
 
   const onPress = screenName => {
@@ -47,37 +48,42 @@ const List = ({item, petId}) => {
 
   return (
     <SafeAreaView>
-      <Surface
-        mode="elevated"
-        elevation={2}
-        style={[Dashboard.petProfile, Layout.col10, Layout.viewHeight]}>
-        <View style={[Common.p10]}>
-          <View
-            style={[
-              Layout.row,
-              Common.spaceAround,
-              Common.alignCenter,
-              Common.mb10,
-            ]}>
-            <Text style={[Common.fs16, Common.textColorList]}>
-              {moment(item.dateOfWeight).format('DD MMM YYYY h:mm A')}
-            </Text>
-            <Text
-              style={[Common.fs16, Common.textColorList, {fontWeight: 600}]}>
-              {`${item.weightKg} kg ${
-                item.weightGrams > 0 ? item.weightGrams.toString() + 'g' : ''
-              }`}
-            </Text>
-          </View>
-          {item.notes && (
-            <View>
-              <Text style={[Common.textColorgray, Common.pl20, Common.pr20]}>
-                Notes:- {item.notes}
+      <TouchableOpacity
+        onPress={() => {
+          updateWeightDataFn(index, petId);
+        }}>
+        <Surface
+          mode="elevated"
+          elevation={2}
+          style={[Dashboard.petProfile, Layout.col10, Layout.viewHeight]}>
+          <View style={[Common.p10]}>
+            <View
+              style={[
+                Layout.row,
+                Common.spaceAround,
+                Common.alignCenter,
+                Common.mb10,
+              ]}>
+              <Text style={[Common.fs16, Common.textColorList]}>
+                {moment(item.dateOfWeight).format('DD MMM YYYY h:mm A')}
+              </Text>
+              <Text
+                style={[Common.fs16, Common.textColorList, {fontWeight: 600}]}>
+                {`${item.weightKg} kg ${
+                  item.weightGrams > 0 ? item.weightGrams.toString() + 'g' : ''
+                }`}
               </Text>
             </View>
-          )}
-        </View>
-      </Surface>
+            {item.notes && (
+              <View>
+                <Text style={[Common.textColorgray, Common.pl20, Common.pr20]}>
+                  Notes:- {item.notes}
+                </Text>
+              </View>
+            )}
+          </View>
+        </Surface>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

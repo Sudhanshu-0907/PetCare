@@ -45,7 +45,8 @@ const AddWeight = props => {
   };
 
   const load = () => {
-    props.setWeightForm('dateOfWeight', moment().toDate());
+    if (route.params.isUpdated !== true)
+      props.setWeightForm('dateOfWeight', moment().toDate());
   };
 
   useFocusEffect(
@@ -179,10 +180,35 @@ const AddWeight = props => {
             {/* Submit button */}
             <Button
               mode="contained"
-              onPress={props.handleWeightSubmit.bind(this, route.params?.petId)}
+              onPress={() =>
+                props.handleWeightSubmit(
+                  route.params?.petId,
+                  route.params?.isUpdated,
+                  route.params?.weightIndex,
+                  false,
+                )
+              }
+              icon={route.params?.isUpdated ? 'update' : 'plus'}
               style={addWeight.submitButton}>
-              Add
+              {route.params?.isUpdated ? 'Update' : 'Add'}
             </Button>
+
+            {route.params?.isUpdated && (
+              <Button
+                mode="contained"
+                onPress={() =>
+                  props.handleWeightSubmit(
+                    route.params?.petId,
+                    route.params?.isUpdated,
+                    route.params?.weightIndex,
+                    true,
+                  )
+                }
+                icon={'delete'}
+                style={addWeight.submitButton}>
+                Delete
+              </Button>
+            )}
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -202,7 +228,14 @@ const mapDispatchToProps = dispatch => {
     resetFn: () => dispatch({type: 'ADD_WEIGHT_RESET'}),
     setWeightForm: (...params) =>
       dispatch({type: 'ADD_WEIGHT_FORM', ...params}),
-    handleWeightSubmit: petId => dispatch({type: 'ADD_WEIGHT_SUBMIT', petId}),
+    handleWeightSubmit: (petId, isUpdated, weightIndex, isDelete) =>
+      dispatch({
+        type: 'ADD_WEIGHT_SUBMIT',
+        petId,
+        isUpdated,
+        weightIndex,
+        isDelete,
+      }),
   };
 };
 

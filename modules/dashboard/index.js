@@ -87,14 +87,20 @@ const Dashboard = props => {
 
   const renderItem = React.useCallback(({item, index}) => {
     return (
-      <List item={item._data} key={item.id} petId={item.id} index={index} />
+      <List
+        item={item}
+        key={item.id}
+        petId={item.id}
+        index={index}
+        updatePetsDataFn={props.updatePetsDataFn}
+      />
     );
   }, []);
 
   return (
     <SafeAreaView style={[Layout.viewHeight, Common.bgWhite]}>
       <View style={[Layout.viewHeight, {paddingHorizontal: 10}]}>
-        <Header />
+        <Header signoutFn={props.signoutFn} />
         <FlashList
           data={props.obj.list}
           estimatedItemSize={300}
@@ -107,13 +113,6 @@ const Dashboard = props => {
           scrollEventThrottle={16}
           keyExtractor={item => item.id}
         />
-        <Button
-          contentStyle={{flexDirection: 'row-reverse'}}
-          onPress={props.signoutFn}
-          icon="lock"
-          mode="contained">
-          Sign Out
-        </Button>
       </View>
     </SafeAreaView>
   );
@@ -132,6 +131,7 @@ const mapDispatchToProps = dispatch => {
     resetFn: () => dispatch({type: 'DASHBOARD_RESET'}),
     signoutFn: () => dispatch({type: 'SIGNOUT'}),
     fetchPetsDataFn: () => dispatch({type: 'FETCH_DATA'}),
+    updatePetsDataFn: index => dispatch({type: 'UPDATE_DATA', index}),
   };
 };
 

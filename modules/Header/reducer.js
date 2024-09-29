@@ -1,5 +1,6 @@
 const initialState = {
   obj: {
+    showLogoutButton: ['Dashboard'],
     notShowBackIcon: ['Dashboard', 'Login'],
     showPlusIcon: {
       Dashboard: 'CreatePetProfile',
