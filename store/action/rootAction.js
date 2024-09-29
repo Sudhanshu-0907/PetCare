@@ -35,11 +35,13 @@ export function* watch() {
     //dashboard
     yield takeLatest('SIGNOUT', dashboard.signoutFn);
     yield takeLatest('FETCH_DATA', dashboard.fetchPetsData);
+    yield takeLatest('UPDATE_DATA', dashboard.updatePetsData);
 
     //createPetProfile
     yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);
     yield takeLatest('IS_PETS_EMPTY', createPetProfile.isEmptyFn);
     yield takeLatest('CREATE_PET_PROFILE_FORM', createPetProfile.setLoginForm);
+    yield takeLatest('DELETE_PET', createPetProfile.deletePetFn);
 
     //petPhoto
     yield takeLatest('UPLOAD_PHOTO', petPhotos.photoUpload);
@@ -50,6 +52,7 @@ export function* watch() {
 
     //weights
     yield takeLatest('WEIGHTS_LIST_FN', weights.fetchWeightsData);
+    yield takeLatest('UPDATE_WEIGHT_DATA', weights.updatePetsData);
 
     // notifications
     yield takeLatest(
@@ -60,6 +63,7 @@ export function* watch() {
 
     //vaccines
     yield takeLatest('VACCINES_LIST_FN', vaccines.fetchVaccinesDataFn);
+    yield takeLatest('UPDATE_VACCINE_DATA', vaccines.updateVaccineDataFn);
 
     //addVaccine
     yield takeLatest('ADD_VACCINE_FORM', addVaccine.addVaccineForm);

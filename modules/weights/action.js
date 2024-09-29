@@ -8,6 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 /**
  * Utils
  */
+import * as RootNavigation from '../../utils/RootNavigation';
 
 /**
  * Common
@@ -18,6 +19,7 @@ import firestore from '@react-native-firebase/firestore';
  */
 import * as selector from './selector';
 import {handleFirebaseAuthError, toastr} from '../../utils/common';
+import moment from 'moment';
 
 export function* fetchWeightsData({petId}) {
   try {
@@ -41,6 +43,35 @@ export function* fetchWeightsData({petId}) {
     yield put({
       type: 'WEIGHTS_OBJ',
       value: obj,
+    });
+  } catch (error) {
+    handleFirebaseAuthError(error);
+    if (__DEV__) console.log(error.message);
+  }
+}
+
+export function* updatePetsData({index, petId}) {
+  try {
+    let obj = JSON.parse(JSON.stringify(yield select(selector.obj))),
+      addWeightObj = JSON.parse(
+        JSON.stringify(yield select(selector.addWeightObj)),
+      );
+
+    addWeightObj = {
+      ...addWeightObj,
+      ...obj.list[index],
+      dateOfWeight: moment(obj.list[index].dateOfWeight),
+    };
+
+    yield put({
+      type: 'ADD_WEIGHT_OBJ',
+      value: addWeightObj,
+    });
+
+    RootNavigation.navigate('AddWeight', {
+      isUpdated: true,
+      petId,
+      weightIndex: index,
     });
   } catch (error) {
     handleFirebaseAuthError(error);

@@ -16,7 +16,7 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import {RadioButton, TextInput, Button, Chip} from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -40,7 +40,9 @@ const CreatePetProfile = ({
   resetFn,
   isEmptyFn,
   setLoginForm,
+  deletePetsFn,
 }) => {
+  const route = useRoute();
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || obj.dob;
     setLoginForm('showDatePicker', false);
@@ -231,13 +233,25 @@ const CreatePetProfile = ({
         )}
 
         <Button
+          style={[Common.mb20]}
           contentStyle={{flexDirection: 'row-reverse'}}
           title="Submit"
-          onPress={addPetsFn}
+          onPress={() => addPetsFn(route.params?.isUpdate, route.params?.petid)}
           icon="send"
           mode="contained">
-          Create
+          {route.params?.isUpdate ? 'Update' : 'Create'}
         </Button>
+
+        {route.params?.isUpdate && (
+          <Button
+            contentStyle={{flexDirection: 'row-reverse'}}
+            title="Delete"
+            onPress={() => deletePetsFn(route.params?.petid)}
+            icon="delete"
+            mode="outlined">
+            Delete
+          </Button>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -254,7 +268,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     resetFn: () => dispatch({type: 'CREATE_PET_PROFILE_RESET'}),
-    addPetsFn: () => dispatch({type: 'ADD_PROFILE_PET'}),
+    addPetsFn: (isUpdate, petid) =>
+      dispatch({type: 'ADD_PROFILE_PET', isUpdate, petid}),
+    deletePetsFn: petid => dispatch({type: 'DELETE_PET', petid}),
     isEmptyFn: () => dispatch({type: 'IS_PETS_EMPTY'}),
     setLoginForm: (...params) =>
       dispatch({type: 'CREATE_PET_PROFILE_FORM', ...params}),

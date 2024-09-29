@@ -3,7 +3,7 @@ import moment from 'moment';
 const initialState = {
   obj: {
     vaccineName: '',
-    vaccineApplicationDate: moment(),
+    vaccineApplicationDate: '',
     showApplicationDatePicker: false,
     vaccineExpirationDate: '',
     showExpirationDatePicker: false,

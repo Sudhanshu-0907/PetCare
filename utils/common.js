@@ -1,6 +1,7 @@
 import {Platform, ToastAndroid} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import firestore, {startAt} from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import * as RootNavigation from './RootNavigation';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
@@ -61,7 +62,7 @@ const getStartOfDay = dateParam => {
     .getTime();
 };
 
-export const addPetDetails = async (userId, petDetails, dob) => {
+export const addPetDetails = async (userId, petDetails, dob, petName) => {
   try {
     const petCollectionRef = await firestore()
       .collection('Users')
@@ -75,30 +76,33 @@ export const addPetDetails = async (userId, petDetails, dob) => {
       newField: 'newValue', // Adds or updates the specific field
     });
 
-    petCollectionRef.collection('Notifications').add({
-      fcmToken: await messaging().getToken(),
-      title: 'BirthDay',
-      body: 'BirthDay Comming soon!.',
-      // imageUrl: 'https://example.com/image.png',
-      scheduledTime: moment(dob)
-        .add(1, 'years')
-        .set('hour', 10) // Set the hour to 10 AM
-        .set('minute', 0) // Set minutes to 0
-        .set('second', 0) // Set seconds to 0
-        .set('millisecond', 0)
-        .toDate()
-        .getTime(), // The next scheduled time
-      sent: false,
-      recurring: true, // Indicates whether this notification repeats
-      repeatInterval: 'yearly', // Can be 'daily', 'weekly', 'monthly', etc.
-      enable: true,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
+    petCollectionRef
+      .collection('Notifications')
+      .doc('defaultBirthDayNotification')
+      .set({
+        fcmToken: await messaging().getToken(),
+        title: 'BirthDay Reminder',
+        body: `Its ${petName}'s BirthDay today.`,
+        // imageUrl: 'https://example.com/image.png',
+        scheduledTime: moment(dob)
+          .add(1, 'years')
+          .set('hour', 10) // Set the hour to 10 AM
+          .set('minute', 0) // Set minutes to 0
+          .set('second', 0) // Set seconds to 0
+          .set('millisecond', 0)
+          .toDate()
+          .getTime(), // The next scheduled time
+        sent: false,
+        recurring: true, // Indicates whether this notification repeats
+        repeatInterval: 'yearly', // Can be 'daily', 'weekly', 'monthly', etc.
+        enable: true,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      });
 
     petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
       title: 'Weight',
-      body: 'Weight Reminder!',
+      body: `Weight Reminder of ${petName}!`,
       // imageUrl: 'https://example.com/image.png',
       scheduledTime: getStartOfDay(), // The next scheduled time
       sent: false,
@@ -111,7 +115,7 @@ export const addPetDetails = async (userId, petDetails, dob) => {
     petCollectionRef.collection('Notifications').add({
       fcmToken: await messaging().getToken(),
       title: 'Pictures ',
-      body: 'Add photo of a month',
+      body: `Add ${petName}'s photo of a month`,
       // imageUrl: 'https://example.com/image.png',
       scheduledTime: getStartOfDay(), // The next scheduled time
       sent: false,
@@ -124,3 +128,82 @@ export const addPetDetails = async (userId, petDetails, dob) => {
     console.error('Error adding pet details: ', error);
   }
 };
+
+export const updatePetDetails = async (userId, petDetails, dob, petid) => {
+  try {
+    const petCollectionRef = firestore()
+      .collection('Users')
+      .doc(userId)
+      .collection('PetsCollections')
+      .doc(petid);
+
+    await petCollectionRef.update({...petDetails});
+
+    const scheduledTime = moment(dob)
+      .add(1, 'years')
+      .set('hour', 10) // Set the hour to 10 AM
+      .set('minute', 0) // Set minutes to 0
+      .set('second', 0) // Set seconds to 0
+      .set('millisecond', 0)
+      .toDate()
+      .getTime();
+
+    await petCollectionRef
+      .collection('Notifications')
+      .doc('defaultBirthDayNotification')
+      .set(
+        {
+          fcmToken: await messaging().getToken(),
+          title: 'BirthDay',
+          body: 'BirthDay coming soon!',
+          scheduledTime,
+          sent: false,
+          recurring: true, // Indicates whether this notification repeats
+          repeatInterval: 'yearly', // Can be 'daily', 'weekly', 'monthly', etc.
+          enable: true,
+          updatedAt: firestore.FieldValue.serverTimestamp(), // Timestamp when updated
+        },
+        {merge: true},
+      );
+  } catch (error) {
+    console.error('Error adding pet details: ', error);
+  }
+};
+
+export async function deleteCollection(petCollectionRef, collectionName) {
+  try {
+    const notificationsRef = petCollectionRef.collection(collectionName);
+
+    // Fetch all documents from the collection
+    const snapshot = await notificationsRef.get();
+
+    // Loop through and delete each document
+    const batch = firestore().batch(); // Using batch to delete multiple docs in one go
+
+    snapshot.forEach(doc => {
+      batch.delete(doc.ref);
+    });
+
+    // Commit the batch operation
+    await batch.commit();
+
+    console.log('All documents in the collection have been deleted');
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePetStorage(userId, petId) {
+  const folderRef = storage().ref(`/users/${userId}/${petId}`);
+
+  // List all files in the folder
+  const result = await folderRef.listAll();
+
+  // Iterate and delete each file
+  const deletePromises = result.items.map(fileRef => fileRef.delete());
+
+  // Wait for all delete operations to complete
+  await Promise.all(deletePromises);
+
+  console.log(`All files related to petId ${petId} have been deleted.`);
+}

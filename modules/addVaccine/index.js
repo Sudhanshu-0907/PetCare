@@ -44,7 +44,8 @@ const AddVaccine = props => {
   };
 
   const load = () => {
-    props.setVaccineForm('vaccineApplicationDate', moment().toDate());
+    if (route.params.isUpdated !== true)
+      props.setVaccineForm('vaccineApplicationDate', moment().toDate());
   };
 
   useFocusEffect(
@@ -203,12 +204,35 @@ const AddVaccine = props => {
             {/* Submit button */}
             <Button
               mode="contained"
-              onPress={() => {
-                props.handleVaccineSubmit(route.params?.petId);
-              }}
+              onPress={() =>
+                props.handleVaccineSubmit(
+                  route.params?.petId,
+                  route.params?.isUpdated,
+                  route.params?.vaccineIndex,
+                  false,
+                )
+              }
+              icon={route.params?.isUpdated ? 'update' : 'plus'}
               style={addVaccine.submitButton}>
-              Add
+              {route.params?.isUpdated ? 'Update' : 'Add'}
             </Button>
+
+            {route.params?.isUpdated && (
+              <Button
+                mode="contained"
+                onPress={() =>
+                  props.handleVaccineSubmit(
+                    route.params?.petId,
+                    route.params?.isUpdated,
+                    route.params?.vaccineIndex,
+                    true,
+                  )
+                }
+                icon={'delete'}
+                style={addVaccine.submitButton}>
+                Delete
+              </Button>
+            )}
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -228,7 +252,14 @@ const mapDispatchToProps = dispatch => {
     resetFn: () => dispatch({type: 'ADD_VACCINE_RESET'}),
     setVaccineForm: (...params) =>
       dispatch({type: 'ADD_VACCINE_FORM', ...params}),
-    handleVaccineSubmit: petId => dispatch({type: 'ADD_VACCINE_SUBMIT', petId}),
+    handleVaccineSubmit: (petId, isUpdated, vaccineIndex, isDelete) =>
+      dispatch({
+        type: 'ADD_VACCINE_SUBMIT',
+        petId,
+        isUpdated,
+        vaccineIndex,
+        isDelete,
+      }),
   };
 };
 
