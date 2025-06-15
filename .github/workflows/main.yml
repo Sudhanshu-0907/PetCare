@@ -111,11 +111,6 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm install
-
-      - name: Decode Keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/petCare.keystore
-
       - name: Build APK
         run: |
           cd android
@@ -163,11 +158,6 @@ jobs:
       #       subject: CI Pipeline Failure
       #       to: ${{ secrets.EMAIL }}
       #       body: The CI pipeline has failed.
-
-      - name: Build APK
-        run: |
-          cd android
-          ./gradlew assembleRelease
 
       - name: Email APK to Gmail Workspace
         uses: dawidd6/action-send-mail@v3
