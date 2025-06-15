@@ -87,11 +87,10 @@ android {
     }
     signingConfigs {
         release {
-            def keystorePath = System.getenv("CI") == "true" ? "android/app/petCare.keystore" : "petCare.keystore"
-            storeFile file(keystorePath)
-            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "Sudhanshu@0907"
-            keyAlias System.getenv("KEY_ALIAS") ?: "petCareKeyAlias"
-            keyPassword System.getenv("KEY_PASSWORD") ?: "Sudhanshu@0907"
+            storeFile file("petCare.keystore")
+            storePassword "Sudhanshu@0907"
+            keyAlias "petCareKeyAlias"
+            keyPassword "Sudhanshu@0907"
         }
 
         debug {
