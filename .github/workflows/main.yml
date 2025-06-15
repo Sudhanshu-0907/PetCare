@@ -112,6 +112,10 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/petCare.keystore
+
       - name: Build APK
         run: |
           cd android
