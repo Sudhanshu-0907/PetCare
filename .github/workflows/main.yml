@@ -112,6 +112,17 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
+      - name: Build APK
+        run: |
+          cd android
+          ./gradlew assembleRelease
+  
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+
       # - name: Install Fastlane
       #   run: sudo gem install fastlane -NV 
 
@@ -150,3 +161,30 @@ jobs:
       #       subject: CI Pipeline Failure
       #       to: ${{ secrets.EMAIL }}
       #       body: The CI pipeline has failed.
+
+      - name: Build APK
+        run: |
+          cd android
+          ./gradlew assembleRelease
+  
+      - name: Email APK to Gmail Workspace
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "📱 New Android APK Build from GitHub Actions"
+          to: sudhanshu.singh@busy.in
+          from: ${{ secrets.EMAIL_USERNAME }}
+          body: |
+            Hi there 👋,
+  
+            Attached is the latest Android APK build from GitHub Actions.
+            
+            ✅ Branch: main
+            ✅ Job: deploy
+            ✅ Time: ${{ github.run_started_at }}
+  
+            -- CI/CD Bot
+          attachments: android/app/build/outputs/apk/release/app-release.apk
