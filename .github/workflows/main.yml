@@ -122,6 +122,18 @@ jobs:
           name: app-release.apk
           path: android/app/build/outputs/apk/release/app-release.apk
 
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Distribute APK to Firebase Testers
+        run: |
+          firebase appdistribution:distribute android/app/build/outputs/apk/release/app-release.apk \
+            --app "1:122777258397:android:65504fe8ef7d323ea48774" \
+            --groups "QA" \
+            --release-notes "📦 CI/CD build - Commit: ${{ github.sha }}"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
       # - name: Install Fastlane
       #   run: sudo gem install fastlane -NV
 
@@ -147,36 +159,36 @@ jobs:
       #          -d '{"content": "✅ Deployed To Play Store 🎉!"}' \
       #          ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-      # - name: Email notification
-      #   if: failure()
-      #   uses: dawidd6/action-send-mail@v3
-      #   with:
-      #       server_address: smtp.gmail.com
-      #       server_port: 465
-      #       username: ${{ secrets.EMAIL_USERNAME }}
-      #       password: ${{ secrets.EMAIL_PASSWORD }}
-      #       subject: CI Pipeline Failure
-      #       to: ${{ secrets.EMAIL }}
-      #       body: The CI pipeline has failed.
-
-      - name: Email APK to Gmail Workspace
+      - name: Email notification
+        if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: '📱 New Android APK Build from GitHub Actions'
+          subject: CI Pipeline Failure
+          to: sudhanshu.singh@busy.in
+          body: The CI pipeline has failed.
+
+      - name: Email APK download link
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '📱 New Android APK Build (Download Link)'
           to: sudhanshu.singh@busy.in
           from: ${{ secrets.EMAIL_USERNAME }}
           body: |
             Hi there 👋,
 
-            Attached is the latest Android APK build from GitHub Actions.
-
             ✅ Branch: main
             ✅ Job: deploy
             ✅ Time: ${{ github.run_started_at }}
 
+            ✅ APK is uploaded: https://github.com/Sudhanshu-0907/PetCare/actions/runs/${{ github.run_id }}
+
             -- CI/CD Bot
-          attachments: android/app/build/outputs/apk/release/app-release.apk
