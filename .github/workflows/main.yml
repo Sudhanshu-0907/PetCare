@@ -111,6 +111,17 @@ jobs:
 
       - name: Install Node.js dependencies
         run: npm install
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Build APK
         run: |
           cd android
@@ -134,25 +145,18 @@ jobs:
       #   env:
       #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
+      - name: Archive APK
+        run: |
+          cd android
+          zip -r app-release.zip app/build/outputs/apk/release/app-release.apk
+
       - name: Upload APK to Google Drive
-        uses: jumbojett/github-action-upload-google-drive@v1
+        id: gdrive
+        uses: Jumbo810/Upload_Github_Artifacts_TO_GDrive@v2.3.1
         with:
-          credentials: |
-            {
-              "type": "service_account",
-              "project_id": "dummy",
-              "private_key_id": "dummy",
-              "private_key": "${{ secrets.GDRIVE_PRIVATE_KEY }}",
-              "client_email": "${{ secrets.GDRIVE_CLIENT_EMAIL }}",
-              "client_id": "dummy",
-              "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-              "token_uri": "https://oauth2.googleapis.com/token",
-              "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-              "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/${{ secrets.GDRIVE_CLIENT_EMAIL }}"
-            }
-          filename: android/app/build/outputs/apk/release/app-release.apk
-          folder: 'CI_APK'
-        id: drive_upload
+          target: android/app-release.zip
+          credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
+          parent_folder_id: ${{ secrets.DRIVE_FOLDER_ID }}
 
       - name: Email notification if failure
         if: failure()
@@ -183,7 +187,6 @@ jobs:
             ✅ Branch: main
             ✅ Job: deploy
             ✅ Time: ${{ github.run_id }}
-
-            # ✅ APK is uploaded: https://github.com/Sudhanshu-0907/PetCare/actions/runs/${{ github.run_id }}
+            ✅ APK Google Drive: ${{ steps.gdrive.outputs.webViewLink }}
 
             -- CI/CD Bot
