@@ -1,0 +1,26 @@
+# Ignore artifacts:
+/node_modules
+
+# Ignore build outputs:
+/android
+/ios
+
+# Ignore generated files:
+/*.log
+/*.jks
+/*.pem
+/*.gradle
+/*.apk
+/*.aab
+/*.keystore
+
+# Ignore specific files:
+/*.json
+/*.md
+
+# Ignore dotfiles (e.g., .env):
+/.*
+
+# Ignore custom directories:
+/src/assets
+/vendor

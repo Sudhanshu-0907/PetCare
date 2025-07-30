@@ -1,7 +1,7 @@
 /**
  * Plugins
  */
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 /**
  * Modules
@@ -20,22 +20,22 @@ import addVaccine from '../../modules/addVaccine/reducer';
 import notifications from '../../modules/notifications/reducer';
 
 const appReducer = combineReducers({
-  login,
-  signUp,
-  dashboard,
-  forgotPassword,
-  header,
-  createPetProfile,
-  petPhotos,
-  weights,
-  addWeight,
-  vaccines,
-  addVaccine,
-  notifications,
+    login,
+    signUp,
+    dashboard,
+    forgotPassword,
+    header,
+    createPetProfile,
+    petPhotos,
+    weights,
+    addWeight,
+    vaccines,
+    addVaccine,
+    notifications,
 });
 
 const mainReducer = (state, action) => {
-  return appReducer(state, action);
+    return appReducer(state, action);
 };
 
 export default mainReducer;

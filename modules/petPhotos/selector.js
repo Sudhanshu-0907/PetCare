@@ -1,1 +1,1 @@
-export const obj = state => state.petPhotos.obj;
+export const obj = (state) => state.petPhotos.obj;

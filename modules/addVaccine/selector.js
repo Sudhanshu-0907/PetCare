@@ -1,1 +1,1 @@
-export const obj = state => state.addVaccine.obj;
+export const obj = (state) => state.addVaccine.obj;

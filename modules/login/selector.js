@@ -1,1 +1,1 @@
-export const obj = state => state.login.obj;
+export const obj = (state) => state.login.obj;

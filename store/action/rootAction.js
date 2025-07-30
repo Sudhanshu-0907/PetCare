@@ -1,7 +1,7 @@
 /**
  * Plugins
  */
-import {takeLatest} from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
 /**
  * Modules
@@ -19,56 +19,62 @@ import * as addVaccine from '../../modules/addVaccine/action';
 import * as notifications from '../../modules/notifications/action';
 
 export function* watch() {
-  try {
-    //login
-    yield takeLatest('LOGIN_FORM', login.setLoginForm);
-    yield takeLatest('LOGIN_SUBMIT', login.submitLogin);
+    try {
+        //login
+        yield takeLatest('LOGIN_FORM', login.setLoginForm);
+        yield takeLatest('LOGIN_SUBMIT', login.submitLogin);
 
-    //signUp
-    yield takeLatest('SIGNUP_FORM', signUp.setFormfn);
-    yield takeLatest('SIGNUP_SUBMIT', signUp.submitFn);
+        //signUp
+        yield takeLatest('SIGNUP_FORM', signUp.setFormfn);
+        yield takeLatest('SIGNUP_SUBMIT', signUp.submitFn);
 
-    //forgotPassword
-    yield takeLatest('FORGOT_PASSWORD_FORM', forgotPassword.setFormFn);
-    yield takeLatest('FORGOT_PASSWORD_SUBMIT', forgotPassword.submitFn);
+        //forgotPassword
+        yield takeLatest('FORGOT_PASSWORD_FORM', forgotPassword.setFormFn);
+        yield takeLatest('FORGOT_PASSWORD_SUBMIT', forgotPassword.submitFn);
 
-    //dashboard
-    yield takeLatest('SIGNOUT', dashboard.signoutFn);
-    yield takeLatest('FETCH_DATA', dashboard.fetchPetsData);
-    yield takeLatest('UPDATE_DATA', dashboard.updatePetsData);
+        //dashboard
+        yield takeLatest('SIGNOUT', dashboard.signoutFn);
+        yield takeLatest('FETCH_DATA', dashboard.fetchPetsData);
+        yield takeLatest('UPDATE_DATA', dashboard.updatePetsData);
 
-    //createPetProfile
-    yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);
-    yield takeLatest('IS_PETS_EMPTY', createPetProfile.isEmptyFn);
-    yield takeLatest('CREATE_PET_PROFILE_FORM', createPetProfile.setLoginForm);
-    yield takeLatest('DELETE_PET', createPetProfile.deletePetFn);
+        //createPetProfile
+        yield takeLatest('ADD_PROFILE_PET', createPetProfile.addPetsFn);
+        yield takeLatest('IS_PETS_EMPTY', createPetProfile.isEmptyFn);
+        yield takeLatest(
+            'CREATE_PET_PROFILE_FORM',
+            createPetProfile.setLoginForm,
+        );
+        yield takeLatest('DELETE_PET', createPetProfile.deletePetFn);
 
-    //petPhoto
-    yield takeLatest('UPLOAD_PHOTO', petPhotos.photoUpload);
+        //petPhoto
+        yield takeLatest('UPLOAD_PHOTO', petPhotos.photoUpload);
 
-    //addPet
-    yield takeLatest('ADD_WEIGHT_FORM', addWeight.addWeightForm);
-    yield takeLatest('ADD_WEIGHT_SUBMIT', addWeight.handleWeightSubmit);
+        //addPet
+        yield takeLatest('ADD_WEIGHT_FORM', addWeight.addWeightForm);
+        yield takeLatest('ADD_WEIGHT_SUBMIT', addWeight.handleWeightSubmit);
 
-    //weights
-    yield takeLatest('WEIGHTS_LIST_FN', weights.fetchWeightsData);
-    yield takeLatest('UPDATE_WEIGHT_DATA', weights.updatePetsData);
+        //weights
+        yield takeLatest('WEIGHTS_LIST_FN', weights.fetchWeightsData);
+        yield takeLatest('UPDATE_WEIGHT_DATA', weights.updatePetsData);
 
-    // notifications
-    yield takeLatest(
-      'NOTIFICATIONS_LIST_FN',
-      notifications.fetchNotificationsData,
-    );
-    yield takeLatest('NOTIFICATIONS_UPDATE', notifications.updateNotification);
+        // notifications
+        yield takeLatest(
+            'NOTIFICATIONS_LIST_FN',
+            notifications.fetchNotificationsData,
+        );
+        yield takeLatest(
+            'NOTIFICATIONS_UPDATE',
+            notifications.updateNotification,
+        );
 
-    //vaccines
-    yield takeLatest('VACCINES_LIST_FN', vaccines.fetchVaccinesDataFn);
-    yield takeLatest('UPDATE_VACCINE_DATA', vaccines.updateVaccineDataFn);
+        //vaccines
+        yield takeLatest('VACCINES_LIST_FN', vaccines.fetchVaccinesDataFn);
+        yield takeLatest('UPDATE_VACCINE_DATA', vaccines.updateVaccineDataFn);
 
-    //addVaccine
-    yield takeLatest('ADD_VACCINE_FORM', addVaccine.addVaccineForm);
-    yield takeLatest('ADD_VACCINE_SUBMIT', addVaccine.handleVaccineSubmit);
-  } catch (e) {
-    console.log(e);
-  }
+        //addVaccine
+        yield takeLatest('ADD_VACCINE_FORM', addVaccine.addVaccineForm);
+        yield takeLatest('ADD_VACCINE_SUBMIT', addVaccine.handleVaccineSubmit);
+    } catch (e) {
+        console.log(e);
+    }
 }

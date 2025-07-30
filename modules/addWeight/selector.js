@@ -1,1 +1,1 @@
-export const obj = state => state.addWeight.obj;
+export const obj = (state) => state.addWeight.obj;

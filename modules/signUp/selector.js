@@ -1,1 +1,1 @@
-export const obj = state => state.signUp.obj;
+export const obj = (state) => state.signUp.obj;

@@ -1,10 +1,10 @@
 /**
  * Plugins
  */
-import React, {useEffect, useState} from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 /**
  * modules
@@ -23,58 +23,67 @@ import Notifications from '../modules/notifications';
 
 const Stack = createNativeStackNavigator();
 
-const Navigator = props => {
-  const [user, setUser] = useState(null);
+const Navigator = (props) => {
+    const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(async user => {
-      if (user) {
-        await user.reload(); // Reload the user data to get the latest email verification status
-        if (user.emailVerified) {
-          setUser(user);
-        } else {
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
-    });
-    return subscriber; // unsubscribe on unmount
-  }, []);
+    useEffect(() => {
+        const subscriber = auth().onAuthStateChanged(async (user) => {
+            if (user) {
+                await user.reload(); // Reload the user data to get the latest email verification status
+                if (user.emailVerified) {
+                    setUser(user);
+                } else {
+                    setUser(null);
+                }
+            } else {
+                setUser(null);
+            }
+        });
+        return subscriber; // unsubscribe on unmount
+    }, []);
 
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      {(user && user.emailVerified) || props.loginObj.isEmailVerified ? (
-        <>
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen name="CreatePetProfile" component={CreatePetProfile} />
-          <Stack.Screen name="PetPhotos" component={PetPhotos} />
-          <Stack.Screen name="Weights" component={Weights} />
-          <Stack.Screen name="Notifications" component={Notifications} />
-          <Stack.Screen name="AddWeight" component={AddWeight} />
-          <Stack.Screen name="Vaccines" component={Vaccines} />
-          <Stack.Screen name="AddVaccine" component={AddVaccine} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        </>
-      )}
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {(user && user.emailVerified) || props.loginObj.isEmailVerified ? (
+                <>
+                    <Stack.Screen name="Dashboard" component={Dashboard} />
+                    <Stack.Screen
+                        name="CreatePetProfile"
+                        component={CreatePetProfile}
+                    />
+                    <Stack.Screen name="PetPhotos" component={PetPhotos} />
+                    <Stack.Screen name="Weights" component={Weights} />
+                    <Stack.Screen
+                        name="Notifications"
+                        component={Notifications}
+                    />
+                    <Stack.Screen name="AddWeight" component={AddWeight} />
+                    <Stack.Screen name="Vaccines" component={Vaccines} />
+                    <Stack.Screen name="AddVaccine" component={AddVaccine} />
+                </>
+            ) : (
+                <>
+                    <Stack.Screen name="Login" component={LoginScreen} />
+                    <Stack.Screen name="SignUp" component={SignUp} />
+                    <Stack.Screen
+                        name="ForgotPassword"
+                        component={ForgotPassword}
+                    />
+                </>
+            )}
+        </Stack.Navigator>
+    );
 };
 //getting state from reducer
-const mapStateToProps = state => {
-  return {
-    loginObj: state.login.obj,
-  };
+const mapStateToProps = (state) => {
+    return {
+        loginObj: state.login.obj,
+    };
 };
 
 //sending data to reducer or action
-const mapDispatchToProps = dispatch => {
-  return {};
+const mapDispatchToProps = (dispatch) => {
+    return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigator);

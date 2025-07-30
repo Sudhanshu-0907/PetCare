@@ -1,1 +1,1 @@
-export const obj = state => state.header.obj;
+export const obj = (state) => state.header.obj;
