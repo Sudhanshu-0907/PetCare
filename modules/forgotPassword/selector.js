@@ -1,1 +1,1 @@
-export const obj = state => state.forgotPassword.obj;
+export const obj = (state) => state.forgotPassword.obj;
