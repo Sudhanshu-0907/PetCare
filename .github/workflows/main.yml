@@ -60,6 +60,8 @@ jobs:
                     "text": "✅ All CI/CD checks passed successfully!"
                   }' \
               ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
+              
+# minor check
 
 
   # deploy:
