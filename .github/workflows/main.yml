@@ -54,14 +54,12 @@ jobs:
       - name: Send Google Chat notification on success
         if: success()
         run: |
-          curl -X POST \
+            curl -X POST \
               -H "Content-Type: application/json; charset=UTF-8" \
-              -d '{
-                    "text": "✅ All CI/CD checks passed successfully!"
-                  }' \
-              ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
-              
-# minor check
+              -d '{"text": "✅ Webhook test successful!"}' \
+              'https://chat.googleapis.com/v1/spaces/AAQAnhzz_6Q/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=09fUhVUPaolXYVETubii1IgaWL7186QzwGbv8znvFww'
+
+  # minor check
 
 
   # deploy:
